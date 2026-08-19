@@ -7479,9 +7479,21 @@ window.addEventListener('resize', function() {
       ov.style.transition = 'height 0.3s ease';
       ov.style.height = '50px';
     }
-    // 强制从云端拉取最新数据
+    // 强制从云端拉取最新数据（立即执行，不延迟）
     _lastDataFingerprint = '';
-    scheduleRefresh();
+    if (refreshTimer) { clearTimeout(refreshTimer); refreshTimer = null; }
+    if (_isRefreshing) {
+      // 如果正在自动刷新，等它完成
+      var waitInterval = setInterval(function() {
+        if (!_isRefreshing) {
+          clearInterval(waitInterval);
+          _lastDataFingerprint = '';
+          scheduleRefresh();
+        }
+      }, 50);
+    } else {
+      scheduleRefresh();
+    }
     // 等待刷新完成
     var checkInterval = setInterval(function() {
       if (!_isRefreshing) {
@@ -7515,6 +7527,7 @@ window.addEventListener('resize', function() {
   document.addEventListener('touchstart', onTouchStart, { passive: true });
   document.addEventListener('touchmove', onTouchMove, { passive: true });
   document.addEventListener('touchend', onTouchEnd, { passive: true });
+  document.addEventListener('touchcancel', onTouchEnd, { passive: true });
 })();
 
 function init() {
