@@ -3274,7 +3274,9 @@ function scheduleRefresh() {
           l: cloudState.toolLoans.length,
           c: cloudState.categories.join(','),
           ps: cloudState.sales.map(function(s){return s.id + ':' + s.totalAmount;}).join(','),
-          pr: cloudState.products.map(function(p){return p.id + ':' + p.stock;}).join(',')
+          pr: cloudState.products.map(function(p){return p.id + ':' + p.stock;}).join(','),
+          tl: cloudState.toolLoans.map(function(tl){return tl.id + ':' + tl.status;}).join(','),
+          rr: cloudState.repairRecords.map(function(r){return r.id + ':' + r.status;}).join(',')
         });
         if (fp === _lastDataFingerprint) {
           // 数据没变化，跳过渲染
@@ -7032,6 +7034,8 @@ function returnToolLoan(idx) {
   sbUpdateOne('tool_loans', loanId, { status: 'returned', actual_return_date: returnDate }).then(function() {
     var loan = workbenchState.toolLoans.find(function(tl) { return tl.id === loanId; });
     if (loan) { loan.status = 'returned'; loan.actualReturnDate = returnDate; }
+    window.WORKBENCH_DATA = structuredClone(workbenchState);
+    _lastDataFingerprint = '';
     renderToolManagement();
     showSaveStatus('saved', '已保存', 1500);
     showToast('工具归还已确认', 'success');
