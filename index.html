@@ -1974,9 +1974,52 @@ body {
   .filter-select { width: 100%; }
 }
 .icon-svg { vertical-align: middle; flex-shrink: 0; }
+
+/* ===== Pull to Refresh ===== */
+.pull-refresh-indicator {
+  position: fixed;
+  top: 0; left: 50%;
+  transform: translateX(-50%) translateY(-60px);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9998;
+  transition: transform 0s;
+  pointer-events: none;
+}
+.pull-refresh-indicator .pull-icon {
+  width: 22px; height: 22px;
+  border: 2.5px solid var(--text-light);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  transition: border-color 0.2s;
+}
+.pull-refresh-indicator.refreshing .pull-icon {
+  animation: pull-spin 0.7s linear infinite;
+  border-color: var(--text-light);
+  border-top-color: var(--primary);
+}
+.pull-refresh-indicator.ready .pull-icon {
+  border-color: var(--primary);
+  border-top-color: var(--primary);
+}
+@keyframes pull-spin { to { transform: rotate(360deg); } }
+
+.pull-refresh-overlay {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 0; z-index: 9997;
+  background: linear-gradient(180deg, rgba(0,122,255,0.06), transparent);
+  pointer-events: none;
+  transition: height 0s;
+}
 </style>
 </head>
 <body>
+
+<div class="pull-refresh-overlay" id="pullRefreshOverlay"></div>
+<div class="pull-refresh-indicator" id="pullRefreshIndicator"><div class="pull-icon"></div></div>
 
 <div class="header">
   <div class="header-inner">
@@ -7343,6 +7386,135 @@ window.addEventListener('resize', function() {
       bounceBack();
     }
   });
+})();
+
+// ===== Pull to Refresh =====
+(function() {
+  var pullStartY = 0, pullCurrentY = 0, isPulling = false;
+  var pullDistance = 0;
+  var PULL_THRESHOLD = 70; // 下拉超过这个距离触发刷新
+  var MAX_PULL = 120;
+  var indicator = null, overlay = null;
+  var isRefreshing = false;
+
+  function getIndicator() {
+    if (!indicator) indicator = document.getElementById('pullRefreshIndicator');
+    return indicator;
+  }
+  function getOverlay() {
+    if (!overlay) overlay = document.getElementById('pullRefreshOverlay');
+    return overlay;
+  }
+
+  function onTouchStart(e) {
+    if (isRefreshing) return;
+    // 只有页面滚动到顶部才能触发下拉
+    if (window.scrollY > 0) return;
+    // 弹窗打开时不触发
+    if (document.querySelector('.modal.show, .modal-overlay.show, .popover-overlay.show, .center-popup-overlay.show, .confirm-overlay.show')) return;
+    pullStartY = e.touches[0].clientY;
+    isPulling = true;
+    pullDistance = 0;
+  }
+
+  function onTouchMove(e) {
+    if (!isPulling || isRefreshing) return;
+    pullCurrentY = e.touches[0].clientY;
+    var diff = pullCurrentY - pullStartY;
+    if (diff <= 0) {
+      pullDistance = 0;
+      var ind = getIndicator(), ov = getOverlay();
+      if (ind) ind.style.transform = 'translateX(-50%) translateY(-60px)';
+      if (ov) ov.style.height = '0px';
+      return;
+    }
+    // 阻尼效果：越拉越费力
+    pullDistance = Math.min(diff * 0.5, MAX_PULL);
+    var ind = getIndicator(), ov = getOverlay();
+    if (ind) {
+      ind.style.transform = 'translateX(-50%) translateY(' + (pullDistance - 60) + 'px)';
+      if (pullDistance >= PULL_THRESHOLD) {
+        ind.classList.add('ready');
+      } else {
+        ind.classList.remove('ready');
+      }
+    }
+    if (ov) ov.style.height = pullDistance + 'px';
+  }
+
+  function onTouchEnd(e) {
+    if (!isPulling) return;
+    isPulling = false;
+    var ind = getIndicator(), ov = getOverlay();
+    if (pullDistance >= PULL_THRESHOLD) {
+      // 触发刷新
+      doRefresh();
+    } else {
+      // 回弹
+      if (ind) {
+        ind.style.transition = 'transform 0.3s ease';
+        ind.style.transform = 'translateX(-50%) translateY(-60px)';
+        ind.classList.remove('ready');
+        setTimeout(function() { ind.style.transition = ''; }, 300);
+      }
+      if (ov) {
+        ov.style.transition = 'height 0.3s ease';
+        ov.style.height = '0px';
+        setTimeout(function() { ov.style.transition = ''; }, 300);
+      }
+    }
+    pullDistance = 0;
+  }
+
+  function doRefresh() {
+    isRefreshing = true;
+    var ind = getIndicator(), ov = getOverlay();
+    if (ind) {
+      ind.style.transition = 'transform 0.3s ease';
+      ind.style.transform = 'translateX(-50%) translateY(10px)';
+      ind.classList.add('refreshing');
+      ind.classList.remove('ready');
+    }
+    if (ov) {
+      ov.style.transition = 'height 0.3s ease';
+      ov.style.height = '50px';
+    }
+    // 强制从云端拉取最新数据
+    _lastDataFingerprint = '';
+    scheduleRefresh();
+    // 等待刷新完成
+    var checkInterval = setInterval(function() {
+      if (!_isRefreshing) {
+        clearInterval(checkInterval);
+        finishRefresh();
+      }
+    }, 100);
+    // 超时保护
+    setTimeout(function() {
+      clearInterval(checkInterval);
+      if (isRefreshing) finishRefresh();
+    }, 8000);
+  }
+
+  function finishRefresh() {
+    isRefreshing = false;
+    var ind = getIndicator(), ov = getOverlay();
+    if (ind) {
+      ind.style.transition = 'transform 0.3s ease';
+      ind.style.transform = 'translateX(-50%) translateY(-60px)';
+      ind.classList.remove('refreshing', 'ready');
+      setTimeout(function() { ind.style.transition = ''; }, 300);
+    }
+    if (ov) {
+      ov.style.transition = 'height 0.3s ease';
+      ov.style.height = '0px';
+      setTimeout(function() { ov.style.transition = ''; }, 300);
+    }
+  }
+
+  document.addEventListener('touchstart', onTouchStart, { passive: true });
+  document.addEventListener('touchmove', onTouchMove, { passive: true });
+  document.addEventListener('touchend', onTouchEnd, { passive: true });
 })();
 
 function init() {
