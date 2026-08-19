@@ -1690,37 +1690,32 @@ body {
   background: linear-gradient(135deg, #FF8800, #FFA830);
 }
 
-/* ===== Credit Summary Bar (single, linked to filter) ===== */
+/* ===== Credit Summary Bar (3 blocks) ===== */
 .credit-summary-bar {
-  display: flex; align-items: center;
+  display: flex; align-items: stretch;
   background: linear-gradient(135deg, #FF3B30, #FF6B6B);
-  border-radius: var(--radius); padding: 22px 24px;
+  border-radius: var(--radius); padding: 20px 16px;
   margin-bottom: 12px; box-shadow: 0 4px 20px rgba(255,59,48,0.25);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
-.credit-summary-bar.unpaid {
-  background: linear-gradient(135deg, #FF9500, #FFB84D);
-  box-shadow: 0 4px 20px rgba(255,149,0,0.25);
-}
-.credit-summary-bar.repaid {
-  background: linear-gradient(135deg, #34C759, #5AD679);
-  box-shadow: 0 4px 20px rgba(52,199,89,0.25);
-}
-.credit-summary-item { flex: 1; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+.credit-summary-item { flex: 1; text-align: center; padding: 0 6px; display: flex; flex-direction: column; justify-content: center; }
 .credit-summary-label {
-  font-size: 13px; color: rgba(255,255,255,0.75);
-  font-weight: 500; margin-bottom: 6px; letter-spacing: 0.3px;
+  font-size: 11px; color: rgba(255,255,255,0.7);
+  font-weight: 500; margin-bottom: 4px; letter-spacing: 0.3px;
 }
 .credit-summary-value {
-  font-size: 36px; font-weight: 800; color: #fff;
+  font-size: 24px; font-weight: 800; color: #fff;
   font-family: "DIN Alternate", "Helvetica Neue", "Arial", sans-serif;
-  font-variant-numeric: tabular-nums; letter-spacing: -1px; line-height: 1.2;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.5px; line-height: 1.2;
 }
 .credit-summary-sub {
-  font-size: 13px; color: rgba(255,255,255,0.65);
-  font-weight: 500; margin-top: 4px;
+  font-size: 12px; color: rgba(255,255,255,0.65);
+  font-weight: 500; margin-top: 2px;
 }
 .credit-summary-unit { font-size: 15px; font-weight: 600; margin-left: 2px; }
+.credit-summary-divider {
+  width: 1px; background: rgba(255,255,255,0.18);
+  margin: 2px 0; flex-shrink: 0;
+}
 
 /* ===== Credit Status Filter (capsule + slider) ===== */
 .credit-status-filter {
@@ -4862,23 +4857,24 @@ function renderCreditRecords() {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('book', 48) + '</div><div class="empty-text">' + (creditSales.length === 0 ? '还没有赊账记录' : '没有找到匹配的赊账记录') + '</div></div>';
     return;
   }
-  // Summary bar — single block, linked to status filter
-  var summaryLabel, summaryAmount, summarySub, summaryClass;
-  if (creditStatusFilter === 'repaid') {
-    summaryLabel = '已还金额'; summaryAmount = repaidAmount.toFixed(2);
-    summarySub = '已还 ' + repaidCount + ' 笔'; summaryClass = 'repaid';
-  } else if (creditStatusFilter === 'unpaid') {
-    summaryLabel = '未还金额'; summaryAmount = unpaidAmount.toFixed(2);
-    summarySub = '未还 ' + unpaidCount + ' 笔'; summaryClass = 'unpaid';
-  } else {
-    summaryLabel = '赊账总金额'; summaryAmount = totalAmount.toFixed(2);
-    summarySub = '共 ' + filtered.length + ' 笔'; summaryClass = '';
-  }
-  var html = '<div class="credit-summary-bar ' + summaryClass + '">' +
+  // Summary bar — 3 blocks
+  var html = '<div class="credit-summary-bar">' +
     '<div class="credit-summary-item">' +
-      '<div class="credit-summary-label">' + summaryLabel + '</div>' +
-      '<div class="credit-summary-value">¥' + summaryAmount + '</div>' +
-      '<div class="credit-summary-sub">' + summarySub + '</div>' +
+      '<div class="credit-summary-label">记账总额</div>' +
+      '<div class="credit-summary-value">¥' + totalAmount.toFixed(2) + '</div>' +
+      '<div class="credit-summary-sub">共 ' + filtered.length + ' 笔</div>' +
+    '</div>' +
+    '<div class="credit-summary-divider"></div>' +
+    '<div class="credit-summary-item">' +
+      '<div class="credit-summary-label">已还金额</div>' +
+      '<div class="credit-summary-value">¥' + repaidAmount.toFixed(2) + '</div>' +
+      '<div class="credit-summary-sub">已还 ' + repaidCount + ' 笔</div>' +
+    '</div>' +
+    '<div class="credit-summary-divider"></div>' +
+    '<div class="credit-summary-item">' +
+      '<div class="credit-summary-label">未还金额</div>' +
+      '<div class="credit-summary-value">¥' + unpaidAmount.toFixed(2) + '</div>' +
+      '<div class="credit-summary-sub">未还 ' + unpaidCount + ' 笔</div>' +
     '</div>' +
   '</div>';
   // Status filter — update existing buttons (no rebuild, no flicker)
