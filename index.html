@@ -4860,6 +4860,12 @@ function renderCreditRecords() {
   }
   // Summary bar — single amount, bound to filter status
   var summaryLabel, summaryValue, summarySub;
+  var summaryColors = {
+    all: { bg: 'linear-gradient(135deg, #007AFF, #4A9FFF)', shadow: 'rgba(0,122,255,0.25)' },
+    repaid: { bg: 'linear-gradient(135deg, #34C759, #5AD679)', shadow: 'rgba(52,199,89,0.25)' },
+    unpaid: { bg: 'linear-gradient(135deg, #FF3B30, #FF6B6B)', shadow: 'rgba(255,59,48,0.25)' }
+  };
+  var sc = summaryColors[creditStatusFilter] || summaryColors.all;
   if (creditStatusFilter === 'all') {
     summaryLabel = '记账总额';
     summaryValue = '¥' + totalAmount.toFixed(2);
@@ -4873,7 +4879,7 @@ function renderCreditRecords() {
     summaryValue = '¥' + unpaidAmount.toFixed(2);
     summarySub = '未还 ' + unpaidCount + ' 笔';
   }
-  var html = '<div class="credit-summary-bar">' +
+  var html = '<div class="credit-summary-bar" style="background:' + sc.bg + ';box-shadow:0 4px 20px ' + sc.shadow + ';">' +
     '<div class="credit-summary-item">' +
       '<div class="credit-summary-label">' + summaryLabel + '</div>' +
       '<div class="credit-summary-value">' + summaryValue + '</div>' +
