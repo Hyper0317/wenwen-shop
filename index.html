@@ -2014,6 +2014,44 @@ body {
   pointer-events: none;
   transition: height 0s;
 }
+
+/* ===== Refund Styles ===== */
+.sale-card.refund { border-left: 3px solid var(--danger); opacity: 0.85; }
+.sale-card.refund .sale-amount { color: var(--danger); }
+.sale-card.fully-refunded { opacity: 0.5; }
+.sale-card.fully-refunded .sale-product-name { text-decoration: line-through; }
+.refund-badge { display: inline-block; background: #FFF0F0; color: var(--danger); font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; margin-left: 6px; }
+.fully-refunded-badge { display: inline-block; background: var(--bg); color: var(--text-light); font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; margin-left: 6px; }
+.refund-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10001; display: none; align-items: center; justify-content: center; }
+.refund-modal-overlay.show { display: flex; }
+.refund-modal-card { background: var(--bg); border-radius: 20px; width: 90%; max-width: 360px; max-height: 85vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+.refund-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 0.5px solid var(--border); }
+.refund-modal-header h3 { font-size: 17px; font-weight: 700; margin: 0; color: var(--danger); }
+.refund-modal-body { padding: 20px; }
+.refund-modal-footer { padding: 12px 20px 18px; border-top: 0.5px solid var(--border); display: flex; gap: 12px; }
+.refund-info-box { background: var(--primary-50); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+.refund-info-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
+.refund-info-label { color: var(--text-secondary); }
+.refund-info-value { font-weight: 600; }
+.refund-input-group { margin-bottom: 14px; }
+.refund-input-label { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; display: block; }
+.refund-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 15px; background: #fff; box-sizing: border-box; }
+.refund-input:focus { border-color: var(--danger); outline: none; }
+.refund-qty-row { display: flex; align-items: center; gap: 10px; }
+.refund-qty-btn { width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.refund-qty-btn:active { transform: scale(0.95); }
+.refund-qty-input { flex: 1; text-align: center; font-size: 18px; font-weight: 700; }
+.refund-btn { flex: 1; padding: 12px; border-radius: 999px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
+.refund-btn-confirm { background: var(--danger); color: #fff; }
+.refund-btn-confirm:active { transform: scale(0.97); }
+.refund-btn-cancel { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
+.refund-summary { background: #FFF0F0; border-radius: 12px; padding: 12px 14px; margin-top: 16px; text-align: center; }
+.refund-summary-amount { font-size: 24px; font-weight: 700; color: var(--danger); }
+.refund-summary-label { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+.sale-detail-refund-btn { margin-top: 16px; width: 100%; padding: 12px; border-radius: 12px; background: #FFF0F0; color: var(--danger); border: 1.5px solid var(--danger); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.sale-detail-refund-btn:active { transform: scale(0.97); }
+.sale-detail-refund-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
 </style>
 </head>
 <body>
@@ -3012,7 +3050,9 @@ function mapSaleFromDB(row) {
     saleTime: row.sale_time || row.created_at || new Date().toISOString(),
     seller: row.seller || '',
     paymentMethod: row.payment_method || '',
-    creditInfo: row.credit_info || null
+    creditInfo: row.credit_info || null,
+    recordType: row.record_type || 'sale',
+    refundInfo: row.refund_info || null
   };
 }
 function mapSaleToDB(s) {
@@ -3020,7 +3060,8 @@ function mapSaleToDB(s) {
     id: s.id, order_no: s.orderNo, product_id: s.productId, product_name: s.productName,
     quantity: s.quantity, unit_price: s.unitPrice, total_amount: s.totalAmount,
     unit: s.unit, sale_time: s.saleTime, seller: s.seller,
-    payment_method: s.paymentMethod, credit_info: s.creditInfo
+    payment_method: s.paymentMethod, credit_info: s.creditInfo,
+    record_type: s.recordType || 'sale', refund_info: s.refundInfo || null
   };
 }
 function mapRepairFromDB(row) {
@@ -4581,12 +4622,25 @@ function renderSales() {
       sellerTag = '<span class="sale-seller-badge ' + sClass + '"><span class="seller-icon">' + getSellerIcon(s.seller) + '</span>' + escapeHtml(s.seller) + '</span>';
     }
     var payTag = s.paymentMethod ? '<span class="sale-pay-tag">' + getPaymentSvgIcon(s.paymentMethod, 16) + ' ' + escapeHtml(getPaymentLabel(s.paymentMethod)) + '</span>' : '';
-    html += '<div class="sale-card" onclick="openSaleDetail(' + (workbenchState.sales.indexOf(s)) + ')">' + getIconDInline('cart', 28) + '<div class="sale-info">' +
-      '<div class="sale-product-name">' + escapeHtml(s.productName) + '</div>' +
+    var isRefund = (s.recordType === 'refund');
+    var isFullyRefunded = (s.refundInfo && s.refundInfo.remainingQty === 0);
+    var cardClass = 'sale-card';
+    var cardIcon = getIconDInline('cart', 28);
+    var amountPrefix = '';
+    if (isRefund) {
+      cardClass += ' refund';
+      cardIcon = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff3b30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>';
+      amountPrefix = '-';
+    } else if (isFullyRefunded) {
+      cardClass += ' fully-refunded';
+    }
+    var refundBadge = isRefund ? '<span class="refund-badge">退货</span>' : (isFullyRefunded ? '<span class="fully-refunded-badge">已全退</span>' : '');
+    html += '<div class="' + cardClass + '" onclick="openSaleDetail(' + (workbenchState.sales.indexOf(s)) + ')">' + cardIcon + '<div class="sale-info">' +
+      '<div class="sale-product-name">' + escapeHtml(s.productName) + refundBadge + '</div>' +
       '<div class="sale-meta-line"><span>' + escapeHtml(s.productId) + '</span><span class="sale-meta-sep">·</span><span>×' + s.quantity + (s.unit ? ' ' + escapeHtml(s.unit) : '') + '</span><span class="sale-meta-sep">·</span><span>¥' + s.unitPrice.toFixed(2) + '/' + (s.unit ? escapeHtml(s.unit) : '件') + '</span></div>' +
       '<div class="sale-meta-line"><span>' + formatTime(s.saleTime) + '</span></div>' +
       '<div class="sale-bottom-row">' + (sellerTag || '<span></span>') + (payTag || '') + '</div>' +
-      '</div><div class="sale-amount">¥' + s.totalAmount.toFixed(2) + '</div></div>';
+      '</div><div class="sale-amount">' + amountPrefix + '¥' + s.totalAmount.toFixed(2) + '</div></div>';
   });
   html += '</div>';
   container.innerHTML = html;
@@ -4632,8 +4686,200 @@ function openSaleDetail(idx) {
   if (creditHtml) {
     rows += '<div class="sale-detail-row"><div class="sale-detail-label">记账详情</div>' + creditHtml + '</div>';
   }
+  // 退货信息展示
+  if (s.recordType === 'refund') {
+    // 退货记录
+    rows += '<div class="sale-detail-row"><div class="sale-detail-label">记录类型</div><div class="sale-detail-value" style="color:var(--danger);font-weight:600;">退货记录</div></div>';
+    if (s.refundInfo) {
+      if (s.refundInfo.originalOrderNo) rows += '<div class="sale-detail-row"><div class="sale-detail-label">关联原订单</div><div class="sale-detail-value">' + escapeHtml(s.refundInfo.originalOrderNo) + '</div></div>';
+      if (s.refundInfo.refundPerson) rows += '<div class="sale-detail-row"><div class="sale-detail-label">退货人</div><div class="sale-detail-value">' + escapeHtml(s.refundInfo.refundPerson) + '</div></div>';
+      if (s.refundInfo.refundNote) rows += '<div class="sale-detail-row"><div class="sale-detail-label">退货备注</div><div class="sale-detail-value">' + escapeHtml(s.refundInfo.refundNote) + '</div></div>';
+      if (s.refundInfo.refundTime) rows += '<div class="sale-detail-row"><div class="sale-detail-label">退货时间</div><div class="sale-detail-value">' + formatTime(s.refundInfo.refundTime) + '</div></div>';
+    }
+  } else if (s.refundInfo && s.refundInfo.remainingQty !== undefined) {
+    // 原销售记录，显示退货状态
+    if (s.refundInfo.remainingQty === 0) {
+      rows += '<div class="sale-detail-row"><div class="sale-detail-label">退货状态</div><div class="sale-detail-value" style="color:var(--danger);font-weight:600;">已全退</div></div>';
+    } else if (s.refundInfo.refundedQty > 0) {
+      rows += '<div class="sale-detail-row"><div class="sale-detail-label">退货状态</div><div class="sale-detail-value" style="color:var(--warning);font-weight:600;">部分退货 (' + s.refundInfo.refundedQty + '/' + (s.refundInfo.refundedQty + s.refundInfo.remainingQty) + ')</div></div>';
+    }
+  }
+  // 退货按钮（仅原销售记录且未全退时显示）
+  if (s.recordType !== 'refund' && !(s.refundInfo && s.refundInfo.remainingQty === 0)) {
+    var canRefund = !(s.refundInfo && s.refundInfo.remainingQty !== undefined && s.refundInfo.remainingQty === 0);
+    rows += '<button class="sale-detail-refund-btn" onclick="openRefundModal(' + workbenchState.sales.indexOf(s) + ')"' + (canRefund ? '' : ' disabled') + '><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> 退货</button>';
+  }
   document.getElementById('saleDetailBody').innerHTML = rows;
   document.getElementById('saleDetailModal').classList.add('show');
+}
+
+var _refundTargetIdx = -1;
+
+function openRefundModal(idx) {
+  var s = workbenchState.sales[idx];
+  if (!s) return;
+  _refundTargetIdx = idx;
+  var alreadyRefunded = (s.refundInfo && s.refundInfo.refundedQty) || 0;
+  var originalQty = s.quantity + alreadyRefunded;
+  var maxRefund = s.quantity;
+  var refundUnitPrice = s.unitPrice;
+  
+  var html = '';
+  html += '<div class="refund-info-box">';
+  html += '<div class="refund-info-row"><span class="refund-info-label">商品名称</span><span class="refund-info-value">' + escapeHtml(s.productName) + '</span></div>';
+  html += '<div class="refund-info-row"><span class="refund-info-label">原购买数量</span><span class="refund-info-value">' + originalQty + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
+  if (alreadyRefunded > 0) {
+    html += '<div class="refund-info-row"><span class="refund-info-label">已退货数量</span><span class="refund-info-value" style="color:var(--warning);">' + alreadyRefunded + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
+  }
+  html += '<div class="refund-info-row"><span class="refund-info-label">可退数量</span><span class="refund-info-value" style="color:var(--danger);">' + maxRefund + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
+  html += '<div class="refund-info-row"><span class="refund-info-label">单价</span><span class="refund-info-value">¥' + refundUnitPrice.toFixed(2) + '</span></div>';
+  html += '</div>';
+  
+  html += '<div class="refund-input-group">';
+  html += '<label class="refund-input-label">退货数量</label>';
+  html += '<div class="refund-qty-row">';
+  html += '<div class="refund-qty-btn" onclick="adjustRefundQty(-1)">−</div>';
+  html += '<input type="number" class="refund-input refund-qty-input" id="refundQty" value="1" min="1" max="' + maxRefund + '" oninput="updateRefundAmount()">';
+  html += '<div class="refund-qty-btn" onclick="adjustRefundQty(1)">+</div>';
+  html += '</div>';
+  html += '</div>';
+  
+  html += '<div class="refund-input-group">';
+  html += '<label class="refund-input-label">退货人（非必填）</label>';
+  html += '<input type="text" class="refund-input" id="refundPerson" placeholder="输入退货人姓名">';
+  html += '</div>';
+  
+  html += '<div class="refund-input-group">';
+  html += '<label class="refund-input-label">备注（非必填）</label>';
+  html += '<input type="text" class="refund-input" id="refundNote" placeholder="输入退货备注">';
+  html += '</div>';
+  
+  html += '<div class="refund-summary">';
+  html += '<div class="refund-summary-amount" id="refundAmountDisplay">¥' + refundUnitPrice.toFixed(2) + '</div>';
+  html += '<div class="refund-summary-label">退款金额</div>';
+  html += '</div>';
+  
+  document.getElementById('refundModalBody').innerHTML = html;
+  document.getElementById('refundModal').classList.add('show');
+}
+
+function adjustRefundQty(delta) {
+  var input = document.getElementById('refundQty');
+  var s = workbenchState.sales[_refundTargetIdx];
+  if (!s) return;
+  var maxRefund = s.quantity;
+  var val = parseInt(input.value, 10) || 1;
+  val += delta;
+  if (val < 1) val = 1;
+  if (val > maxRefund) val = maxRefund;
+  input.value = val;
+  updateRefundAmount();
+}
+
+function updateRefundAmount() {
+  var s = workbenchState.sales[_refundTargetIdx];
+  if (!s) return;
+  var qty = parseInt(document.getElementById('refundQty').value, 10) || 1;
+  var amount = qty * s.unitPrice;
+  var display = document.getElementById('refundAmountDisplay');
+  if (display) display.textContent = '¥' + amount.toFixed(2);
+}
+
+function closeRefundModal() {
+  document.getElementById('refundModal').classList.remove('show');
+  _refundTargetIdx = -1;
+}
+
+function confirmRefund() {
+  var s = workbenchState.sales[_refundTargetIdx];
+  if (!s) { showToast('记录不存在', 'error'); return; }
+  var refundQty = parseInt(document.getElementById('refundQty').value, 10);
+  var refundPerson = document.getElementById('refundPerson').value.trim();
+  var refundNote = document.getElementById('refundNote').value.trim();
+  var maxRefund = s.quantity;
+  
+  if (isNaN(refundQty) || refundQty < 1) { showToast('请输入有效的退货数量', 'warning'); return; }
+  if (refundQty > maxRefund) { showToast('退货数量不能超过可退数量（' + maxRefund + '）', 'warning'); return; }
+  
+  var refundAmount = refundQty * s.unitPrice;
+  var refundTime = new Date().toISOString();
+  var alreadyRefunded = (s.refundInfo && s.refundInfo.refundedQty) || 0;
+  var originalQty = s.quantity + alreadyRefunded;
+  var newRemainingQty = s.quantity - refundQty;
+  var newRefundedQty = alreadyRefunded + refundQty;
+  
+  var p = findProductById(s.productId);
+  if (!p) { showToast('商品不存在，无法退回库存', 'error'); return; }
+  
+  closeRefundModal();
+  closeSaleDetail();
+  showSaveStatus('saving', '退货处理中...');
+  _lastSaveTime = Date.now();
+  
+  var refundId = 'R' + Date.now().toString(36);
+  var refundRow = mapSaleToDB({
+    id: refundId,
+    orderNo: s.orderNo,
+    productId: s.productId,
+    productName: s.productName,
+    quantity: refundQty,
+    unitPrice: s.unitPrice,
+    totalAmount: refundAmount,
+    unit: s.unit,
+    saleTime: refundTime,
+    seller: s.seller,
+    paymentMethod: s.paymentMethod,
+    creditInfo: s.creditInfo,
+    recordType: 'refund',
+    refundInfo: {
+      originalOrderNo: s.orderNo || s.id,
+      originalSaleId: s.id,
+      refundPerson: refundPerson || '',
+      refundNote: refundNote || '',
+      refundTime: refundTime
+    }
+  });
+  
+  var newQty = newRemainingQty;
+  var newTotalAmount = newQty * s.unitPrice;
+  var updatedRefundInfo = {
+    refundedQty: newRefundedQty,
+    remainingQty: newRemainingQty,
+    originalQty: originalQty
+  };
+  
+  var newStock = p.stock + refundQty;
+  
+  Promise.all([
+    sbInsert('sales', [refundRow]),
+    sbUpdateOne('sales', s.id, {
+      quantity: newQty,
+      total_amount: newTotalAmount,
+      refund_info: updatedRefundInfo
+    }),
+    sbUpdateOne('products', s.productId, { stock: newStock, updated_at: refundTime })
+  ]).then(function(results) {
+    var inserted = results[0];
+    var row = Array.isArray(inserted) ? inserted[0] : inserted;
+    var mapped = mapSaleFromDB(row);
+    workbenchState.sales.unshift(mapped);
+    
+    s.quantity = newQty;
+    s.totalAmount = newTotalAmount;
+    s.refundInfo = updatedRefundInfo;
+    
+    p.stock = newStock;
+    p.updatedAt = refundTime;
+    
+    renderSellList();
+    renderDashboard();
+    showSaveStatus('saved', '退货成功', 1500);
+    showToast('退货成功：' + s.productName + ' ×' + refundQty + '，库存已退回', 'success');
+  }).catch(function(e) {
+    console.error('[confirmRefund] 退货失败:', e);
+    showSaveStatus('failed', '退货失败', 3000);
+    showToast('退货失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
+  });
 }
 
 /* ===== Credit Records (赊账记录) ===== */
@@ -5242,7 +5488,14 @@ function renderDashboard() {
     if (p.stock > 0 && p.stock <= threshold) lowStockCount++;
   });
   workbenchState.sales.forEach(function(s) {
-    if (formatDate(s.saleTime) === todayPrefix) { todaySales += s.totalAmount; todayCount++; }
+    if (formatDate(s.saleTime) === todayPrefix) {
+      if (s.recordType === 'refund') {
+        todaySales -= s.totalAmount;
+      } else {
+        todaySales += s.totalAmount;
+        todayCount++;
+      }
+    }
   });
   var pendingRepairCount = (workbenchState.repairRecords || []).filter(function(r) { return r.status !== 'done'; }).length;
   var repairIconSvg = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
@@ -7564,8 +7817,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v7.3');
-  window.APP_VERSION = 'v7.3';
+  console.log('[Version] cloud-sync v7.4');
+  window.APP_VERSION = 'v7.4';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
@@ -7671,6 +7924,20 @@ if (document.readyState === 'loading') {
     </div>
     <div class="credit-detail-body" id="creditDetailBody"></div>
     <div class="credit-detail-footer" id="creditDetailFooter" style="padding:12px 20px 18px;border-top:0.5px solid var(--border);"></div>
+  </div>
+</div>
+
+<div class="refund-modal-overlay" id="refundModal" onclick="if(event.target===this)closeRefundModal()">
+  <div class="refund-modal-card">
+    <div class="refund-modal-header">
+      <h3>退货操作</h3>
+      <button class="sale-detail-close" onclick="closeRefundModal()">✕</button>
+    </div>
+    <div class="refund-modal-body" id="refundModalBody"></div>
+    <div class="refund-modal-footer">
+      <button class="refund-btn refund-btn-cancel" onclick="closeRefundModal()">取消</button>
+      <button class="refund-btn refund-btn-confirm" id="refundConfirmBtn" onclick="confirmRefund()">确认退货</button>
+    </div>
   </div>
 </div>
 
