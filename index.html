@@ -4858,24 +4858,26 @@ function renderCreditRecords() {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('book', 48) + '</div><div class="empty-text">' + (creditSales.length === 0 ? '还没有赊账记录' : '没有找到匹配的赊账记录') + '</div></div>';
     return;
   }
-  // Summary bar — 3 blocks
+  // Summary bar — single amount, bound to filter status
+  var summaryLabel, summaryValue, summarySub;
+  if (creditStatusFilter === 'all') {
+    summaryLabel = '记账总额';
+    summaryValue = '¥' + totalAmount.toFixed(2);
+    summarySub = '共 ' + filtered.length + ' 笔';
+  } else if (creditStatusFilter === 'repaid') {
+    summaryLabel = '已还金额';
+    summaryValue = '¥' + repaidAmount.toFixed(2);
+    summarySub = '已还 ' + repaidCount + ' 笔';
+  } else {
+    summaryLabel = '未还金额';
+    summaryValue = '¥' + unpaidAmount.toFixed(2);
+    summarySub = '未还 ' + unpaidCount + ' 笔';
+  }
   var html = '<div class="credit-summary-bar">' +
     '<div class="credit-summary-item">' +
-      '<div class="credit-summary-label">记账总额</div>' +
-      '<div class="credit-summary-value">¥' + totalAmount.toFixed(2) + '</div>' +
-      '<div class="credit-summary-sub">共 ' + filtered.length + ' 笔</div>' +
-    '</div>' +
-    '<div class="credit-summary-divider"></div>' +
-    '<div class="credit-summary-item">' +
-      '<div class="credit-summary-label">已还金额</div>' +
-      '<div class="credit-summary-value">¥' + repaidAmount.toFixed(2) + '</div>' +
-      '<div class="credit-summary-sub">已还 ' + repaidCount + ' 笔</div>' +
-    '</div>' +
-    '<div class="credit-summary-divider"></div>' +
-    '<div class="credit-summary-item">' +
-      '<div class="credit-summary-label">未还金额</div>' +
-      '<div class="credit-summary-value">¥' + unpaidAmount.toFixed(2) + '</div>' +
-      '<div class="credit-summary-sub">未还 ' + unpaidCount + ' 笔</div>' +
+      '<div class="credit-summary-label">' + summaryLabel + '</div>' +
+      '<div class="credit-summary-value">' + summaryValue + '</div>' +
+      '<div class="credit-summary-sub">' + summarySub + '</div>' +
     '</div>' +
   '</div>';
   // Status filter — update existing buttons (no rebuild, no flicker)
