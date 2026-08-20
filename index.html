@@ -7469,13 +7469,10 @@ window.addEventListener('resize', function() {
   }
 
   function doRefresh() {
-    console.log('[PullRefresh] doRefresh called');
-
-    // 先检查页面是否有更新，有更新则强制刷新整个页面
+        // 先检查页面是否有更新，有更新则强制刷新整个页面
     checkAppVersion().then(function(hasUpdate) {
       if (hasUpdate) {
         // 页面代码已更新，强制重新加载（绕过缓存）
-        alert('✅ 检测到新版本，正在更新页面...');
         window.location.reload();
         return;
       }
@@ -7528,21 +7525,17 @@ window.addEventListener('resize', function() {
   // 版本检查：从服务器获取版本文件，与本地不同则说明页面有更新
   function checkAppVersion() {
     var url = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '') + 'version.txt?t=' + Date.now();
-    console.log('[VersionCheck] fetching:', url);
     return fetch(url, { cache: 'no-store' })
       .then(function(resp) {
-        console.log('[VersionCheck] response status:', resp.status);
-        if (!resp.ok) { console.log('[VersionCheck] response not ok'); return false; }
+        if (!resp.ok) { return false; }
         return resp.text();
       })
       .then(function(text) {
-        if (!text) { console.log('[VersionCheck] empty response'); return false; }
+        if (!text) { return false; }
         var serverVersion = text.trim();
-        console.log('[VersionCheck] local=' + APP_VERSION + ' server=' + serverVersion + ' match=' + (serverVersion === APP_VERSION));
         return serverVersion && serverVersion !== APP_VERSION;
       })
       .catch(function(err) {
-        console.log('[VersionCheck] fetch error:', err);
         return false;
       });
   }
@@ -7571,16 +7564,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v7.3-test10 - pull-refresh auto-reload on update');
-  // 测试标记：常驻显示，测完删除
-  setTimeout(function() {
-    var tag = document.createElement('div');
-    tag.id = 'testVersionTag';
-    tag.style.cssText = 'position:fixed;top:5px;left:50%;transform:translateX(-50%);background:#f44336;color:#fff;font-size:13px;padding:4px 16px;border-radius:999px;z-index:99999;pointer-events:none;font-weight:bold;';
-    tag.textContent = '🔴 测试版本 test10 — 版本检测';
-    document.body.appendChild(tag);
-  }, 1500);
-  window.APP_VERSION = 'v7.3-test10';
+  console.log('[Version] cloud-sync v7.3');
+  window.APP_VERSION = 'v7.3';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
