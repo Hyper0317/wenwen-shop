@@ -3080,7 +3080,7 @@ async function loadFromCloud() {
 
     // Load all tables in parallel every time (no skip optimization)
     var [products, sales, categories, repairs, tools, loans] = await Promise.all([
-      sbSelect('products'),
+      sbSelect('products', '&order=created_at.asc'),
       sbSelect('sales', '&order=created_at.desc'),
       sbSelect('categories', '&order=sort_order.asc'),
       sbSelect('repair_records', '&order=created_at.desc'),
