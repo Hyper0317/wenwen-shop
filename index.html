@@ -7469,6 +7469,18 @@ window.addEventListener('resize', function() {
   }
 
   function doRefresh() {
+    // 先检查页面是否有更新，有更新则强制刷新整个页面
+    checkAppVersion().then(function(hasUpdate) {
+      if (hasUpdate) {
+        // 页面代码已更新，强制重新加载（绕过缓存）
+        window.location.reload();
+        return;
+      }
+      doRefreshData();
+    });
+  }
+
+  function doRefreshData() {
     isRefreshing = true;
     var ind = getIndicator(), ov = getOverlay();
     if (ind) {
@@ -7510,6 +7522,24 @@ window.addEventListener('resize', function() {
     }, 8000);
   }
 
+  // 版本检查：从服务器获取当前版本号，与本地不同则说明页面有更新
+  function checkAppVersion() {
+    return fetch(window.location.href, {
+      method: 'GET',
+      cache: 'no-cache',
+      headers: { 'Cache-Control': 'no-cache' }
+    }).then(function(resp) {
+      return resp.text();
+    }).then(function(html) {
+      // 从返回的 HTML 中提取版本号
+      var match = html.match(/APP_VERSION\s*=\s*['"]([^'"]+)['"]/);
+      var serverVersion = match ? match[1] : null;
+      return serverVersion && serverVersion !== APP_VERSION;
+    }).catch(function() {
+      return false; // 检查失败时不阻止刷新
+    });
+  }
+
   function finishRefresh() {
     isRefreshing = false;
     var ind = getIndicator(), ov = getOverlay();
@@ -7534,7 +7564,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v7.2 - force renderAll every poll');
+  console.log('[Version] cloud-sync v7.3 - pull-refresh auto-reload on update');
+  var APP_VERSION = 'v7.3';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
