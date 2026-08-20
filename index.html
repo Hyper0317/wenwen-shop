@@ -4850,19 +4850,19 @@ function confirmRefund() {
   
   var newStock = p.stock + refundQty;
   
-  Promise.all([
-    sbInsert('sales', [refundRow]),
-    sbUpdateOne('sales', s.id, {
-      quantity: newQty,
-      total_amount: newTotalAmount,
-      refund_info: updatedRefundInfo
-    }),
-    sbUpdateOne('products', s.productId, { stock: newStock, updated_at: refundTime })
-  ]).then(function(results) {
-    var inserted = results[0];
+  // 串行执行避免并发问题
+  sbInsert('sales', [refundRow]).then(function(inserted) {
     var row = Array.isArray(inserted) ? inserted[0] : inserted;
     var mapped = mapSaleFromDB(row);
     workbenchState.sales.unshift(mapped);
+    return sbUpdateOne('sales', s.id, {
+      quantity: newQty,
+      total_amount: newTotalAmount,
+      refund_info: updatedRefundInfo
+    });
+  }).then(function() {
+    return sbUpdateOne('products', s.productId, { stock: newStock, updated_at: refundTime });
+  }).then(function() {
     
     s.quantity = newQty;
     s.totalAmount = newTotalAmount;
@@ -7817,8 +7817,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v7.4');
-  window.APP_VERSION = 'v7.4';
+  console.log('[Version] cloud-sync v7.5');
+  window.APP_VERSION = 'v7.5';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
