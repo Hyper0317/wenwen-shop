@@ -4791,7 +4791,10 @@ function closeRefundModal() {
 }
 
 function confirmRefund() {
+  console.log('[confirmRefund] _refundTargetId=', _refundTargetId, 'sales count=', workbenchState.sales.length);
+  console.log('[confirmRefund] sales ids=', workbenchState.sales.map(function(x){return x.id;}).slice(0,5));
   var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
+  console.log('[confirmRefund] found sale=', s ? s.id : 'NOT FOUND');
   if (!s) { showToast('记录不存在', 'error'); return; }
   var refundQty = parseInt(document.getElementById('refundQty').value, 10);
   var refundPerson = document.getElementById('refundPerson').value.trim();
@@ -7817,8 +7820,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v7.6');
-  window.APP_VERSION = 'v7.6';
+  console.log('[Version] cloud-sync v7.7');
+  window.APP_VERSION = 'v7.7';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
