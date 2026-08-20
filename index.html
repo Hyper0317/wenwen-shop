@@ -4713,12 +4713,12 @@ function openSaleDetail(idx) {
   document.getElementById('saleDetailModal').classList.add('show');
 }
 
-var _refundTargetIdx = -1;
+var _refundTargetId = null;
 
 function openRefundModal(idx) {
   var s = workbenchState.sales[idx];
   if (!s) return;
-  _refundTargetIdx = idx;
+  _refundTargetId = s.id;
   var alreadyRefunded = (s.refundInfo && s.refundInfo.refundedQty) || 0;
   var originalQty = s.quantity + alreadyRefunded;
   var maxRefund = s.quantity;
@@ -4765,7 +4765,7 @@ function openRefundModal(idx) {
 
 function adjustRefundQty(delta) {
   var input = document.getElementById('refundQty');
-  var s = workbenchState.sales[_refundTargetIdx];
+  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
   if (!s) return;
   var maxRefund = s.quantity;
   var val = parseInt(input.value, 10) || 1;
@@ -4777,7 +4777,7 @@ function adjustRefundQty(delta) {
 }
 
 function updateRefundAmount() {
-  var s = workbenchState.sales[_refundTargetIdx];
+  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
   if (!s) return;
   var qty = parseInt(document.getElementById('refundQty').value, 10) || 1;
   var amount = qty * s.unitPrice;
@@ -4787,11 +4787,11 @@ function updateRefundAmount() {
 
 function closeRefundModal() {
   document.getElementById('refundModal').classList.remove('show');
-  _refundTargetIdx = -1;
+  _refundTargetId = null;
 }
 
 function confirmRefund() {
-  var s = workbenchState.sales[_refundTargetIdx];
+  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
   if (!s) { showToast('记录不存在', 'error'); return; }
   var refundQty = parseInt(document.getElementById('refundQty').value, 10);
   var refundPerson = document.getElementById('refundPerson').value.trim();
@@ -7817,8 +7817,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v7.5');
-  window.APP_VERSION = 'v7.5';
+  console.log('[Version] cloud-sync v7.6');
+  window.APP_VERSION = 'v7.6';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
