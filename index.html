@@ -4601,17 +4601,24 @@ function renderSales() {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('list', 48) + '</div><div class="empty-text">' + (workbenchState.sales.length === 0 ? '还没有销售记录' : '没有找到匹配的记录') + '</div></div>';
     return;
   }
-  var totalAmount = 0;
-  filtered.forEach(function(s) { totalAmount += s.totalAmount; });
+  // 本期销售总额：只算销售记录，退货记录不算
+  var salesTotal = 0;
+  var salesCount = 0;
+  filtered.forEach(function(s) {
+    if (s.recordType !== 'refund') {
+      salesTotal += s.totalAmount;
+      salesCount++;
+    }
+  });
   var html = '<div class="sales-summary-bar">' +
     '<div class="sales-summary-item">' +
       '<div class="sales-summary-label">本期销售总额</div>' +
-      '<div class="sales-summary-value">¥' + totalAmount.toFixed(2) + '</div>' +
+      '<div class="sales-summary-value">¥' + salesTotal.toFixed(2) + '</div>' +
     '</div>' +
     '<div class="sales-summary-divider"></div>' +
     '<div class="sales-summary-item">' +
       '<div class="sales-summary-label">交易笔数</div>' +
-      '<div class="sales-summary-value">' + filtered.length + '<span class="sales-summary-unit">笔</span></div>' +
+      '<div class="sales-summary-value">' + salesCount + '<span class="sales-summary-unit">笔</span></div>' +
     '</div>' +
   '</div>';
   html += '<div class="sales-list">';
@@ -7820,8 +7827,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v8.0');
-  window.APP_VERSION = 'v8.0';
+  console.log('[Version] cloud-sync v8.1');
+  window.APP_VERSION = 'v8.1';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
