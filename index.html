@@ -4791,19 +4791,13 @@ function closeRefundModal() {
 }
 
 function confirmRefund() {
-  console.log('[confirmRefund] _refundTargetId=', _refundTargetId, 'sales count=', workbenchState.sales.length);
-  console.log('[confirmRefund] sales ids=', workbenchState.sales.map(function(x){return x.id;}).slice(0,5));
   var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
-  console.log('[confirmRefund] found sale=', s ? s.id : 'NOT FOUND');
   if (!s) { showToast('记录不存在', 'error'); return; }
   var refundQty = parseInt(document.getElementById('refundQty').value, 10);
   var refundPerson = document.getElementById('refundPerson').value.trim();
   var refundNote = document.getElementById('refundNote').value.trim();
   var maxRefund = s.quantity;
-  console.log('[confirmRefund] refundQty=', refundQty, 'maxRefund=', maxRefund, 's.quantity=', s.quantity, 's.productId=', s.productId);
   
-  if (isNaN(refundQty) || refundQty < 1) { console.log('[confirmRefund] RETURN: invalid qty'); showToast('请输入有效的退货数量', 'warning'); return; }
-  if (refundQty > maxRefund) { console.log('[confirmRefund] RETURN: qty > max'); showToast('退货数量不能超过可退数量（' + maxRefund + '）', 'warning'); return; }
   
   var refundAmount = refundQty * s.unitPrice;
   var refundTime = new Date().toISOString();
@@ -4813,9 +4807,6 @@ function confirmRefund() {
   var newRefundedQty = alreadyRefunded + refundQty;
   
   var p = findProductById(s.productId);
-  console.log('[confirmRefund] product=', p ? p.id : 'NOT FOUND', 'products count=', workbenchState.products.length);
-  if (!p) { console.log('[confirmRefund] product not found, will skip stock update'); }
-  console.log('[confirmRefund] all checks passed, proceeding...');
   
   closeRefundModal();
   closeSaleDetail();
@@ -4871,7 +4862,6 @@ function confirmRefund() {
       return sbUpdateOne('products', s.productId, { stock: newStock, updated_at: refundTime });
     }
     // 商品已删除，跳过库存退回
-    console.log('[confirmRefund] product deleted, skipping stock update');
   }).then(function() {
     
     s.quantity = newQty;
@@ -4885,6 +4875,7 @@ function confirmRefund() {
     
     renderSellList();
     renderDashboard();
+    renderCreditRecords();
     showSaveStatus('saved', '退货成功', 1500);
     showToast('退货成功：' + s.productName + ' ×' + refundQty + (p ? '，库存已退回' : '（商品已删除，未退回库存）'), 'success');
   }).catch(function(e) {
@@ -5075,9 +5066,9 @@ function renderCreditRecords() {
   if (search) creditFilterMode = 'all';
   var todayPrefix = todayStr();
   var sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  // Filter sales that have paymentMethod === 'credit'
+  // Filter sales that have paymentMethod === 'credit' and are NOT refund records
   var creditSales = workbenchState.sales.filter(function(s) {
-    return s.paymentMethod === 'credit';
+    return s.paymentMethod === 'credit' && s.recordType !== 'refund';
   });
   var filtered = creditSales.filter(function(s) {
     var matchSearch = !search ||
@@ -7829,8 +7820,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v7.9');
-  window.APP_VERSION = 'v7.9';
+  console.log('[Version] cloud-sync v8.0');
+  window.APP_VERSION = 'v8.0';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
