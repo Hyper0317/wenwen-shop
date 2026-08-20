@@ -5535,7 +5535,8 @@ function renderDashboard() {
   workbenchState.sales.forEach(function(s) {
     if (formatDate(s.saleTime) === todayPrefix) {
       if (s.recordType === 'refund') {
-        todaySales -= s.totalAmount;
+        // 退货记录不参与销售额计算——原销售记录的金额已随退货数量减少
+        return;
       } else {
         todaySales += s.totalAmount;
         todayCount++;
