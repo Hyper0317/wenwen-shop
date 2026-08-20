@@ -4814,7 +4814,7 @@ function confirmRefund() {
   
   var p = findProductById(s.productId);
   console.log('[confirmRefund] product=', p ? p.id : 'NOT FOUND', 'products count=', workbenchState.products.length);
-  if (!p) { console.log('[confirmRefund] RETURN: product not found'); showToast('商品不存在，无法退回库存', 'error'); return; }
+  if (!p) { console.log('[confirmRefund] product not found, will skip stock update'); }
   console.log('[confirmRefund] all checks passed, proceeding...');
   
   closeRefundModal();
@@ -4854,7 +4854,7 @@ function confirmRefund() {
     originalQty: originalQty
   };
   
-  var newStock = p.stock + refundQty;
+  var newStock = p ? p.stock + refundQty : 0;
   
   // 串行执行避免并发问题
   sbInsert('sales', [refundRow]).then(function(inserted) {
@@ -4867,20 +4867,26 @@ function confirmRefund() {
       refund_info: updatedRefundInfo
     });
   }).then(function() {
-    return sbUpdateOne('products', s.productId, { stock: newStock, updated_at: refundTime });
+    if (p) {
+      return sbUpdateOne('products', s.productId, { stock: newStock, updated_at: refundTime });
+    }
+    // 商品已删除，跳过库存退回
+    console.log('[confirmRefund] product deleted, skipping stock update');
   }).then(function() {
     
     s.quantity = newQty;
     s.totalAmount = newTotalAmount;
     s.refundInfo = updatedRefundInfo;
     
-    p.stock = newStock;
-    p.updatedAt = refundTime;
+    if (p) {
+      p.stock = newStock;
+      p.updatedAt = refundTime;
+    }
     
     renderSellList();
     renderDashboard();
     showSaveStatus('saved', '退货成功', 1500);
-    showToast('退货成功：' + s.productName + ' ×' + refundQty + '，库存已退回', 'success');
+    showToast('退货成功：' + s.productName + ' ×' + refundQty + (p ? '，库存已退回' : '（商品已删除，未退回库存）'), 'success');
   }).catch(function(e) {
     console.error('[confirmRefund] 退货失败:', e);
     showSaveStatus('failed', '退货失败', 3000);
@@ -7823,8 +7829,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v7.8');
-  window.APP_VERSION = 'v7.8';
+  console.log('[Version] cloud-sync v7.9');
+  window.APP_VERSION = 'v7.9';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
