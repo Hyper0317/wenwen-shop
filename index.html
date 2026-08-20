@@ -2038,7 +2038,7 @@ body {
 .refund-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 15px; background: #fff; box-sizing: border-box; }
 .refund-input:focus { border-color: var(--danger); outline: none; }
 .refund-qty-row { display: flex; align-items: center; gap: 10px; }
-.refund-qty-btn { width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.refund-qty-btn { width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text); padding: 0; -webkit-tap-highlight-color: transparent; }
 .refund-qty-btn:active { transform: scale(0.95); }
 .refund-qty-input { flex: 1; text-align: center; font-size: 18px; font-weight: 700; }
 .refund-btn { flex: 1; padding: 12px; border-radius: 999px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
@@ -4726,6 +4726,7 @@ function openRefundModal(idx) {
   var s = workbenchState.sales[idx];
   if (!s) return;
   _refundTargetId = s.id;
+  closeSaleDetail();
   var alreadyRefunded = (s.refundInfo && s.refundInfo.refundedQty) || 0;
   var originalQty = s.quantity + alreadyRefunded;
   var maxRefund = s.quantity;
@@ -4745,9 +4746,9 @@ function openRefundModal(idx) {
   html += '<div class="refund-input-group">';
   html += '<label class="refund-input-label">退货数量</label>';
   html += '<div class="refund-qty-row">';
-  html += '<div class="refund-qty-btn" onclick="adjustRefundQty(-1)">−</div>';
-  html += '<input type="number" class="refund-input refund-qty-input" id="refundQty" value="1" min="1" max="' + maxRefund + '" oninput="updateRefundAmount()">';
-  html += '<div class="refund-qty-btn" onclick="adjustRefundQty(1)">+</div>';
+  html += '<button type="button" class="refund-qty-btn" onclick="adjustRefundQty(-1)">−</button>';
+  html += '<input type="number" class="refund-input refund-qty-input" id="refundQty" value="1" min="1" max="' + maxRefund + '" oninput="updateRefundAmount()" onblur="clampRefundQty()">';
+  html += '<button type="button" class="refund-qty-btn" onclick="adjustRefundQty(1)">+</button>';
   html += '</div>';
   html += '</div>';
   
@@ -4783,10 +4784,33 @@ function adjustRefundQty(delta) {
   updateRefundAmount();
 }
 
+function clampRefundQty() {
+  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
+  if (!s) return;
+  var input = document.getElementById('refundQty');
+  var val = parseInt(input.value, 10);
+  var maxRefund = s.quantity;
+  if (isNaN(val) || val < 1) val = 1;
+  if (val > maxRefund) val = maxRefund;
+  input.value = val;
+  updateRefundAmount();
+}
+
 function updateRefundAmount() {
   var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
   if (!s) return;
-  var qty = parseInt(document.getElementById('refundQty').value, 10) || 1;
+  var input = document.getElementById('refundQty');
+  var qty = parseInt(input.value, 10) || 1;
+  var maxRefund = s.quantity;
+  // 实时验证：超过最大值时自动钳制
+  if (qty > maxRefund) {
+    qty = maxRefund;
+    input.value = qty;
+  }
+  if (qty < 1) {
+    qty = 1;
+    input.value = qty;
+  }
   var amount = qty * s.unitPrice;
   var display = document.getElementById('refundAmountDisplay');
   if (display) display.textContent = '¥' + amount.toFixed(2);
@@ -7827,8 +7851,8 @@ window.addEventListener('resize', function() {
 
 function init() {
   // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v8.1');
-  window.APP_VERSION = 'v8.1';
+  console.log('[Version] cloud-sync v8.2');
+  window.APP_VERSION = 'v8.2';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
