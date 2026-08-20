@@ -4084,6 +4084,7 @@ function renderProducts() {
     var matchCat = cats.length === 0 || cats.indexOf(p.category) >= 0;
     return matchSearch && matchCat;
   });
+  filtered.sort(function(a, b) { return b.id.localeCompare(a.id); });
   var container = document.getElementById('productsList');
   if (filtered.length === 0) {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('product', 48) + '</div><div class="empty-text">' + (workbenchState.products.length === 0 ? '还没有商品，点击「添加商品」开始录入吧' : '没有找到匹配的商品') + '</div></div>';
@@ -6231,6 +6232,7 @@ function renumberBatchSelection() {
     var matchCat = cats.length === 0 || cats.indexOf(p.category) >= 0;
     return matchSearch && matchCat;
   });
+  filtered.sort(function(a, b) { return b.id.localeCompare(a.id); });
   // Assign sequential numbers based on list position
   var orderNum = 0;
   filtered.forEach(function(p) {
