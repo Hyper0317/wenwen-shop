@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App图标预览</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  color: #fff;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.subtitle {
+  font-size: 14px;
+  color: #8892b0;
+  margin-bottom: 40px;
+}
+.phone-mockup {
+  width: 320px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 24px;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.icon-row {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.icon-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.icon-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.icon-label {
+  font-size: 12px;
+  color: #ccc;
+}
+.preview-large {
+  margin-top: 30px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+.large-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(255,215,0,0.2);
+}
+.large-icon img {
+  width: 100%;
+  height: 100%;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.info-title { font-size: 18px; font-weight: 600; }
+.info-desc { font-size: 13px; color: #8892b0; }
+.dark-bg-preview {
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.dark-bg-preview .icon-box {
+  box-shadow: 0 4px 20px rgba(255,215,0,0.3);
+}
+.dark-bg-preview .icon-label { color: #999; }
+</style>
+</head>
+<body>
+<h1>雯雯的小店 · App图标预览</h1>
+<p class="subtitle">金色岳字 · 元宝山 · 白底设计</p>
+
+<div class="phone-mockup">
+  <div class="icon-row">
+    <div class="icon-item">
+      <div class="icon-box"><img src="app_icon.png" alt="图标"></div>
+      <span class="icon-label">雯雯的小店</span>
+    </div>
+    <div class="icon-item">
+      <div class="icon-box" style="background:#1a1a2e;"><img src="app_icon.png" alt="图标"></div>
+      <span class="icon-label">深色壁纸</span>
+    </div>
+    <div class="icon-item">
+      <div class="icon-box" style="background:linear-gradient(135deg,#667eea,#764ba2);"><img src="app_icon.png" alt="图标"></div>
+      <span class="icon-label">彩色壁纸</span>
+    </div>
+  </div>
+</div>
+
+<div class="preview-large">
+  <div class="large-icon"><img src="app_icon.png" alt="大图预览"></div>
+  <div class="info">
+    <span class="info-title">图标信息</span>
+    <span class="info-desc">尺寸：1024 × 1024 px</span>
+    <span class="info-desc">格式：PNG (RGBA)</span>
+    <span class="info-desc">主题：白底 + 金色岳字 + 元宝山</span>
+  </div>
+</div>
+
+</body>
+</html>
