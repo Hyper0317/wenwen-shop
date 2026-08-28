@@ -2,8 +2,17 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNGRkYwRjUiLz48ZWxsaXBzZSBjeD0iMzIiIGN5PSIzNiIgcng9IjIyIiByeT0iMTgiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48ZWxsaXBzZSBjeD0iMTYiIGN5PSIyMiIgcng9IjciIHJ5PSI2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS41Ii8+PGVsbGlwc2UgY3g9IjQ4IiBjeT0iMjIiIHJ4PSI3IiByeT0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIvPjxlbGxpcHNlIGN4PSIxNCIgY3k9IjIwIiByeD0iMyIgcnk9IjIuNSIgZmlsbD0iI0ZGQjZDMSIvPjxlbGxpcHNlIGN4PSI1MCIgY3k9IjIwIiByeD0iMyIgcnk9IjIuNSIgZmlsbD0iI0ZGQjZDMSIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwLDE2KSI+PHBhdGggZD0iTTAsMCBMOCwtMyBMMTAsMyBMNiw1IEwyLDcgWiIgZmlsbD0iI0U4MzMyRCIvPjxjaXJjbGUgY3g9IjMiIGN5PSIyIiByPSIyIiBmaWxsPSIjRkY2QjZCIi8+PGNpcmNsZSBjeD0iNyIgY3k9IjEiIHI9IjEuNSIgZmlsbD0iI0ZGNkI2QiIvPjwvZz48ZWxsaXBzZSBjeD0iMjciIGN5PSIzNCIgcng9IjIuNSIgcng9IjMuNSIgZmlsbD0iIzFhMWExYSIvPjxlbGxpcHNlIGN4PSIzNyIgY3k9IjM0IiByeD0iMi41IiByeT0iMy41IiBmaWxsPSIjMWExYTFhIi8+PGVsbGlwc2UgY3g9IjMyIiBjeT0iNDAiIHJ4PSIzIiByeT0iMiIgZmlsbD0iI0ZGRDcwMCIvPjxwYXRoIGQ9Ik0yOSw0MiBRMzIsNDUgMzUsNDIiIHN0cm9rZT0iIzk5OSIgc3Ryb2tlLXdpZHRoPSIxLjIiIGZpbGw9Im5vbmUiLz48bGluZSB4MT0iMzIiIHkxPSI0MiIgeDI9IjMyIiB5Mj0iNDQiIHN0cm9rZT0iIzk5OSIgc3Ryb2tlLXdpZHRoPSIxIi8+PGxpbmUgeDE9IjI4IiB5MT0iNDMiIHgyPSIyNCIgeTI9IjQxIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMC44Ii8+PGxpbmUgeDE9IjM2IiB5MT0iNDMiIHgyPSI0MCIgeTI9IjQxIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMC44Ii8+PC9zdmc+">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="asap-workspace-data-refresh" content="event-v1">
+
+<!-- 添加到手机桌面 / PWA 配置 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="雯雯的小店">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#007AFF">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23007AFF'/%3E%3Ctext x='90' y='115' font-size='72' text-anchor='middle' fill='white' font-family='system-ui'%3E🛒%3C/text%3E%3C/svg%3E">
+
 <title>雯雯的小店</title>
 <script src="./雯雯的小店.data.js"></script>
 <style>
@@ -1173,10 +1182,11 @@ body {
 }
 .tool-loan-icon.out { background: #FFF3E0; color: #FF9500; }
 .tool-loan-icon.returned { background: var(--success-light); color: var(--success); }
-.tool-loan-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.tool-loan-borrower { font-size: 15px; font-weight: 600; }
+.tool-loan-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; overflow: hidden; }
+.tool-loan-top { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.tool-loan-borrower { font-size: 15px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
 .tool-loan-tools { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tool-loan-meta { font-size: 13px; color: var(--text-light); display: flex; gap: 10px; align-items: center; }
+.tool-loan-meta { font-size: 13px; color: var(--text-light); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .tool-loan-status {
   font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 20px; flex-shrink: 0;
 }
@@ -1691,32 +1701,37 @@ body {
   background: linear-gradient(135deg, #FF8800, #FFA830);
 }
 
-/* ===== Credit Summary Bar (3 blocks) ===== */
+/* ===== Credit Summary Bar (single block, color-linked to filter) ===== */
 .credit-summary-bar {
-  display: flex; align-items: stretch;
-  background: linear-gradient(135deg, #FF3B30, #FF6B6B);
-  border-radius: var(--radius); padding: 20px 16px;
-  margin-bottom: 12px; box-shadow: 0 4px 20px rgba(255,59,48,0.25);
+  border-radius: var(--radius); padding: 22px 24px;
+  margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+  background: linear-gradient(135deg, #007AFF, #4DA2FF);
+  box-shadow: 0 4px 20px rgba(0,122,255,0.25);
 }
-.credit-summary-item { flex: 1; text-align: center; padding: 0 6px; display: flex; flex-direction: column; justify-content: center; }
+.credit-summary-bar.filter-repaid {
+  background: linear-gradient(135deg, #34C759, #5AD680);
+  box-shadow: 0 4px 20px rgba(52,199,89,0.25);
+}
+.credit-summary-bar.filter-unpaid {
+  background: linear-gradient(135deg, #FF3B30, #FF6B6B);
+  box-shadow: 0 4px 20px rgba(255,59,48,0.25);
+}
+.credit-summary-item { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 .credit-summary-label {
-  font-size: 11px; color: rgba(255,255,255,0.7);
-  font-weight: 500; margin-bottom: 4px; letter-spacing: 0.3px;
+  font-size: 13px; color: rgba(255,255,255,0.75);
+  font-weight: 500; margin-bottom: 6px; letter-spacing: 0.3px;
 }
 .credit-summary-value {
-  font-size: 24px; font-weight: 800; color: #fff;
+  font-size: 36px; font-weight: 800; color: #fff;
   font-family: "DIN Alternate", "Helvetica Neue", "Arial", sans-serif;
   font-variant-numeric: tabular-nums; letter-spacing: -0.5px; line-height: 1.2;
 }
 .credit-summary-sub {
-  font-size: 12px; color: rgba(255,255,255,0.65);
-  font-weight: 500; margin-top: 2px;
+  font-size: 13px; color: rgba(255,255,255,0.7);
+  font-weight: 500; margin-top: 4px;
 }
-.credit-summary-unit { font-size: 15px; font-weight: 600; margin-left: 2px; }
-.credit-summary-divider {
-  width: 1px; background: rgba(255,255,255,0.18);
-  margin: 2px 0; flex-shrink: 0;
-}
+.credit-summary-unit { font-size: 18px; font-weight: 600; margin-left: 2px; }
 
 /* ===== Credit Status Filter (capsule + slider) ===== */
 .credit-status-filter {
@@ -1773,6 +1788,47 @@ body {
   width: 1px; background: rgba(255,255,255,0.2);
   margin: 4px 16px; flex-shrink: 0;
 }
+
+/* ===== Hide Scrollbars Globally ===== */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* ===== Refund Styles ===== */
+.sale-card.refund { border-left: 3px solid var(--danger); opacity: 0.85; }
+.sale-card.refund .sale-amount { color: var(--danger); }
+.sale-card.fully-refunded { opacity: 0.5; }
+.sale-card.fully-refunded .sale-product-name { text-decoration: line-through; }
+.refund-badge { display: inline-block; background: #FFF0F0; color: var(--danger); font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; margin-left: 6px; }
+.fully-refunded-badge { display: inline-block; background: var(--bg); color: var(--text-light); font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; margin-left: 6px; }
+.refund-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10001; display: none; align-items: center; justify-content: center; }
+.refund-modal-overlay.show { display: flex; }
+.refund-modal-card { background: var(--bg); border-radius: 20px; width: 90%; max-width: 360px; max-height: 85vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+.refund-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 0.5px solid var(--border); }
+.refund-modal-header h3 { font-size: 17px; font-weight: 700; margin: 0; color: var(--danger); }
+.refund-modal-body { padding: 20px; }
+.refund-modal-footer { padding: 12px 20px 18px; border-top: 0.5px solid var(--border); display: flex; gap: 12px; }
+.refund-info-box { background: var(--primary-50); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+.refund-info-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
+.refund-info-label { color: var(--text-secondary); }
+.refund-info-value { font-weight: 600; }
+.refund-input-group { margin-bottom: 14px; }
+.refund-input-label { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; display: block; }
+.refund-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 15px; background: #fff; box-sizing: border-box; }
+.refund-input:focus { border-color: var(--danger); outline: none; }
+.refund-qty-row { display: flex; align-items: center; gap: 10px; }
+.refund-qty-btn { width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text); padding: 0; -webkit-tap-highlight-color: transparent; }
+.refund-qty-btn:active { transform: scale(0.95); }
+.refund-qty-input { flex: 1; text-align: center; font-size: 18px; font-weight: 700; }
+.refund-btn { flex: 1; padding: 12px; border-radius: 999px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
+.refund-btn-confirm { background: var(--danger); color: #fff; }
+.refund-btn-confirm:active { transform: scale(0.97); }
+.refund-btn-cancel { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
+.refund-summary { background: #FFF0F0; border-radius: 12px; padding: 12px 14px; margin-top: 16px; text-align: center; }
+.refund-summary-amount { font-size: 24px; font-weight: 700; color: var(--danger); }
+.refund-summary-label { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+.sale-detail-refund-btn { margin-top: 16px; width: 100%; padding: 12px; border-radius: 12px; background: #FFF0F0; color: var(--danger); border: 1.5px solid var(--danger); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.sale-detail-refund-btn:active { transform: scale(0.97); }
+.sale-detail-refund-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ===== Credit Record Cards ===== */
 .credit-records-list { display: flex; flex-direction: column; gap: 12px; }
@@ -1975,90 +2031,9 @@ body {
   .filter-select { width: 100%; }
 }
 .icon-svg { vertical-align: middle; flex-shrink: 0; }
-
-/* ===== Pull to Refresh ===== */
-.pull-refresh-indicator {
-  position: fixed;
-  top: 0; left: 50%;
-  transform: translateX(-50%) translateY(-60px);
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: var(--card-bg);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9998;
-  transition: transform 0s;
-  pointer-events: none;
-}
-.pull-refresh-indicator .pull-icon {
-  width: 22px; height: 22px;
-  border: 2.5px solid var(--text-light);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  transition: border-color 0.2s;
-}
-.pull-refresh-indicator.refreshing .pull-icon {
-  animation: pull-spin 0.7s linear infinite;
-  border-color: var(--text-light);
-  border-top-color: var(--primary);
-}
-.pull-refresh-indicator.ready .pull-icon {
-  border-color: var(--primary);
-  border-top-color: var(--primary);
-}
-@keyframes pull-spin { to { transform: rotate(360deg); } }
-
-.pull-refresh-overlay {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: 0; z-index: 9997;
-  background: linear-gradient(180deg, rgba(0,122,255,0.06), transparent);
-  pointer-events: none;
-  transition: height 0s;
-}
-
-/* ===== Refund Styles ===== */
-.sale-card.refund { border-left: 3px solid var(--danger); opacity: 0.85; }
-.sale-card.refund .sale-amount { color: var(--danger); }
-.sale-card.fully-refunded { opacity: 0.5; }
-.sale-card.fully-refunded .sale-product-name { text-decoration: line-through; }
-.refund-badge { display: inline-block; background: #FFF0F0; color: var(--danger); font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; margin-left: 6px; }
-.fully-refunded-badge { display: inline-block; background: var(--bg); color: var(--text-light); font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; margin-left: 6px; }
-.refund-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10001; display: none; align-items: center; justify-content: center; }
-.refund-modal-overlay.show { display: flex; }
-.refund-modal-card { background: var(--bg); border-radius: 20px; width: 90%; max-width: 360px; max-height: 85vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
-.refund-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 0.5px solid var(--border); }
-.refund-modal-header h3 { font-size: 17px; font-weight: 700; margin: 0; color: var(--danger); }
-.refund-modal-body { padding: 20px; }
-.refund-modal-footer { padding: 12px 20px 18px; border-top: 0.5px solid var(--border); display: flex; gap: 12px; }
-.refund-info-box { background: var(--primary-50); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
-.refund-info-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
-.refund-info-label { color: var(--text-secondary); }
-.refund-info-value { font-weight: 600; }
-.refund-input-group { margin-bottom: 14px; }
-.refund-input-label { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; display: block; }
-.refund-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 15px; background: #fff; box-sizing: border-box; }
-.refund-input:focus { border-color: var(--danger); outline: none; }
-.refund-qty-row { display: flex; align-items: center; gap: 10px; }
-.refund-qty-btn { width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text); padding: 0; -webkit-tap-highlight-color: transparent; }
-.refund-qty-btn:active { transform: scale(0.95); }
-.refund-qty-input { flex: 1; text-align: center; font-size: 18px; font-weight: 700; }
-.refund-btn { flex: 1; padding: 12px; border-radius: 999px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; }
-.refund-btn-confirm { background: var(--danger); color: #fff; }
-.refund-btn-confirm:active { transform: scale(0.97); }
-.refund-btn-cancel { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
-.refund-summary { background: #FFF0F0; border-radius: 12px; padding: 12px 14px; margin-top: 16px; text-align: center; }
-.refund-summary-amount { font-size: 24px; font-weight: 700; color: var(--danger); }
-.refund-summary-label { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-.sale-detail-refund-btn { margin-top: 16px; width: 100%; padding: 12px; border-radius: 12px; background: #FFF0F0; color: var(--danger); border: 1.5px solid var(--danger); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.sale-detail-refund-btn:active { transform: scale(0.97); }
-.sale-detail-refund-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
 </style>
 </head>
 <body>
-
-<div class="pull-refresh-overlay" id="pullRefreshOverlay"></div>
-<div class="pull-refresh-indicator" id="pullRefreshIndicator"><div class="pull-icon"></div></div>
 
 <div class="header">
   <div class="header-inner">
@@ -2074,7 +2049,7 @@ body {
       <span class="bn-label">概览</span>
     </button>
     <button class="bottom-nav-item" data-tab="products" data-idx="1">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
       <span class="bn-label">商品</span>
     </button>
     <button class="bottom-nav-item" data-tab="sales" data-idx="2">
@@ -2107,7 +2082,7 @@ body {
 <div class="main">
   <div class="tab-content active" id="tab-dashboard">
     <div class="stats-grid" id="statsGrid"></div>
-    <div class="section-title"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 最近添加商品</span></div>
+    <div class="section-title"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 最近添加商品</span></div>
     <div id="recentProducts"></div>
   </div>
 
@@ -2309,13 +2284,6 @@ body {
       </div>
     </div>
     <div id="creditRecordsList"></div>
-    <div class="credit-status-filter" id="creditStatusFilter">
-      <div class="credit-status-slider" id="creditStatusSlider"></div>
-      <button class="credit-status-btn active" data-status="all" onclick="filterCreditStatus('all')">全部 <span class="status-count">0</span></button>
-      <button class="credit-status-btn" data-status="repaid" onclick="filterCreditStatus('repaid')">已还 <span class="status-count">0</span></button>
-      <button class="credit-status-btn" data-status="unpaid" onclick="filterCreditStatus('unpaid')">未还 <span class="status-count">0</span></button>
-    </div>
-    <div id="creditListContainer"></div>
   </div>
 
   <div class="tab-content" id="tab-lowstock">
@@ -2332,7 +2300,7 @@ body {
   <div class="tab-content" id="tab-tools">
     <!-- Tool Inventory Section -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;margin-bottom:20px;">
-      <div class="section-title" style="margin:0;"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 工具库存</span></div>
+      <div class="section-title" style="margin:0;"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 工具库存</span></div>
       <button onclick="openToolModal()" style="background:var(--primary);color:#fff;border:none;padding:7px 18px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;box-shadow:0 3px 8px rgba(0,122,255,0.3),0 1px 3px rgba(0,122,255,0.2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>添加工具</button>
     </div>
     <div id="toolInventoryList"></div>
@@ -2721,7 +2689,7 @@ body {
 <div class="modal-overlay" id="detailModal" ontouchmove="if(!event.target.closest('.modal'))event.preventDefault()">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 商品详情</div>
+      <div class="modal-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 商品详情</div>
       <button class="modal-close" onclick="closeDetailModal()">✕</button>
     </div>
     <div class="modal-body" id="detailModalBody"></div>
@@ -2921,303 +2889,7 @@ var sellSelectedPayment = null;
 var sellCreditInfo = null;
 var creditFormMode = 'single';
 
-// ===== Supabase Cloud Data Layer (fetch-based, no external library) =====
-var SUPABASE_URL = 'https://smamozhqfiabrnpohpwe.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYW1vemhxZmlhYnJucG9ocHdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNTU5MzcsImV4cCI6MjEwMjYzMTkzN30.qF4EqcSF442MSTRQAISEMkPc3FqOIhJ95TBSMoWPj6M';
-var cloudLoading = false;
-
-function sbHeaders() {
-  return {
-    'apikey': SUPABASE_KEY,
-    'Authorization': 'Bearer ' + SUPABASE_KEY,
-    'Content-Type': 'application/json',
-    'Prefer': 'return=representation'
-  };
-}
-
-// Generic REST helpers — XHR-based for WeChat WebView compatibility
-function sbXHR(method, url, headers, body) {
-  return new Promise(function(resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url, true);
-    for (var k in headers) {
-      if (headers.hasOwnProperty(k)) {
-        xhr.setRequestHeader(k, headers[k]);
-      }
-    }
-    if (method === 'GET') {
-      xhr.setRequestHeader('Cache-Control', 'no-cache');
-    }
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          try { resolve(JSON.parse(xhr.responseText)); }
-          catch(e) { resolve(xhr.responseText); }
-        } else {
-          reject(new Error(method + ' ' + url + ' failed: ' + xhr.status + ' ' + xhr.responseText));
-        }
-      }
-    };
-    xhr.onerror = function() { reject(new Error(method + ' ' + url + ' network error')); };
-    xhr.ontimeout = function() { reject(new Error(method + ' ' + url + ' timeout')); };
-    xhr.timeout = 15000;
-    xhr.send(body || null);
-  });
-}
-
-async function sbSelect(table, query) {
-  var url = SUPABASE_URL + '/rest/v1/' + table + '?select=*' + (query || '');
-  var h = sbHeaders();
-  return await sbXHR('GET', url, h, null);
-}
-
-async function sbSelectSingle(table, filter) {
-  var url = SUPABASE_URL + '/rest/v1/' + table + '?select=*&' + filter;
-  var h = sbHeaders();
-  var rows = await sbXHR('GET', url, h, null);
-  return rows[0] || null;
-}
-
-async function sbUpsert(table, rows, onConflict) {
-  var url = SUPABASE_URL + '/rest/v1/' + table;
-  var headers = sbHeaders();
-  if (onConflict) {
-    url += '?on_conflict=' + onConflict;
-    headers['Prefer'] = 'return=representation,resolution=merge-duplicates';
-  }
-  return await sbXHR('POST', url, headers, JSON.stringify(rows));
-}
-
-async function sbDeleteAll(table) {
-  var url = SUPABASE_URL + '/rest/v1/' + table + '?id=gt.0';
-  try { await sbXHR('DELETE', url, sbHeaders(), null); }
-  catch(e) { console.error('Delete ' + table + ' error:', e.message); }
-}
-
-async function sbInsert(table, rows) {
-  var url = SUPABASE_URL + '/rest/v1/' + table;
-  var headers = sbHeaders();
-  headers['Prefer'] = 'return=representation';
-  return await sbXHR('POST', url, headers, JSON.stringify(rows));
-}
-
-async function sbDeleteOne(table, rowId) {
-  var url = SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + rowId;
-  try { await sbXHR('DELETE', url, sbHeaders(), null); }
-  catch(e) { console.error('DeleteOne ' + table + ' error:', e.message); }
-}
-
-async function sbUpdateOne(table, rowId, data) {
-  var url = SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + rowId;
-  var headers = sbHeaders();
-  headers['Prefer'] = 'return=representation';
-  return await sbXHR('PATCH', url, headers, JSON.stringify(data));
-}
-
-// Convert DB rows (snake_case) to workbenchState (camelCase)
-function mapProductFromDB(row) {
-  return {
-    id: row.id,
-    name: row.name || '',
-    category: row.category || '',
-    unit: row.unit || '',
-    price: parseFloat(row.price) || 0,
-    stock: parseInt(row.stock) || 0,
-    location: row.location || '',
-    note: row.note || '',
-    imagePath: row.image_path || '',
-    createdAt: row.created_at || new Date().toISOString(),
-    updatedAt: row.updated_at || new Date().toISOString()
-  };
-}
-function mapProductToDB(p) {
-  return {
-    id: p.id, name: p.name, category: p.category, unit: p.unit,
-    price: p.price, stock: p.stock, location: p.location, note: p.note,
-    image_path: p.imagePath || '',
-    created_at: p.createdAt, updated_at: p.updatedAt
-  };
-}
-function mapSaleFromDB(row) {
-  return {
-    id: row.id,
-    orderNo: row.order_no || '',
-    productId: row.product_id || '',
-    productName: row.product_name || '',
-    quantity: parseInt(row.quantity) || 1,
-    unitPrice: parseFloat(row.unit_price) || 0,
-    totalAmount: parseFloat(row.total_amount) || 0,
-    unit: row.unit || '',
-    saleTime: row.sale_time || row.created_at || new Date().toISOString(),
-    seller: row.seller || '',
-    paymentMethod: row.payment_method || '',
-    creditInfo: row.credit_info || null,
-    recordType: row.record_type || 'sale',
-    refundInfo: row.refund_info || null
-  };
-}
-function mapSaleToDB(s) {
-  return {
-    id: s.id, order_no: s.orderNo, product_id: s.productId, product_name: s.productName,
-    quantity: s.quantity, unit_price: s.unitPrice, total_amount: s.totalAmount,
-    unit: s.unit, sale_time: s.saleTime, seller: s.seller,
-    payment_method: s.paymentMethod, credit_info: s.creditInfo,
-    record_type: s.recordType || 'sale', refund_info: s.refundInfo || null
-  };
-}
-function mapRepairFromDB(row) {
-  return {
-    id: row.id,
-    customerName: row.customer_name || '—',
-    productName: row.product_name || '—',
-    phone: row.phone || '',
-    address: row.address || '—',
-    date: row.date || '',
-    status: row.status || 'pending',
-    description: row.description || '',
-    doneHandler: row.done_handler || '',
-    doneDate: row.done_date || '',
-    doneNote: row.done_note || ''
-  };
-}
-function mapRepairToDB(r) {
-  return {
-    id: r.id,
-    customer_name: r.customerName, product_name: r.productName, phone: r.phone,
-    address: r.address, date: r.date, status: r.status, description: r.description,
-    done_handler: r.doneHandler || null, done_date: r.doneDate || null, done_note: r.doneNote || null
-  };
-}
-function mapToolFromDB(row) {
-  return { id: row.id, name: row.name, stock: parseInt(row.stock) || 0, unit: row.unit || '个', note: row.note || '' };
-}
-function mapToolToDB(t) {
-  return { id: t.id, name: t.name, stock: t.stock, unit: t.unit, note: t.note };
-}
-function mapLoanFromDB(row) {
-  return {
-    id: row.id, borrower: row.borrower, phone: row.phone || '', address: row.address || '',
-    tools: row.tools || [], seller: row.seller || '',
-    loanDate: row.loan_date || '', expectedReturnDate: row.expected_return_date || '',
-    actualReturnDate: row.actual_return_date || '',
-    deposit: parseFloat(row.deposit) || 0, note: row.note || '', status: row.status || 'out',
-    createdAt: row.created_at || new Date().toISOString()
-  };
-}
-function mapLoanToDB(l) {
-  return {
-    id: l.id, borrower: l.borrower, phone: l.phone, address: l.address,
-    tools: l.tools, seller: l.seller, loan_date: l.loanDate,
-    expected_return_date: l.expectedReturnDate, actual_return_date: l.actualReturnDate,
-    deposit: l.deposit, note: l.note, status: l.status
-  };
-}
-
-// Load all data from Supabase (optimized: quick-check first)
-var _lastCloudUpdatedAt = null;
-async function loadFromCloud() {
-  try {
-    // Always load preferences (needed for nextProductId, etc.)
-    var prefsRow = await sbSelectSingle('preferences', 'id=eq.1');
-
-    // Load all tables in parallel every time (no skip optimization)
-    var [products, sales, categories, repairs, tools, loans] = await Promise.all([
-      sbSelect('products', '&order=id.desc'),
-      sbSelect('sales', '&order=created_at.desc'),
-      sbSelect('categories', '&order=sort_order.asc'),
-      sbSelect('repair_records', '&order=created_at.desc'),
-      sbSelect('tools'),
-      sbSelect('tool_loans', '&order=created_at.desc')
-    ]);
-
-    var state = {
-      products: (products || []).map(mapProductFromDB),
-      sales: (sales || []).map(mapSaleFromDB),
-      categories: (categories || []).map(function(r) { return r.name; }),
-      repairRecords: (repairs || []).map(mapRepairFromDB),
-      tools: (tools || []).map(mapToolFromDB),
-      toolLoans: (loans || []).map(mapLoanFromDB),
-      nextProductId: (prefsRow && prefsRow.next_product_id) || 1,
-      nextToolId: (prefsRow && prefsRow.next_tool_id) || 1,
-      _orderCounter: (prefsRow && prefsRow.order_counter) || {},
-      preferences: { lowStockThreshold: (prefsRow && prefsRow.low_stock_threshold) || 10 }
-    };
-    return state;
-  } catch (error) {
-    console.error('Cloud load error:', error);
-    return null;
-  }
-}
-
-// Save full state to Supabase
-async function saveToCloud(nextState, tables) {
-  // tables: optional array of table names to save; if omitted, save all
-  var saveAll = !tables || tables.length === 0;
-  var tasks = [];
-
-  // Upsert products
-  if (saveAll || tables.indexOf('products') >= 0) {
-    if (nextState.products && nextState.products.length > 0) {
-      tasks.push(sbUpsert('products', nextState.products.map(mapProductToDB), 'id'));
-    }
-  }
-  // Upsert sales
-  if (saveAll || tables.indexOf('sales') >= 0) {
-    if (nextState.sales && nextState.sales.length > 0) {
-      tasks.push(sbUpsert('sales', nextState.sales.map(mapSaleToDB), 'id'));
-    }
-  }
-  // Categories: full replace
-  if (saveAll || tables.indexOf('categories') >= 0) {
-    if (nextState.categories) {
-      tasks.push(sbDeleteAll('categories').then(function() {
-        var catRows = nextState.categories.map(function(name, idx) {
-          return { name: name, sort_order: idx };
-        });
-        if (catRows.length > 0) return sbInsert('categories', catRows);
-      }));
-    }
-  }
-  // Repair records: full replace
-  if (saveAll || tables.indexOf('repair_records') >= 0) {
-    if (nextState.repairRecords && nextState.repairRecords.length > 0) {
-      // Use upsert instead of delete-all + insert-all
-      var repairRows = nextState.repairRecords.map(mapRepairToDB);
-      tasks.push(sbUpsert('repair_records', repairRows, 'id'));
-    }
-  }
-  // Upsert tools
-  if (saveAll || tables.indexOf('tools') >= 0) {
-    if (nextState.tools && nextState.tools.length > 0) {
-      tasks.push(sbUpsert('tools', nextState.tools.map(mapToolToDB), 'id'));
-    }
-  }
-  // Upsert tool loans
-  if (saveAll || tables.indexOf('tool_loans') >= 0) {
-    if (nextState.toolLoans && nextState.toolLoans.length > 0) {
-      tasks.push(sbUpsert('tool_loans', nextState.toolLoans.map(mapLoanToDB), 'id'));
-    }
-  }
-  // Upsert preferences
-  if (saveAll || tables.indexOf('preferences') >= 0) {
-    var prefs = {
-      id: 1,
-      low_stock_threshold: (nextState.preferences && nextState.preferences.lowStockThreshold) || 10,
-      order_counter: nextState._orderCounter || {},
-      next_product_id: nextState.nextProductId || 1,
-      next_tool_id: nextState.nextToolId || 1,
-      updated_at: new Date().toISOString()
-    };
-    tasks.push(sbUpsert('preferences', [prefs], 'id'));
-  }
-
-  // Run all table operations in parallel
-  await Promise.all(tasks);
-}
-
-// ===== State Management (Cloud Version) =====
 function initState() {
-  // Start with local data as immediate fallback
   workbenchState = structuredClone(window.WORKBENCH_DATA || {
     products: [], sales: [],
     categories: ["螺丝螺母","工具五金","水暖器材","电线电缆","门窗配件","涂料油漆","其他"],
@@ -3226,200 +2898,74 @@ function initState() {
   });
 }
 
-async function initStateFromCloud() {
-  cloudLoading = true;
-  showSaveStatus('saving', '正在加载云端数据...');
-  var cloudState = await loadFromCloud();
-  if (cloudState) {
-    workbenchState = cloudState;
-    window.WORKBENCH_DATA = structuredClone(cloudState);
-    showSaveStatus('saved', '云端数据已加载', 1500);
-  } else {
-    // Fallback to local data
-    initState();
-    showSaveStatus('failed', '云端加载失败，使用本地数据', 3000);
-    showToast('云端连接失败，已切换到本地数据', 'warning');
-  }
-  cloudLoading = false;
-}
-
 function applyWorkspaceData(nextState) {
   window.WORKBENCH_DATA = nextState;
   workbenchState = structuredClone(nextState);
   renderAll();
 }
 
-async function refreshFromCloud() {
-  var cloudState = await loadFromCloud();
-  if (cloudState) {
-    workbenchState = cloudState;
-    window.WORKBENCH_DATA = structuredClone(cloudState);
-    renderAll();
-  }
-}
-
-// ===== Realtime Sync =====
-var _lastSaveTime = 0;
-var _realtimeSubscribed = false;
-
-function initRealtimeSync() {
-  if (_realtimeSubscribed) return;
-  _realtimeSubscribed = true;
-
-  // 主通道：1 秒快速轮询（所有浏览器都支持，最可靠）
-  var pollCount = 0;
-  var pollingTimer = setInterval(function() {
-    pollCount++;
-    var shouldSkip = Date.now() - _lastSaveTime <= 1500;
-    if (!shouldSkip) {
-      scheduleRefresh();
-    }
-  }, 1500);
-
-  // 辅助通道：WebSocket Realtime（能用就用，实现秒级同步）
-  var wsUrl = SUPABASE_URL.replace('https://', 'wss://') + '/realtime/v1/websocket';
-  var apiKey = SUPABASE_KEY;
-  var ws = null;
-  var wsReconnectTimer = null;
-  var heartbeatTimer = null;
-
-  function connectWS() {
-    try {
-      ws = new WebSocket(wsUrl + '?apikey=' + apiKey + '&vsn=1.0.0');
-    } catch(e) {
-      console.log('[Realtime] WebSocket init failed, using polling only');
-      return;
-    }
-
-    ws.onopen = function() {
-      console.log('[Realtime] WebSocket connected');
-      var tables = ['products', 'sales', 'categories', 'repair_records', 'tools', 'tool_loans', 'preferences'];
-      tables.forEach(function(table, idx) {
-        ws.send(JSON.stringify({
-          topic: 'realtime:public:' + table,
-          event: 'phx_join',
-          payload: { config: { broadcast: { self: false }, presence: { key: '' } } },
-          ref: String(idx + 1)
-        }));
-      });
-      heartbeatTimer = setInterval(function() {
-        if (ws && ws.readyState === 1) {
-          ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: 'hb' }));
-        }
-      }, 30000);
-    };
-
-    ws.onmessage = function(event) {
-      try {
-        var msg = JSON.parse(event.data);
-        if (msg.event === 'INSERT' || msg.event === 'UPDATE' || msg.event === 'DELETE' || msg.event === '*"') {
-          if (Date.now() - _lastSaveTime > 2000) {
-            scheduleRefresh();
-          }
-        }
-      } catch(e) {}
-    };
-
-    ws.onclose = function() {
-      console.log('[Realtime] WebSocket closed, retry in 10s');
-      clearInterval(heartbeatTimer);
-      if (wsReconnectTimer) clearTimeout(wsReconnectTimer);
-      wsReconnectTimer = setTimeout(connectWS, 10000);
-    };
-
-    ws.onerror = function() {
-      console.log('[Realtime] WebSocket error, using polling only');
-      try { ws.close(); } catch(e) {}
-    };
-  }
-
-  connectWS();
-}
-
-var refreshTimer = null;
-var _isRefreshing = false;
-var _lastDataFingerprint = '';
-
-function scheduleRefresh() {
-  if (refreshTimer) clearTimeout(refreshTimer);
-  refreshTimer = setTimeout(async function() {
-    refreshTimer = null;
-    if (_isRefreshing) { console.log('[Sync] already refreshing, skip'); return; }
-    // Removed modal-open skip: always refresh even if modal is open
-    _isRefreshing = true;
-    try {
-      var cloudState = await loadFromCloud();
-      if (cloudState) {
-        // 生成数据指纹：比较关键数据的 JSON 摘要，数据没变就不重新渲染
-        var fp = JSON.stringify({
-          p: cloudState.products.length,
-          s: cloudState.sales.length,
-          r: cloudState.repairRecords.length,
-          t: cloudState.tools.length,
-          l: cloudState.toolLoans.length,
-          c: cloudState.categories.join(','),
-          ps: cloudState.sales.map(function(s){return s.id + ':' + s.totalAmount;}).join(','),
-          pr: cloudState.products.map(function(p){return p.id + ':' + p.stock;}).join(','),
-          tl: cloudState.toolLoans.map(function(tl){return tl.id + ':' + tl.status;}).join(','),
-          rr: cloudState.repairRecords.map(function(r){return r.id + ':' + r.status;}).join(',')
-        });
-        if (fp === _lastDataFingerprint) {
-          // 数据没变化，跳过渲染
-          _isRefreshing = false;
-          return;
-        }
-        _lastDataFingerprint = fp;
-        workbenchState = cloudState;
-        window.WORKBENCH_DATA = structuredClone(cloudState);
-        renderAll();
-        console.log('[Sync] data changed, rendered');
-      } else {
-        console.log('[Sync] loadFromCloud returned null');
-      }
-    } catch(e) {
-      console.log('[Sync] Refresh failed:', e.message);
-    } finally {
-      _isRefreshing = false;
-    }
-  }, 200);
-}
+window.addEventListener('asap:workspace-data-updated', function() {
+  applyWorkspaceData(window.WORKBENCH_DATA);
+});
 
 async function persistData(nextState) {
   var previous = structuredClone(workbenchState);
   applyWorkspaceData(nextState);
   showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
   try {
-    console.log('[Save] saving to cloud, products: ' + (nextState.products ? nextState.products.length : 0) + ', sales: ' + (nextState.sales ? nextState.sales.length : 0));
-    await saveToCloud(nextState);
-    console.log('[Save] cloud save OK');
+    var saved = await window.AsapWorkspaceState.commit(nextState);
+    applyWorkspaceData(saved.data);
     showSaveStatus('saved', '已保存', 1500);
-  } catch (error) {
-    console.error('保存到云端失败:', error);
-    applyWorkspaceData(previous);
-    showSaveStatus('failed', '保存失败', 3000);
-    showToast('保存失败：' + (error.message || '网络错误') + '，请重试', 'error');
-  }
-}
-
-async function persistDataFresh(mutator, tables) {
-  showSaveStatus('saving', '保存中...');
-  var previous = structuredClone(workbenchState);
-  _lastSaveTime = Date.now();
-  try {
-    var next = structuredClone(workbenchState);
-    var mutated = mutator(next);
-    if (mutated === null) { showSaveStatus('idle', '', 0); return null; }
-    next = mutated || next;
-    applyWorkspaceData(next);
-    await saveToCloud(next, tables);
-    showSaveStatus('saved', '已保存', 1500);
-    return { data: next };
   } catch (error) {
     applyWorkspaceData(previous);
     showSaveStatus('failed', '保存失败', 3000);
     showToast('保存失败，请重试', 'error');
-    throw error;
+  }
+}
+
+/* ===== Order Number Generator ===== */
+function generateOrderNo(latest) {
+  var now = new Date();
+  var yy = String(now.getFullYear()).slice(-2);
+  var m = String(now.getMonth() + 1).padStart(2, '0');
+  var d = String(now.getDate()).padStart(2, '0');
+  var datePart = yy + m + d;
+  var counter = latest._orderCounter || {};
+  if (counter.date !== datePart) {
+    counter = { date: datePart, seq: 0 };
+  }
+  counter.seq += 1;
+  latest._orderCounter = counter;
+  var seqPart = String(counter.seq).padStart(3, '0');
+  return datePart + seqPart;
+}
+
+async function persistDataFresh(mutator) {
+  showSaveStatus('saving', '保存中...');
+  var previous = structuredClone(workbenchState);
+  var maxRetries = 3;
+  for (var attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      var latest = workbenchState;
+      var next = structuredClone(latest);
+      var mutated = mutator(next);
+      if (mutated === null) { showSaveStatus('idle', '', 0); return null; }
+      next = mutated || next;
+      applyWorkspaceData(next);
+      var saved = await window.AsapWorkspaceState.commit(next);
+      applyWorkspaceData(saved.data);
+      showSaveStatus('saved', '已保存', 1500);
+      return saved;
+    } catch (error) {
+      if (attempt < maxRetries - 1) {
+        await new Promise(function(r) { setTimeout(r, 300 * (attempt + 1)); });
+        continue;
+      }
+      applyWorkspaceData(previous);
+      showSaveStatus('failed', '保存失败', 3000);
+      showToast('保存失败，可能其他成员正在同时操作，请稍后重试', 'error');
+      throw error;
+    }
   }
 }
 
@@ -3858,56 +3404,57 @@ function saveProduct() {
   var _location = document.getElementById('productLocation').value.trim();
   var _note = document.getElementById('productNote').value.trim();
   var _imagePath = pendingImagePath;
-  closeProductModal();
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-
-  if (editId) {
-    // 编辑：单条 update
-    var p = findProductById(editId);
-    if (!p) { showToast('商品不存在', 'error'); showSaveStatus('failed', '保存失败', 3000); return; }
-    var updateData = {
-      name: name, category: _category, unit: _unit, price: price,
-      stock: stock, location: _location, note: _note,
-      image_path: _imagePath || p.imagePath || '',
-      updated_at: new Date().toISOString()
-    };
-    sbUpdateOne('products', editId, updateData).then(function() {
-      p.name = name; p.category = _category; p.unit = _unit; p.price = price;
-      p.stock = stock; p.location = _location; p.note = _note;
-      p.imagePath = _imagePath || p.imagePath || '';
-      p.updatedAt = updateData.updated_at;
-      renderProducts(); renderDashboard();
-      showSaveStatus('saved', '已保存', 1500);
-      showToast('商品已更新', 'success');
-    }).catch(function(e) {
-      showSaveStatus('failed', '保存失败', 3000);
-      showToast('保存失败，请重试', 'error');
+  // 新增商品时查重：检查是否已有同名商品
+  if (!editId) {
+    var existing = workbenchState.products.find(function(p) {
+      return p.name.trim().toLowerCase() === name.toLowerCase();
     });
-  } else {
-    // 新增：单条 insert
-    var newId = 'P' + String(workbenchState.nextProductId || 1).padStart(4, '0');
-    var now = new Date().toISOString();
-    var newProduct = {
-      id: newId, name: name, category: _category, unit: _unit, price: price,
-      stock: stock, location: _location, note: _note,
-      image_path: _imagePath || '', created_at: now, updated_at: now
-    };
-    sbInsert('products', [newProduct]).then(function(inserted) {
-      var row = Array.isArray(inserted) ? inserted[0] : inserted;
-      var mapped = mapProductFromDB(row);
-      workbenchState.products.push(mapped);
-      workbenchState.nextProductId = (workbenchState.nextProductId || 1) + 1;
-      // 单条 update preferences
-      sbUpdateOne('preferences', 1, { next_product_id: workbenchState.nextProductId });
-      renderProducts(); renderDashboard();
-      showSaveStatus('saved', '已保存', 1500);
-      showToast('商品已添加', 'success');
-    }).catch(function(e) {
-      showSaveStatus('failed', '保存失败', 3000);
-      showToast('保存失败，请重试', 'error');
-    });
+    if (existing) {
+      closeProductModal();
+      var warnIcon = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#FF9500"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></g></svg>';
+      showConfirm(warnIcon, '商品已存在',
+        '库存中已有同名商品「' + existing.name + '」\n当前库存：' + existing.stock + ' ' + (existing.unit || '') + '，价格：¥' + existing.price + '\n\n点「确认」继续添加为新商品，点「取消」返回查看已有商品',
+        function() {
+          pendingImagePath = _imagePath;
+          doSaveProduct(name, price, stock, editId, _category, _unit, _location, _note, _imagePath);
+        });
+      return;
+    }
   }
+  closeProductModal();
+  doSaveProduct(name, price, stock, editId, _category, _unit, _location, _note, _imagePath);
+}
+
+function doSaveProduct(name, price, stock, editId, _category, _unit, _location, _note, _imagePath) {
+  persistDataFresh(function(latest) {
+    if (editId) {
+      var idx = latest.products.findIndex(function(p) { return p.id === editId; });
+      if (idx < 0) { showToast('商品不存在', 'error'); return null; }
+      latest.products[idx].name = name;
+      latest.products[idx].category = _category;
+      latest.products[idx].unit = _unit;
+      latest.products[idx].price = price;
+      latest.products[idx].stock = stock;
+      latest.products[idx].location = _location;
+      latest.products[idx].note = _note;
+      latest.products[idx].imagePath = _imagePath || latest.products[idx].imagePath || '';
+      latest.products[idx].updatedAt = new Date().toISOString();
+    } else {
+      latest.products.push({
+        id: 'P' + String(latest.nextProductId || 1).padStart(4, '0'),
+        name: name, category: _category, unit: _unit,
+        price: price, stock: stock, location: _location, note: _note,
+        imagePath: _imagePath || '',
+        createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
+      });
+      latest.nextProductId = (latest.nextProductId || 1) + 1;
+    }
+    return latest;
+  }).then(function(result) {
+    if (!result) return;
+    showToast(editId ? '商品已更新' : '商品已添加', 'success');
+    renderProducts(); renderDashboard();
+  }).catch(function() {});
 }
 
 function findProductById(id) {
@@ -4017,18 +3564,16 @@ function deleteProductFromDetail() {
   if (!p) return;
   showConfirm(getIconDInline('error', 36), '删除商品', '确定要删除「' + p.name + '」吗？此操作不可撤销。', function() {
     closeDetailModal();
-    showSaveStatus('saving', '删除中...');
-    _lastSaveTime = Date.now();
-    sbDeleteOne('products', id).then(function() {
-      var idx = workbenchState.products.findIndex(function(pr) { return pr.id === id; });
-      if (idx >= 0) workbenchState.products.splice(idx, 1);
-      renderProducts(); renderDashboard();
-      showSaveStatus('saved', '已删除', 1500);
+    persistDataFresh(function(latest) {
+      var idx = latest.products.findIndex(function(pr) { return pr.id === id; });
+      if (idx < 0) { showToast('商品不存在', 'error'); return null; }
+      latest.products.splice(idx, 1);
+      return latest;
+    }).then(function(result) {
+      if (!result) return;
       showToast('商品已删除', 'success');
-    }).catch(function(e) {
-      showSaveStatus('failed', '删除失败', 3000);
-      showToast('删除失败，请重试', 'error');
-    });
+      renderProducts(); renderDashboard();
+    }).catch(function() {});
   });
 }
 
@@ -4126,7 +3671,6 @@ function renderProducts() {
     var matchCat = cats.length === 0 || cats.indexOf(p.category) >= 0;
     return matchSearch && matchCat;
   });
-  filtered.sort(function(a, b) { return b.id.localeCompare(a.id); });
   var container = document.getElementById('productsList');
   if (filtered.length === 0) {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('product', 48) + '</div><div class="empty-text">' + (workbenchState.products.length === 0 ? '还没有商品，点击「添加商品」开始录入吧' : '没有找到匹配的商品') + '</div></div>';
@@ -4243,22 +3787,6 @@ function closeSellModal() {
   sellCreditInfo = null;
 }
 
-function generateOrderNo(latest) {
-  var now = new Date();
-  var yy = String(now.getFullYear()).slice(-2);
-  var m = String(now.getMonth() + 1).padStart(2, '0');
-  var d = String(now.getDate()).padStart(2, '0');
-  var datePart = yy + m + d;
-  var counter = latest._orderCounter || {};
-  if (counter.date !== datePart) {
-    counter = { date: datePart, seq: 0 };
-  }
-  counter.seq += 1;
-  latest._orderCounter = counter;
-  var seqPart = String(counter.seq).padStart(3, '0');
-  return datePart + seqPart;
-}
-
 function confirmSell() {
   var p = findProductById(sellTargetProductId);
   if (!p) { showToast('商品不存在（找不到 ' + sellTargetProductId + '）', 'error'); return; }
@@ -4266,7 +3794,6 @@ function confirmSell() {
   var price = parseFloat(document.getElementById('sellPrice').value);
   if (isNaN(qty) || qty < 1) { showToast('请输入有效数量', 'warning'); return; }
   if (isNaN(price) || price < 0) { showToast('请输入有效价格', 'warning'); return; }
-  if (qty > p.stock) { showToast('库存不足，当前库存：' + p.stock, 'warning'); return; }
   var _productId = sellTargetProductId;
   var _productName = p.name;
   var _unit = p.unit || '';
@@ -4274,43 +3801,30 @@ function confirmSell() {
   var _payment = sellSelectedPayment || '';
   var _creditInfo = sellCreditInfo || null;
   closeSellModal();
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-
-  var saleTime = new Date().toISOString();
-  var saleId = 'S' + Date.now().toString(36);
-  var orderNo = generateOrderNo(workbenchState);
-  var newStock = p.stock - qty;
-
-  // 并行：插入销售记录 + 更新商品库存 + 更新 preferences(订单计数器)
-  var saleRow = mapSaleToDB({
-    id: saleId, orderNo: orderNo, productId: _productId, productName: _productName,
-    quantity: qty, unitPrice: price, totalAmount: qty * price,
-    unit: _unit, saleTime: saleTime, seller: _seller,
-    paymentMethod: _payment, creditInfo: _creditInfo
-  });
-
-  Promise.all([
-    sbInsert('sales', [saleRow]),
-    sbUpdateOne('products', _productId, { stock: newStock, updated_at: saleTime }),
-    sbUpdateOne('preferences', 1, { order_counter: workbenchState._orderCounter })
-  ]).then(function(results) {
-    // 更新本地状态
-    var inserted = results[0];
-    var row = Array.isArray(inserted) ? inserted[0] : inserted;
-    var mapped = mapSaleFromDB(row);
-    workbenchState.sales.unshift(mapped);
-    p.stock = newStock;
-    p.updatedAt = saleTime;
+  persistDataFresh(function(latest) {
+    var idx = latest.products.findIndex(function(pr) { return pr.id === _productId; });
+    if (idx < 0) { showToast('商品不存在（数据中找不到 ' + _productId + '，共 ' + latest.products.length + ' 个商品）', 'error'); return null; }
+    if (qty > latest.products[idx].stock) { showToast('库存不足，当前库存：' + latest.products[idx].stock, 'warning'); return null; }
+    latest.products[idx].stock = latest.products[idx].stock - qty;
+    latest.products[idx].updatedAt = new Date().toISOString();
+    var saleRecord = {
+      id: 'S' + Date.now().toString(36),
+      orderNo: generateOrderNo(latest),
+      productId: _productId, productName: _productName,
+      quantity: qty, unitPrice: price, totalAmount: qty * price,
+      unit: _unit, saleTime: new Date().toISOString(),
+      seller: _seller,
+      paymentMethod: _payment,
+      creditInfo: _creditInfo
+    };
+    latest.sales.unshift(saleRecord);
+    return latest;
+  }).then(function(result) {
+    if (!result) return;
     var payLabel = _payment ? getPaymentLabel(_payment) : '';
     showSaleSuccessPopup(qty * price, payLabel, _productName + ' × ' + qty + (_unit ? ' ' + _unit : ''));
     renderSellList(); renderDashboard();
-    showSaveStatus('saved', '已保存', 1500);
-  }).catch(function(e) {
-    console.error('[confirmSell] 保存失败:', e);
-    showSaveStatus('failed', '保存失败', 3000);
-    showToast('保存失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
-  });
+  }).catch(function() {});
 }
 
 var batchMode = false;
@@ -4322,13 +3836,11 @@ var cartPayment = null;
 var cartCreditInfo = null;
 
 function renderSellList() {
-  var searchEl = document.getElementById('sellSearch');
-  var search = searchEl ? (searchEl.value || '').toLowerCase().trim() : '';
+  var search = (document.getElementById('sellSearch').value || '').toLowerCase().trim();
   var filtered = workbenchState.products.filter(function(p) {
     return !search || p.name.toLowerCase().indexOf(search) >= 0 || p.id.toLowerCase().indexOf(search) >= 0;
   });
   var container = document.getElementById('sellList');
-  if (!container) return;
   if (filtered.length === 0) {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('cart', 48) + '</div><div class="empty-text">' + (workbenchState.products.length === 0 ? '还没有商品，请先添加商品' : '没有找到匹配的商品') + '</div></div>';
     return;
@@ -4602,19 +4114,17 @@ function renderSales() {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('list', 48) + '</div><div class="empty-text">' + (workbenchState.sales.length === 0 ? '还没有销售记录' : '没有找到匹配的记录') + '</div></div>';
     return;
   }
-  // 本期销售总额：只算销售记录，退货记录不算
-  var salesTotal = 0;
+  var totalAmount = 0;
   var salesCount = 0;
   filtered.forEach(function(s) {
-    if (s.recordType !== 'refund') {
-      salesTotal += s.totalAmount;
-      salesCount++;
-    }
+    if (s.recordType === 'refund') return; // 退货记录不计入销售额和笔数
+    totalAmount += s.totalAmount;
+    salesCount++;
   });
   var html = '<div class="sales-summary-bar">' +
     '<div class="sales-summary-item">' +
       '<div class="sales-summary-label">本期销售总额</div>' +
-      '<div class="sales-summary-value">¥' + salesTotal.toFixed(2) + '</div>' +
+      '<div class="sales-summary-value">¥' + totalAmount.toFixed(2) + '</div>' +
     '</div>' +
     '<div class="sales-summary-divider"></div>' +
     '<div class="sales-summary-item">' +
@@ -4630,25 +4140,24 @@ function renderSales() {
       sellerTag = '<span class="sale-seller-badge ' + sClass + '"><span class="seller-icon">' + getSellerIcon(s.seller) + '</span>' + escapeHtml(s.seller) + '</span>';
     }
     var payTag = s.paymentMethod ? '<span class="sale-pay-tag">' + getPaymentSvgIcon(s.paymentMethod, 16) + ' ' + escapeHtml(getPaymentLabel(s.paymentMethod)) + '</span>' : '';
-    var isRefund = (s.recordType === 'refund');
-    var isFullyRefunded = (s.refundInfo && s.refundInfo.remainingQty === 0);
+    // 退货标记
+    var refundBadge = '';
     var cardClass = 'sale-card';
-    var cardIcon = getIconDInline('cart', 28);
-    var amountPrefix = '';
-    if (isRefund) {
-      cardClass += ' refund';
-      cardIcon = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff3b30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>';
-      amountPrefix = '-';
-    } else if (isFullyRefunded) {
-      cardClass += ' fully-refunded';
+    if (s.recordType === 'refund') {
+      cardClass = 'sale-card refund';
+      refundBadge = '<span class="refund-badge">退货</span>';
+    } else if (s.refundInfo && s.refundInfo.remainingQty === 0) {
+      cardClass = 'sale-card fully-refunded';
+      refundBadge = '<span class="fully-refunded-badge">已全退</span>';
+    } else if (s.refundInfo && s.refundInfo.refundedQty > 0) {
+      refundBadge = '<span class="refund-badge">部分退货</span>';
     }
-    var refundBadge = isRefund ? '<span class="refund-badge">退货</span>' : (isFullyRefunded ? '<span class="fully-refunded-badge">已全退</span>' : '');
-    html += '<div class="' + cardClass + '" onclick="openSaleDetail(' + (workbenchState.sales.indexOf(s)) + ')">' + cardIcon + '<div class="sale-info">' +
+    html += '<div class="' + cardClass + '" onclick="openSaleDetail(' + (workbenchState.sales.indexOf(s)) + ')">' + getIconDInline('cart', 28) + '<div class="sale-info">' +
       '<div class="sale-product-name">' + escapeHtml(s.productName) + refundBadge + '</div>' +
       '<div class="sale-meta-line"><span>' + escapeHtml(s.productId) + '</span><span class="sale-meta-sep">·</span><span>×' + s.quantity + (s.unit ? ' ' + escapeHtml(s.unit) : '') + '</span><span class="sale-meta-sep">·</span><span>¥' + s.unitPrice.toFixed(2) + '/' + (s.unit ? escapeHtml(s.unit) : '件') + '</span></div>' +
       '<div class="sale-meta-line"><span>' + formatTime(s.saleTime) + '</span></div>' +
       '<div class="sale-bottom-row">' + (sellerTag || '<span></span>') + (payTag || '') + '</div>' +
-      '</div><div class="sale-amount">' + amountPrefix + '¥' + s.totalAmount.toFixed(2) + '</div></div>';
+      '</div><div class="sale-amount">¥' + s.totalAmount.toFixed(2) + '</div></div>';
   });
   html += '</div>';
   container.innerHTML = html;
@@ -4696,7 +4205,6 @@ function openSaleDetail(idx) {
   }
   // 退货信息展示
   if (s.recordType === 'refund') {
-    // 退货记录
     rows += '<div class="sale-detail-row"><div class="sale-detail-label">记录类型</div><div class="sale-detail-value" style="color:var(--danger);font-weight:600;">退货记录</div></div>';
     if (s.refundInfo) {
       if (s.refundInfo.originalOrderNo) rows += '<div class="sale-detail-row"><div class="sale-detail-label">关联原订单</div><div class="sale-detail-value">' + escapeHtml(s.refundInfo.originalOrderNo) + '</div></div>';
@@ -4705,7 +4213,6 @@ function openSaleDetail(idx) {
       if (s.refundInfo.refundTime) rows += '<div class="sale-detail-row"><div class="sale-detail-label">退货时间</div><div class="sale-detail-value">' + formatTime(s.refundInfo.refundTime) + '</div></div>';
     }
   } else if (s.refundInfo && s.refundInfo.remainingQty !== undefined) {
-    // 原销售记录，显示退货状态
     if (s.refundInfo.remainingQty === 0) {
       rows += '<div class="sale-detail-row"><div class="sale-detail-label">退货状态</div><div class="sale-detail-value" style="color:var(--danger);font-weight:600;">已全退</div></div>';
     } else if (s.refundInfo.refundedQty > 0) {
@@ -4714,207 +4221,10 @@ function openSaleDetail(idx) {
   }
   // 退货按钮（仅原销售记录且未全退时显示）
   if (s.recordType !== 'refund' && !(s.refundInfo && s.refundInfo.remainingQty === 0)) {
-    var canRefund = !(s.refundInfo && s.refundInfo.remainingQty !== undefined && s.refundInfo.remainingQty === 0);
-    rows += '<button class="sale-detail-refund-btn" onclick="openRefundModal(' + workbenchState.sales.indexOf(s) + ')"' + (canRefund ? '' : ' disabled') + '><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> 退货</button>';
+    rows += '<button class="sale-detail-refund-btn" onclick="openRefundModal(' + workbenchState.sales.indexOf(s) + ')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> 退货</button>';
   }
   document.getElementById('saleDetailBody').innerHTML = rows;
   document.getElementById('saleDetailModal').classList.add('show');
-}
-
-var _refundTargetId = null;
-
-function openRefundModal(idx) {
-  var s = workbenchState.sales[idx];
-  if (!s) return;
-  _refundTargetId = s.id;
-  closeSaleDetail();
-  var alreadyRefunded = (s.refundInfo && s.refundInfo.refundedQty) || 0;
-  var originalQty = s.quantity + alreadyRefunded;
-  var maxRefund = s.quantity;
-  var refundUnitPrice = s.unitPrice;
-  
-  var html = '';
-  html += '<div class="refund-info-box">';
-  html += '<div class="refund-info-row"><span class="refund-info-label">商品名称</span><span class="refund-info-value">' + escapeHtml(s.productName) + '</span></div>';
-  html += '<div class="refund-info-row"><span class="refund-info-label">原购买数量</span><span class="refund-info-value">' + originalQty + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
-  if (alreadyRefunded > 0) {
-    html += '<div class="refund-info-row"><span class="refund-info-label">已退货数量</span><span class="refund-info-value" style="color:var(--warning);">' + alreadyRefunded + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
-  }
-  html += '<div class="refund-info-row"><span class="refund-info-label">可退数量</span><span class="refund-info-value" style="color:var(--danger);">' + maxRefund + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
-  html += '<div class="refund-info-row"><span class="refund-info-label">单价</span><span class="refund-info-value">¥' + refundUnitPrice.toFixed(2) + '</span></div>';
-  html += '</div>';
-  
-  html += '<div class="refund-input-group">';
-  html += '<label class="refund-input-label">退货数量</label>';
-  html += '<div class="refund-qty-row">';
-  html += '<button type="button" class="refund-qty-btn" onclick="adjustRefundQty(-1)">−</button>';
-  html += '<input type="number" class="refund-input refund-qty-input" id="refundQty" value="1" min="1" max="' + maxRefund + '" oninput="updateRefundAmount()" onblur="clampRefundQty()">';
-  html += '<button type="button" class="refund-qty-btn" onclick="adjustRefundQty(1)">+</button>';
-  html += '</div>';
-  html += '</div>';
-  
-  html += '<div class="refund-input-group">';
-  html += '<label class="refund-input-label">退货人（非必填）</label>';
-  html += '<input type="text" class="refund-input" id="refundPerson" placeholder="输入退货人姓名">';
-  html += '</div>';
-  
-  html += '<div class="refund-input-group">';
-  html += '<label class="refund-input-label">备注（非必填）</label>';
-  html += '<input type="text" class="refund-input" id="refundNote" placeholder="输入退货备注">';
-  html += '</div>';
-  
-  html += '<div class="refund-summary">';
-  html += '<div class="refund-summary-amount" id="refundAmountDisplay">¥' + refundUnitPrice.toFixed(2) + '</div>';
-  html += '<div class="refund-summary-label">退款金额</div>';
-  html += '</div>';
-  
-  document.getElementById('refundModalBody').innerHTML = html;
-  document.getElementById('refundModal').classList.add('show');
-}
-
-function adjustRefundQty(delta) {
-  var input = document.getElementById('refundQty');
-  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
-  if (!s) return;
-  var maxRefund = s.quantity;
-  var val = parseInt(input.value, 10) || 1;
-  val += delta;
-  if (val < 1) val = 1;
-  if (val > maxRefund) val = maxRefund;
-  input.value = val;
-  updateRefundAmount();
-}
-
-function clampRefundQty() {
-  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
-  if (!s) return;
-  var input = document.getElementById('refundQty');
-  var val = parseInt(input.value, 10);
-  var maxRefund = s.quantity;
-  if (isNaN(val) || val < 1) val = 1;
-  if (val > maxRefund) val = maxRefund;
-  input.value = val;
-  updateRefundAmount();
-}
-
-function updateRefundAmount() {
-  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
-  if (!s) return;
-  var input = document.getElementById('refundQty');
-  var qty = parseInt(input.value, 10) || 1;
-  var maxRefund = s.quantity;
-  // 实时验证：超过最大值时自动钳制
-  if (qty > maxRefund) {
-    qty = maxRefund;
-    input.value = qty;
-  }
-  if (qty < 1) {
-    qty = 1;
-    input.value = qty;
-  }
-  var amount = qty * s.unitPrice;
-  var display = document.getElementById('refundAmountDisplay');
-  if (display) display.textContent = '¥' + amount.toFixed(2);
-}
-
-function closeRefundModal() {
-  document.getElementById('refundModal').classList.remove('show');
-  _refundTargetId = null;
-}
-
-function confirmRefund() {
-  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
-  if (!s) { showToast('记录不存在', 'error'); return; }
-  var refundQty = parseInt(document.getElementById('refundQty').value, 10);
-  var refundPerson = document.getElementById('refundPerson').value.trim();
-  var refundNote = document.getElementById('refundNote').value.trim();
-  var maxRefund = s.quantity;
-  
-  
-  var refundAmount = refundQty * s.unitPrice;
-  var refundTime = new Date().toISOString();
-  var alreadyRefunded = (s.refundInfo && s.refundInfo.refundedQty) || 0;
-  var originalQty = s.quantity + alreadyRefunded;
-  var newRemainingQty = s.quantity - refundQty;
-  var newRefundedQty = alreadyRefunded + refundQty;
-  
-  var p = findProductById(s.productId);
-  
-  closeRefundModal();
-  closeSaleDetail();
-  showSaveStatus('saving', '退货处理中...');
-  _lastSaveTime = Date.now();
-  
-  var refundId = 'R' + Date.now().toString(36);
-  var refundRow = mapSaleToDB({
-    id: refundId,
-    orderNo: s.orderNo,
-    productId: s.productId,
-    productName: s.productName,
-    quantity: refundQty,
-    unitPrice: s.unitPrice,
-    totalAmount: refundAmount,
-    unit: s.unit,
-    saleTime: refundTime,
-    seller: s.seller,
-    paymentMethod: s.paymentMethod,
-    creditInfo: s.creditInfo,
-    recordType: 'refund',
-    refundInfo: {
-      originalOrderNo: s.orderNo || s.id,
-      originalSaleId: s.id,
-      refundPerson: refundPerson || '',
-      refundNote: refundNote || '',
-      refundTime: refundTime
-    }
-  });
-  
-  var newQty = newRemainingQty;
-  var newTotalAmount = newQty * s.unitPrice;
-  var updatedRefundInfo = {
-    refundedQty: newRefundedQty,
-    remainingQty: newRemainingQty,
-    originalQty: originalQty
-  };
-  
-  var newStock = p ? p.stock + refundQty : 0;
-  
-  // 串行执行避免并发问题
-  sbInsert('sales', [refundRow]).then(function(inserted) {
-    var row = Array.isArray(inserted) ? inserted[0] : inserted;
-    var mapped = mapSaleFromDB(row);
-    workbenchState.sales.unshift(mapped);
-    return sbUpdateOne('sales', s.id, {
-      quantity: newQty,
-      total_amount: newTotalAmount,
-      refund_info: updatedRefundInfo
-    });
-  }).then(function() {
-    if (p) {
-      return sbUpdateOne('products', s.productId, { stock: newStock, updated_at: refundTime });
-    }
-    // 商品已删除，跳过库存退回
-  }).then(function() {
-    
-    s.quantity = newQty;
-    s.totalAmount = newTotalAmount;
-    s.refundInfo = updatedRefundInfo;
-    
-    if (p) {
-      p.stock = newStock;
-      p.updatedAt = refundTime;
-    }
-    
-    renderSellList();
-    renderDashboard();
-    renderCreditRecords();
-    showSaveStatus('saved', '退货成功', 1500);
-    showToast('退货成功：' + s.productName + ' ×' + refundQty + (p ? '，库存已退回' : '（商品已删除，未退回库存）'), 'success');
-  }).catch(function(e) {
-    console.error('[confirmRefund] 退货失败:', e);
-    showSaveStatus('failed', '退货失败', 3000);
-    showToast('退货失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
-  });
 }
 
 /* ===== Credit Records (赊账记录) ===== */
@@ -5098,9 +4408,9 @@ function renderCreditRecords() {
   if (search) creditFilterMode = 'all';
   var todayPrefix = todayStr();
   var sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  // Filter sales that have paymentMethod === 'credit' and are NOT refund records
+  // Filter sales that have paymentMethod === 'credit'
   var creditSales = workbenchState.sales.filter(function(s) {
-    return s.paymentMethod === 'credit' && s.recordType !== 'refund';
+    return s.paymentMethod === 'credit';
   });
   var filtered = creditSales.filter(function(s) {
     var matchSearch = !search ||
@@ -5139,53 +4449,33 @@ function renderCreditRecords() {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('book', 48) + '</div><div class="empty-text">' + (creditSales.length === 0 ? '还没有赊账记录' : '没有找到匹配的赊账记录') + '</div></div>';
     return;
   }
-  // Summary bar — single block based on current filter, color bound to status
-  var summaryLabel, summaryAmount, summaryCount;
-  var summaryColors = {
-    all: { bg: 'linear-gradient(135deg, #007AFF, #4A9FFF)', shadow: 'rgba(0,122,255,0.25)' },
-    repaid: { bg: 'linear-gradient(135deg, #34C759, #5AD679)', shadow: 'rgba(52,199,89,0.25)' },
-    unpaid: { bg: 'linear-gradient(135deg, #FF3B30, #FF6B6B)', shadow: 'rgba(255,59,48,0.25)' }
-  };
-  var sc = summaryColors[creditStatusFilter] || summaryColors.all;
+  // Summary bar — single block, linked to filter status
+  var summaryLabel, summaryValue, summarySub, summaryClass;
   if (creditStatusFilter === 'repaid') {
-    summaryLabel = '已还金额';
-    summaryAmount = repaidAmount;
-    summaryCount = repaidCount;
+    summaryLabel = '已还金额'; summaryValue = '¥' + repaidAmount.toFixed(2); summarySub = '已还 ' + repaidCount + ' 笔'; summaryClass = 'filter-repaid';
   } else if (creditStatusFilter === 'unpaid') {
-    summaryLabel = '未还金额';
-    summaryAmount = unpaidAmount;
-    summaryCount = unpaidCount;
+    summaryLabel = '未还金额'; summaryValue = '¥' + unpaidAmount.toFixed(2); summarySub = '未还 ' + unpaidCount + ' 笔'; summaryClass = 'filter-unpaid';
   } else {
-    summaryLabel = '记账总额';
-    summaryAmount = totalAmount;
-    summaryCount = filtered.length;
+    summaryLabel = '记账总额'; summaryValue = '¥' + totalAmount.toFixed(2); summarySub = '共 ' + filtered.length + ' 笔'; summaryClass = '';
   }
-  var html = '<div class="credit-summary-bar" style="background:' + sc.bg + ';box-shadow:0 4px 20px ' + sc.shadow + ';">' +
+  var html = '<div class="credit-summary-bar ' + summaryClass + '">' +
     '<div class="credit-summary-item">' +
       '<div class="credit-summary-label">' + summaryLabel + '</div>' +
-      '<div class="credit-summary-value">¥' + summaryAmount.toFixed(2) + '</div>' +
-      '<div class="credit-summary-sub">' + summaryCount + ' 笔</div>' +
+      '<div class="credit-summary-value">' + summaryValue + '</div>' +
+      '<div class="credit-summary-sub">' + summarySub + '</div>' +
     '</div>' +
   '</div>';
-  // Status filter — update existing buttons (no rebuild, no flicker)
-  var filterEl = document.getElementById('creditStatusFilter');
-  if (filterEl) {
-    var btns = filterEl.querySelectorAll('.credit-status-btn');
-    var counts = [filtered.length, repaidCount, unpaidCount];
-    var statuses = ['all', 'repaid', 'unpaid'];
-    btns.forEach(function(btn, i) {
-      btn.classList.toggle('active', creditStatusFilter === statuses[i]);
-      var countEl = btn.querySelector('.status-count');
-      if (countEl) countEl.textContent = counts[i];
-    });
-  }
-  // Write summary bar into creditRecordsList (above the filter)
-  container.innerHTML = html;
-  var listContainer = document.getElementById('creditListContainer') || container;
-  // Reset html for list content only
-  html = '';
+  // Status filter — capsule with slider
+  html += '<div class="credit-status-filter" id="creditStatusFilter">' +
+    '<div class="credit-status-slider" id="creditStatusSlider"></div>' +
+    '<button class="credit-status-btn' + (creditStatusFilter === 'all' ? ' active' : '') + '" data-status="all" onclick="filterCreditStatus(\'all\')">全部 <span class="status-count">' + filtered.length + '</span></button>' +
+    '<button class="credit-status-btn' + (creditStatusFilter === 'repaid' ? ' active' : '') + '" data-status="repaid" onclick="filterCreditStatus(\'repaid\')">已还 <span class="status-count">' + repaidCount + '</span></button>' +
+    '<button class="credit-status-btn' + (creditStatusFilter === 'unpaid' ? ' active' : '') + '" data-status="unpaid" onclick="filterCreditStatus(\'unpaid\')">未还 <span class="status-count">' + unpaidCount + '</span></button>' +
+  '</div>';
   if (statusFiltered.length === 0) {
-    listContainer.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('search', 48) + '</div><div class="empty-text">该状态下没有记录</div></div>';
+    html += '<div class="empty-state"><div class="empty-icon">' + getIconDInline('search', 48) + '</div><div class="empty-text">该状态下没有记录</div></div>';
+    container.innerHTML = html;
+    // Position slider after DOM is ready
     setTimeout(function() { moveCreditStatusSlider(); }, 0);
     return;
   }
@@ -5232,7 +4522,8 @@ function renderCreditRecords() {
     '</div>';
   });
   html += '</div>';
-  listContainer.innerHTML = html;
+  container.innerHTML = html;
+  // Position slider after DOM is ready
   setTimeout(function() { moveCreditStatusSlider(); }, 0);
 }
 
@@ -5470,24 +4761,206 @@ function confirmRepay() {
   var saleId = s.id;
   hideCenterPopup();
   closeCreditDetail();
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-  var newCreditInfo = Object.assign({}, s.creditInfo || {}, {
-    repayStatus: 'repaid', repayBy: repayBy, repayPersonName: repayPersonName, repayTime: repayTime
-  });
-  sbUpdateOne('sales', saleId, { credit_info: newCreditInfo }).then(function() {
-    s.creditInfo = newCreditInfo;
+  persistDataFresh(function(latest) {
+    var idx = latest.sales.findIndex(function(sr) { return sr.id === saleId; });
+    if (idx < 0) { showToast('记录不存在，可能已被其他成员修改', 'error'); return null; }
+    var ci = latest.sales[idx].creditInfo || {};
+    ci.repayStatus = 'repaid';
+    ci.repayBy = repayBy;
+    ci.repayPersonName = repayPersonName;
+    ci.repayTime = repayTime;
+    latest.sales[idx].creditInfo = ci;
+    return latest;
+  }).then(function(result) {
+    if (!result) return;
     renderCreditRecords();
-    showSaveStatus('saved', '已保存', 1500);
     showToast('还账成功', 'success');
-  }).catch(function(e) {
-    showSaveStatus('failed', '保存失败', 3000);
-    showToast('保存失败，请重试', 'error');
-  });
+  }).catch(function() {});
 }
 
 function closeSaleDetail() {
   document.getElementById('saleDetailModal').classList.remove('show');
+}
+
+/* ===== Refund Functions ===== */
+var _refundTargetId = null;
+
+function openRefundModal(idx) {
+  var s = workbenchState.sales[idx];
+  if (!s) return;
+  _refundTargetId = s.id;
+  closeSaleDetail();
+  var alreadyRefunded = (s.refundInfo && s.refundInfo.refundedQty) || 0;
+  var originalQty = s.quantity + alreadyRefunded;
+  var maxRefund = s.quantity;
+  var refundUnitPrice = s.unitPrice;
+
+  var html = '';
+  html += '<div class="refund-info-box">';
+  html += '<div class="refund-info-row"><span class="refund-info-label">商品名称</span><span class="refund-info-value">' + escapeHtml(s.productName) + '</span></div>';
+  html += '<div class="refund-info-row"><span class="refund-info-label">原购买数量</span><span class="refund-info-value">' + originalQty + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
+  if (alreadyRefunded > 0) {
+    html += '<div class="refund-info-row"><span class="refund-info-label">已退货数量</span><span class="refund-info-value" style="color:var(--warning);">' + alreadyRefunded + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
+  }
+  html += '<div class="refund-info-row"><span class="refund-info-label">可退数量</span><span class="refund-info-value" style="color:var(--danger);">' + maxRefund + (s.unit ? ' ' + escapeHtml(s.unit) : ' 件') + '</span></div>';
+  html += '<div class="refund-info-row"><span class="refund-info-label">单价</span><span class="refund-info-value">¥' + refundUnitPrice.toFixed(2) + '</span></div>';
+  html += '</div>';
+
+  html += '<div class="refund-input-group">';
+  html += '<label class="refund-input-label">退货数量</label>';
+  html += '<div class="refund-qty-row">';
+  html += '<button type="button" class="refund-qty-btn" onclick="adjustRefundQty(-1)">−</button>';
+  html += '<input type="number" class="refund-input refund-qty-input" id="refundQty" value="1" min="1" max="' + maxRefund + '" oninput="updateRefundAmount()" onblur="clampRefundQty()">';
+  html += '<button type="button" class="refund-qty-btn" onclick="adjustRefundQty(1)">+</button>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="refund-input-group">';
+  html += '<label class="refund-input-label">退货人（非必填）</label>';
+  html += '<input type="text" class="refund-input" id="refundPerson" placeholder="输入退货人姓名">';
+  html += '</div>';
+
+  html += '<div class="refund-input-group">';
+  html += '<label class="refund-input-label">备注（非必填）</label>';
+  html += '<input type="text" class="refund-input" id="refundNote" placeholder="输入退货备注">';
+  html += '</div>';
+
+  html += '<div class="refund-summary">';
+  html += '<div class="refund-summary-amount" id="refundAmountDisplay">¥' + refundUnitPrice.toFixed(2) + '</div>';
+  html += '<div class="refund-summary-label">退款金额</div>';
+  html += '</div>';
+
+  document.getElementById('refundModalBody').innerHTML = html;
+  document.getElementById('refundModal').classList.add('show');
+}
+
+function adjustRefundQty(delta) {
+  var input = document.getElementById('refundQty');
+  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
+  if (!s) return;
+  var maxRefund = s.quantity;
+  var val = parseInt(input.value, 10) || 1;
+  val += delta;
+  if (val < 1) val = 1;
+  if (val > maxRefund) val = maxRefund;
+  input.value = val;
+  updateRefundAmount();
+}
+
+function clampRefundQty() {
+  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
+  if (!s) return;
+  var input = document.getElementById('refundQty');
+  var val = parseInt(input.value, 10);
+  var maxRefund = s.quantity;
+  if (isNaN(val) || val < 1) val = 1;
+  if (val > maxRefund) val = maxRefund;
+  input.value = val;
+  updateRefundAmount();
+}
+
+function updateRefundAmount() {
+  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
+  if (!s) return;
+  var input = document.getElementById('refundQty');
+  var qty = parseInt(input.value, 10) || 1;
+  var maxRefund = s.quantity;
+  if (qty > maxRefund) { qty = maxRefund; input.value = qty; }
+  if (qty < 1) { qty = 1; input.value = qty; }
+  var amount = qty * s.unitPrice;
+  var display = document.getElementById('refundAmountDisplay');
+  if (display) display.textContent = '¥' + amount.toFixed(2);
+}
+
+function closeRefundModal() {
+  document.getElementById('refundModal').classList.remove('show');
+  _refundTargetId = null;
+}
+
+function confirmRefund() {
+  var s = workbenchState.sales.find(function(x) { return x.id === _refundTargetId; });
+  if (!s) { showToast('记录不存在', 'error'); return; }
+  var refundQty = parseInt(document.getElementById('refundQty').value, 10);
+  var refundPerson = document.getElementById('refundPerson').value.trim();
+  var refundNote = document.getElementById('refundNote').value.trim();
+  var maxRefund = s.quantity;
+  if (isNaN(refundQty) || refundQty < 1 || refundQty > maxRefund) {
+    showToast('退货数量无效', 'error'); return;
+  }
+
+  var refundAmount = refundQty * s.unitPrice;
+  var refundTime = new Date().toISOString();
+  var alreadyRefunded = (s.refundInfo && s.refundInfo.refundedQty) || 0;
+  var originalQty = s.quantity + alreadyRefunded;
+  var newRemainingQty = s.quantity - refundQty;
+  var newRefundedQty = alreadyRefunded + refundQty;
+
+  var _targetId = _refundTargetId;
+  closeRefundModal();
+
+  persistDataFresh(function(latest) {
+    // 找到原销售记录
+    var saleIdx = latest.sales.findIndex(function(x) { return x.id === _targetId; });
+    if (saleIdx < 0) { showToast('原销售记录不存在', 'error'); return null; }
+    var origSale = latest.sales[saleIdx];
+
+    // 计算退货后的值
+    var _alreadyRefunded = (origSale.refundInfo && origSale.refundInfo.refundedQty) || 0;
+    var _originalQty = origSale.quantity + _alreadyRefunded;
+    var _newRemaining = origSale.quantity - refundQty;
+    var _newRefunded = _alreadyRefunded + refundQty;
+    var _newTotal = _newRemaining * origSale.unitPrice;
+
+    // 更新原销售记录
+    latest.sales[saleIdx].quantity = _newRemaining;
+    latest.sales[saleIdx].totalAmount = _newTotal;
+    latest.sales[saleIdx].refundInfo = {
+      refundedQty: _newRefunded,
+      remainingQty: _newRemaining,
+      originalQty: _originalQty
+    };
+
+    // 库存加回
+    var pIdx = latest.products.findIndex(function(p) { return p.id === origSale.productId; });
+    if (pIdx >= 0) {
+      latest.products[pIdx].stock += refundQty;
+      latest.products[pIdx].updatedAt = refundTime;
+    }
+
+    // 插入退货记录
+    var refundRecord = {
+      id: 'R' + Date.now().toString(36),
+      orderNo: origSale.orderNo,
+      productId: origSale.productId,
+      productName: origSale.productName,
+      quantity: refundQty,
+      unitPrice: origSale.unitPrice,
+      totalAmount: refundAmount,
+      unit: origSale.unit,
+      saleTime: origSale.saleTime,
+      seller: origSale.seller,
+      paymentMethod: origSale.paymentMethod,
+      creditInfo: origSale.creditInfo,
+      recordType: 'refund',
+      refundInfo: {
+        originalOrderNo: origSale.orderNo || origSale.id,
+        originalSaleId: origSale.id,
+        refundPerson: refundPerson,
+        refundNote: refundNote,
+        refundTime: refundTime
+      }
+    };
+    latest.sales.unshift(refundRecord);
+
+    return latest;
+  }).then(function(result) {
+    if (!result) return;
+    renderSellList();
+    renderDashboard();
+    renderCreditRecords();
+    var p = findProductById(s.productId);
+    showToast('退货成功：' + s.productName + ' ×' + refundQty + (p ? '，库存已退回' : '（商品已删除，未退回库存）'), 'success');
+  }).catch(function() {});
 }
 
 function renderLowStock() {
@@ -5511,45 +4984,32 @@ function renderLowStock() {
 function updateThreshold(val) {
   var n = parseInt(val, 10);
   if (isNaN(n) || n < 0) { showToast('请输入有效数字', 'warning'); return; }
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-  sbUpdateOne('preferences', 1, { low_stock_threshold: n }).then(function() {
-    workbenchState.preferences.lowStockThreshold = n;
-    renderLowStock();
-    showSaveStatus('saved', '已保存', 1500);
-    showToast('预警阈值已更新为 ' + n, 'success');
-  }).catch(function(e) {
-    showSaveStatus('failed', '保存失败', 3000);
-    showToast('保存失败，请重试', 'error');
-  });
+  var next = structuredClone(workbenchState);
+  next.preferences.lowStockThreshold = n;
+  persistData(next).then(function() { showToast('预警阈值已更新为 ' + n, 'success'); renderLowStock(); });
 }
 
 function renderDashboard() {
   var totalProducts = workbenchState.products.length;
-  var totalStock = 0, lowStockCount = 0, todaySales = 0, todayCount = 0;
+  var totalStock = 0, totalValue = 0, lowStockCount = 0, todaySales = 0, todayCount = 0;
   var todayPrefix = todayStr();
   var threshold = workbenchState.preferences.lowStockThreshold || 10;
   workbenchState.products.forEach(function(p) {
     totalStock += p.stock;
+    totalValue += (p.stock || 0) * (p.price || 0);
     if (p.stock > 0 && p.stock <= threshold) lowStockCount++;
   });
   workbenchState.sales.forEach(function(s) {
-    if (formatDate(s.saleTime) === todayPrefix) {
-      if (s.recordType === 'refund') {
-        todaySales -= s.totalAmount;
-      } else {
-        todaySales += s.totalAmount;
-        todayCount++;
-      }
-    }
+    if (s.recordType === 'refund') return; // 退货记录不计入今日销售额和交易数
+    if (formatDate(s.saleTime) === todayPrefix) { todaySales += s.totalAmount; todayCount++; }
   });
   var pendingRepairCount = (workbenchState.repairRecords || []).filter(function(r) { return r.status !== 'done'; }).length;
   var repairIconSvg = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
   document.getElementById('statsGrid').innerHTML =
     '<div class="stat-card"><div class="stat-icon">' + getIconDInline('product', 36) + '</div><div class="stat-value">' + totalProducts + '</div><div class="stat-label">商品总数</div></div>' +
-    '<div class="stat-card success"><div class="stat-icon">' + getIconDInline('money', 36) + '</div><div class="stat-value">¥' + todaySales.toFixed(0) + '</div><div class="stat-label">今日销售额</div></div>' +
+    '<div class="stat-card"><div class="stat-icon">' + getIconDInline('chart', 36) + '</div><div class="stat-value">¥' + (totalValue >= 10000 ? (totalValue / 10000).toFixed(2) + '万' : totalValue.toFixed(0)) + '</div><div class="stat-label">库存总价值</div></div>' +
     '<div class="stat-card"><div class="stat-icon">' + getIconDInline('cart', 36) + '</div><div class="stat-value">' + todayCount + '</div><div class="stat-label">今日交易</div></div>' +
-    '<div class="stat-card"><div class="stat-icon">' + getIconDInline('chart', 36) + '</div><div class="stat-value">' + totalStock + '</div><div class="stat-label">总库存量</div></div>' +
+    '<div class="stat-card success"><div class="stat-icon">' + getIconDInline('money', 36) + '</div><div class="stat-value">¥' + todaySales.toFixed(0) + '</div><div class="stat-label">今日销售额</div></div>' +
     '<div class="stat-card warning"><div class="stat-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div><div class="stat-value">' + lowStockCount + '</div><div class="stat-label">低库存商品</div></div>' +
     '<div class="stat-card warning"><div class="stat-icon">' + repairIconSvg + '</div><div class="stat-value">' + pendingRepairCount + '</div><div class="stat-label">待维修</div></div>';
   var recent = workbenchState.products.slice().sort(function(a, b) {
@@ -5940,48 +5400,37 @@ function confirmRepairDone() {
   var doneDate = repairDoneTempDate.year + '-' + String(repairDoneTempDate.month).padStart(2,'0') + '-' + String(repairDoneTempDate.day).padStart(2,'0');
   var idx = repairDoneIdx;
   if (idx < 0) { closeRepairDoneModal(); return; }
-  var r = workbenchState.repairRecords[idx];
-  if (!r || !r.id) { showToast('记录不存在', 'error'); closeRepairDoneModal(); return; }
-  var repairId = r.id;
-  
-  showSaveStatus('saving', '保存中...');
-  closeRepairDoneModal();
-  
-  sbUpdateOne('repair_records', repairId, {
-    status: 'done',
-    done_handler: handler,
-    done_date: doneDate,
-    done_note: note
-  }).then(function() {
-    r.status = 'done';
-    r.doneHandler = handler;
-    r.doneDate = doneDate;
-    r.doneNote = note;
-    closeRepairDetail();
-    renderRepair();
-    showSaveStatus('saved', '已保存', 1500);
-    showToast('已标记为完成', 'success');
-  }).catch(function(e) {
-    showSaveStatus('failed', '保存失败', 3000);
-    showToast('保存失败，请重试', 'error');
+  persistDataFresh(function(next) {
+    if (!next.repairRecords) next.repairRecords = [];
+    if (next.repairRecords[idx]) {
+      next.repairRecords[idx].status = 'done';
+      next.repairRecords[idx].doneHandler = handler;
+      next.repairRecords[idx].doneDate = doneDate;
+      next.repairRecords[idx].doneNote = note;
+    }
+    return next;
+  }).then(function(result) {
+    if (result !== null) {
+      closeRepairDoneModal();
+      closeRepairDetail();
+      renderRepair();
+      showToast('已标记为完成', 'success');
+    }
   });
 }
 
 function deleteRepair(idx) {
   showConfirm(getIconDInline('error', 36), '删除维修记录', '确定要删除这条维修记录吗？此操作不可撤销。', function() {
-    var r = workbenchState.repairRecords[idx];
-    if (!r || !r.id) { showToast('记录不存在', 'error'); return; }
-    var repairId = r.id;
-    closeRepairDetail();
-    showSaveStatus('saving', '删除中...');
-    sbDeleteOne('repair_records', repairId).then(function() {
-      workbenchState.repairRecords.splice(idx, 1);
-      renderRepair();
-      showSaveStatus('saved', '已删除', 1500);
-      showToast('已删除');
-    }).catch(function(e) {
-      showSaveStatus('failed', '删除失败', 3000);
-      showToast('删除失败，请重试', 'error');
+    persistDataFresh(function(next) {
+      if (!next.repairRecords) next.repairRecords = [];
+      next.repairRecords.splice(idx, 1);
+      return next;
+    }).then(function(result) {
+      if (result !== null) {
+        closeRepairDetail();
+        renderRepair();
+        showToast('已删除');
+      }
     });
   });
 }
@@ -6037,63 +5486,39 @@ function saveRepair() {
   var status = repairCurrentStatus;
   var now = new Date();
   var dateStr = (now.getMonth() + 1) + '月' + now.getDate() + '日';
-  
   repairSaving = true;
-  showSaveStatus('saving', '保存中...');
-  closeRepairModal();
-  
-  if (repairEditingIdx >= 0 && workbenchState.repairRecords[repairEditingIdx]) {
-    // 编辑：单条 update
-    var r = workbenchState.repairRecords[repairEditingIdx];
-    var repairId = r.id;
-    var updateData = {
-      customer_name: name || '—',
-      product_name: product || '—',
-      phone: phone,
-      address: address || '—',
-      description: desc || '',
-      status: status
-    };
-    sbUpdateOne('repair_records', repairId, updateData).then(function() {
-      repairSaving = false;
-      r.customerName = name || '—';
-      r.productName = product || '—';
+  persistDataFresh(function(next) {
+    if (!next.repairRecords) next.repairRecords = [];
+    if (repairEditingIdx >= 0 && next.repairRecords[repairEditingIdx]) {
+      var r = next.repairRecords[repairEditingIdx];
       r.phone = phone;
-      r.address = address || '—';
-      r.description = desc || '';
+      r.customerName = name;
+      r.productName = product;
+      r.address = address;
+      r.description = desc;
       r.status = status;
+    } else {
+      next.repairRecords.push({
+        customerName: name || '—',
+        productName: product || '—',
+        phone: phone,
+        address: address || '—',
+        date: dateStr,
+        status: status,
+        description: desc || ''
+      });
+    }
+    return next;
+  }).then(function(result) {
+    repairSaving = false;
+    if (result !== null) {
+      closeRepairModal();
       renderRepair();
-      showSaveStatus('saved', '已保存', 1500);
-      showToast('已更新');
-    }).catch(function(e) {
-      repairSaving = false;
-      showSaveStatus('failed', '保存失败', 3000);
-      showToast('保存失败，请重试', 'error');
-    });
-  } else {
-    // 新增：单条 insert
-    var newRow = {
-      customer_name: name || '—',
-      product_name: product || '—',
-      phone: phone,
-      address: address || '—',
-      date: dateStr,
-      status: status,
-      description: desc || ''
-    };
-    sbInsert('repair_records', [newRow]).then(function(inserted) {
-      repairSaving = false;
-      var insertedRow = Array.isArray(inserted) ? inserted[0] : inserted;
-      workbenchState.repairRecords.push(mapRepairFromDB(insertedRow));
-      renderRepair();
-      showSaveStatus('saved', '已保存', 1500);
-      showToast('已添加');
-    }).catch(function(e) {
-      repairSaving = false;
-      showSaveStatus('failed', '保存失败', 3000);
-      showToast('保存失败，请重试', 'error');
-    });
-  }
+      showToast(repairEditingIdx >= 0 ? '已更新' : '已添加');
+    }
+  }).catch(function() {
+    repairSaving = false;
+  });
 }
 
 function repairCallPhone(num) {
@@ -6146,44 +5571,21 @@ function saveCategory() {
   if (!name) { showToast('请输入分类名称', 'warning'); return; }
   var editIdx = document.getElementById('editCategoryIndex').value;
   closeCategoryModal();
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-
-  if (editIdx !== '') {
-    // 编辑分类：更新分类名 + 更新该分类下所有商品的 category 字段
-    var oldName = workbenchState.categories[parseInt(editIdx, 10)];
-    workbenchState.categories[parseInt(editIdx, 10)] = name;
-    var affectedProducts = workbenchState.products.filter(function(p) { return p.category === oldName; });
-    var tasks = [sbDeleteAll('categories').then(function() {
-      var catRows = workbenchState.categories.map(function(n, i) { return { name: n, sort_order: i }; });
-      if (catRows.length > 0) return sbInsert('categories', catRows);
-    })];
-    affectedProducts.forEach(function(p) {
-      p.category = name;
-      tasks.push(sbUpdateOne('products', p.id, { category: name }));
-    });
-    Promise.all(tasks).then(function() {
-      renderCategories();
-      showSaveStatus('saved', '已保存', 1500);
-      showToast('分类已更新', 'success');
-    }).catch(function(e) {
-      showSaveStatus('failed', '保存失败', 3000);
-      showToast('保存失败，请重试', 'error');
-    });
-  } else {
-    // 新增分类：单条 insert
-    if (workbenchState.categories.indexOf(name) >= 0) { showToast('该分类已存在', 'warning'); showSaveStatus('idle', '', 0); return; }
-    workbenchState.categories.push(name);
-    sbInsert('categories', [{ name: name, sort_order: workbenchState.categories.length - 1 }]).then(function() {
-      renderCategories();
-      showSaveStatus('saved', '已保存', 1500);
-      showToast('分类已添加', 'success');
-    }).catch(function(e) {
-      workbenchState.categories.pop();
-      showSaveStatus('failed', '保存失败', 3000);
-      showToast('保存失败，请重试', 'error');
-    });
-  }
+  persistDataFresh(function(latest) {
+    if (editIdx !== '') {
+      var oldName = latest.categories[parseInt(editIdx, 10)];
+      latest.categories[parseInt(editIdx, 10)] = name;
+      latest.products.forEach(function(p) { if (p.category === oldName) p.category = name; });
+    } else {
+      if (latest.categories.indexOf(name) >= 0) { showToast('该分类已存在', 'warning'); return null; }
+      latest.categories.push(name);
+    }
+    return latest;
+  }).then(function(result) {
+    if (!result) return;
+    showToast(editIdx !== '' ? '分类已更新' : '分类已添加', 'success');
+    renderCategories();
+  }).catch(function() {});
 }
 
 function deleteCategory(idx) {
@@ -6192,29 +5594,16 @@ function deleteCategory(idx) {
   var msg = '确定要删除分类「' + catName + '」吗？';
   if (count > 0) msg += '该分类下有 ' + count + ' 种商品，将自动归入「其他」。';
   showConfirm(getIconDInline('error', 36), '删除分类', msg, function() {
-    showSaveStatus('saving', '删除中...');
-    _lastSaveTime = Date.now();
-    workbenchState.categories.splice(idx, 1);
-    if (workbenchState.categories.indexOf('其他') < 0) workbenchState.categories.push('其他');
-    var affectedProducts = workbenchState.products.filter(function(p) { return p.category === catName; });
-    var tasks = [sbDeleteAll('categories').then(function() {
-      var catRows = workbenchState.categories.map(function(n, i) { return { name: n, sort_order: i }; });
-      if (catRows.length > 0) return sbInsert('categories', catRows);
-    })];
-    affectedProducts.forEach(function(p) {
-      p.category = '其他';
-      tasks.push(sbUpdateOne('products', p.id, { category: '其他' }));
-    });
-    Promise.all(tasks).then(function() {
-      window.WORKBENCH_DATA = structuredClone(workbenchState);
-      _lastDataFingerprint = ''; // force next poll to re-evaluate
-      renderCategories();
-      showSaveStatus('saved', '已删除', 1500);
+    persistDataFresh(function(latest) {
+      latest.categories.splice(idx, 1);
+      if (latest.categories.indexOf('其他') < 0) latest.categories.push('其他');
+      latest.products.forEach(function(p) { if (p.category === catName) p.category = '其他'; });
+      return latest;
+    }).then(function(result) {
+      if (!result) return;
       showToast('分类已删除', 'success');
-    }).catch(function(e) {
-      showSaveStatus('failed', '删除失败', 3000);
-      showToast('删除失败，请重试', 'error');
-    });
+      renderCategories();
+    }).catch(function() {});
   });
 }
 
@@ -6289,7 +5678,7 @@ function getIconDInline(name, size, colorOverride) {
     blue: '#007AFF', green: '#34C759', red: '#FF3B30', orange: '#FF9500', gray: '#86868B', purple: '#5856D6'
   };
   var paths = {
-    product: { bg: 'blue', svg: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/>' },
+    product: { bg: 'blue', svg: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/>' },
     money: { bg: 'green', svg: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
     cart: { bg: 'blue', plain: true, svg: '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>' },
     chart: { bg: 'blue', plain: true, sw: 2.5, svg: '<path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v4"/><path d="M13 11v9"/><path d="M18 6v14"/>' },
@@ -6538,7 +5927,6 @@ function renumberBatchSelection() {
     var matchCat = cats.length === 0 || cats.indexOf(p.category) >= 0;
     return matchSearch && matchCat;
   });
-  filtered.sort(function(a, b) { return b.id.localeCompare(a.id); });
   // Assign sequential numbers based on list position
   var orderNum = 0;
   filtered.forEach(function(p) {
@@ -6820,70 +6208,51 @@ function checkoutCart() {
   var _cartPayment = cartPayment;
   var _cartCreditInfo = cartCreditInfo;
   closeCartPanel();
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-
-  // 先检查库存
-  for (var i = 0; i < keys.length; i++) {
-    var id = keys[i];
-    var item = _cartItems[id];
-    var p = findProductById(id);
-    if (!p) { showToast('商品不存在：' + item.name + '（' + id + '）', 'error'); showSaveStatus('failed', '保存失败', 3000); return; }
-    if (item.qty > p.stock) { showToast(item.name + ' 库存不足，当前库存：' + p.stock, 'warning'); showSaveStatus('failed', '保存失败', 3000); return; }
-  }
-
-  var saleTime = new Date().toISOString();
-  var totalAmount = 0;
-  var saleRows = [];
-  var productUpdates = [];
-
-  for (var i = 0; i < keys.length; i++) {
-    var id = keys[i];
-    var item = _cartItems[id];
-    var p = findProductById(id);
-    var newStock = p.stock - item.qty;
-    var saleId = 'S' + Date.now().toString(36) + (i > 0 ? i.toString(36) : '');
-    var orderNo = generateOrderNo(workbenchState);
-    var saleRow = mapSaleToDB({
-      id: saleId, orderNo: orderNo, productId: id, productName: item.name,
-      quantity: item.qty, unitPrice: item.price, totalAmount: item.qty * item.price,
-      unit: item.unit, saleTime: saleTime, seller: _cartSeller,
-      paymentMethod: _cartPayment, creditInfo: _cartPayment === 'credit' ? _cartCreditInfo : null
-    });
-    saleRows.push(saleRow);
-    productUpdates.push({ id: id, stock: newStock });
-    totalAmount += item.qty * item.price;
-  }
-
-  // 构建并行任务：批量插入销售记录 + 逐条更新商品库存 + 更新订单计数器
-  var tasks = [sbInsert('sales', saleRows)];
-  productUpdates.forEach(function(u) {
-    tasks.push(sbUpdateOne('products', u.id, { stock: u.stock, updated_at: saleTime }));
-  });
-  tasks.push(sbUpdateOne('preferences', 1, { order_counter: workbenchState._orderCounter }));
-
-  Promise.all(tasks).then(function(results) {
-    // 更新本地状态
-    var inserted = results[0];
-    if (Array.isArray(inserted)) {
-      inserted.forEach(function(row) { workbenchState.sales.unshift(mapSaleFromDB(row)); });
+  persistDataFresh(function(latest) {
+    var saleTime = new Date().toISOString();
+    var totalAmount = 0;
+    /* 先检查所有商品是否存在且库存充足，任一不满足则整体回滚 */
+    for (var i = 0; i < keys.length; i++) {
+      var id = keys[i];
+      var item = _cartItems[id];
+      var idx = latest.products.findIndex(function(pr) { return pr.id === id; });
+      if (idx < 0) { showToast('商品不存在：' + item.name + '（' + id + '）', 'error'); return null; }
+      if (item.qty > latest.products[idx].stock) {
+        showToast(item.name + ' 库存不足，当前库存：' + latest.products[idx].stock, 'warning');
+        return null;
+      }
     }
-    productUpdates.forEach(function(u) {
-      var p = findProductById(u.id);
-      if (p) { p.stock = u.stock; p.updatedAt = saleTime; }
-    });
+    /* 全部通过检查后，再执行扣减和记录 */
+    for (var i = 0; i < keys.length; i++) {
+      var id = keys[i];
+      var item = _cartItems[id];
+      var idx = latest.products.findIndex(function(pr) { return pr.id === id; });
+      latest.products[idx].stock -= item.qty;
+      latest.products[idx].updatedAt = saleTime;
+      var saleRecord = {
+        id: 'S' + Date.now().toString(36) + (i > 0 ? i.toString(36) : ''),
+        orderNo: generateOrderNo(latest),
+        productId: id, productName: item.name,
+        quantity: item.qty, unitPrice: item.price, totalAmount: item.qty * item.price,
+        unit: item.unit, saleTime: saleTime,
+        seller: _cartSeller, paymentMethod: _cartPayment,
+        creditInfo: _cartPayment === 'credit' ? _cartCreditInfo : null
+      };
+      latest.sales.unshift(saleRecord);
+      totalAmount += item.qty * item.price;
+    }
+    latest._checkoutTotal = totalAmount;
+    return latest;
+  }).then(function(result) {
+    if (!result) return;
     cartItems = {};
     cartSeller = null;
     cartPayment = null;
     cartCreditInfo = null;
     updateCartFab();
-    showSaleSuccessPopup(totalAmount, null, '共 ' + keys.length + ' 件商品');
+    showSaleSuccessPopup(workbenchState._checkoutTotal || 0, null, '共 ' + keys.length + ' 件商品');
     renderSellList(); renderDashboard();
-    showSaveStatus('saved', '已保存', 1500);
-  }).catch(function(e) {
-    showSaveStatus('failed', '保存失败', 3000);
-    showToast('保存失败，请重试', 'error');
-  });
+  }).catch(function() {});
 }
 
 /* ===== Tool Management ===== */
@@ -6969,8 +6338,7 @@ function renderToolLoans() {
     html += '<div class="tool-loan-card" onclick="openToolLoanDetail(' + realIdx + ')">' +
       '<div class="tool-loan-icon ' + iconClass + '">' + icon + '</div>' +
       '<div class="tool-loan-info">' +
-        '<div class="tool-loan-borrower">' + escapeHtml(l.borrower) + '</div>' +
-        '<div class="tool-loan-tools">' + escapeHtml(toolNames) + '</div>' +
+        '<div class="tool-loan-top"><span class="tool-loan-borrower">' + escapeHtml(l.borrower) + '</span><span class="tool-loan-tools">' + escapeHtml(toolNames) + '</span></div>' +
         '<div class="tool-loan-meta"><span>' + formatTime(l.loanDate) + '</span>' + (sellerTag || '') + '</div>' +
       '</div>' +
       '<span class="tool-loan-status ' + statusClass + '">' + statusText + '</span>' +
@@ -7013,43 +6381,18 @@ function submitTool() {
   var note = document.getElementById('toolNote').value.trim();
   if (!name) { showToast('请输入工具名称', 'error'); return; }
   if (isNaN(stock) || stock < 0) { showToast('请输入有效的库存数量', 'error'); return; }
-  closeToolModal();
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-
+  var nextState = structuredClone(workbenchState);
+  if (!nextState.tools) nextState.tools = [];
   if (id) {
-    // 编辑：单条 update
-    var tool = (workbenchState.tools || []).find(function(t) { return t.id === id; });
-    if (tool) {
-      sbUpdateOne('tools', id, { name: name, stock: stock, unit: unit || '个', note: note }).then(function() {
-        tool.name = name; tool.stock = stock; tool.unit = unit || '个'; tool.note = note;
-        renderToolManagement();
-        showSaveStatus('saved', '已保存', 1500);
-        showToast('工具已更新', 'success');
-      }).catch(function(e) {
-        showSaveStatus('failed', '保存失败', 3000);
-        showToast('保存失败，请重试', 'error');
-      });
-    }
+    var tool = nextState.tools.find(function(t) { return t.id === id; });
+    if (tool) { tool.name = name; tool.stock = stock; tool.unit = unit; tool.note = note; }
   } else {
-    // 新增：单条 insert
-    var newId = 'T' + String(workbenchState.nextToolId || 1).padStart(3, '0');
-    var newTool = { id: newId, name: name, stock: stock, unit: unit || '个', note: note };
-    sbInsert('tools', [newTool]).then(function(inserted) {
-      var row = Array.isArray(inserted) ? inserted[0] : inserted;
-      var mapped = mapToolFromDB(row);
-      if (!workbenchState.tools) workbenchState.tools = [];
-      workbenchState.tools.push(mapped);
-      workbenchState.nextToolId = (workbenchState.nextToolId || 1) + 1;
-      sbUpdateOne('preferences', 1, { next_tool_id: workbenchState.nextToolId });
-      renderToolManagement();
-      showSaveStatus('saved', '已保存', 1500);
-      showToast('工具已添加', 'success');
-    }).catch(function(e) {
-      showSaveStatus('failed', '保存失败', 3000);
-      showToast('保存失败，请重试', 'error');
-    });
+    var newId = 'T' + String(nextState.nextToolId || 1).padStart(3, '0');
+    nextState.tools.push({ id: newId, name: name, stock: stock, unit: unit || '个', note: note });
+    nextState.nextToolId = (nextState.nextToolId || 1) + 1;
   }
+  closeToolModal();
+  persistData(nextState);
 }
 
 function deleteTool(id) {
@@ -7059,18 +6402,10 @@ function deleteTool(id) {
 }
 
 function confirmDeleteTool(id) {
+  var nextState = structuredClone(workbenchState);
+  nextState.tools = (nextState.tools || []).filter(function(t) { return t.id !== id; });
   hideCenterPopup();
-  showSaveStatus('saving', '删除中...');
-  _lastSaveTime = Date.now();
-  sbDeleteOne('tools', id).then(function() {
-    workbenchState.tools = (workbenchState.tools || []).filter(function(t) { return t.id !== id; });
-    renderToolManagement();
-    showSaveStatus('saved', '已删除', 1500);
-    showToast('工具已删除', 'success');
-  }).catch(function(e) {
-    showSaveStatus('failed', '删除失败', 3000);
-    showToast('删除失败，请重试', 'error');
-  });
+  persistData(nextState);
 }
 
 function openToolLoanModal() {
@@ -7310,29 +6645,28 @@ function submitToolLoan() {
   var _loanSelectedTools = loanSelectedTools.map(function(t) { return { toolId: t.toolId, toolName: t.toolName, quantity: t.quantity, unit: t.unit }; });
   var _loanSelectedSeller = loanSelectedSeller;
   closeToolLoanModal();
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-
-  var newLoan = {
-    id: 'TL' + Date.now(),
-    borrower: borrower, phone: phone, address: address,
-    tools: _loanSelectedTools, seller: _loanSelectedSeller || '',
-    loan_date: loanDateStr, expected_return_date: returnDateStr, actual_return_date: '',
-    deposit: deposit, note: note, status: 'out',
-    created_at: new Date().toISOString()
-  };
-  sbInsert('tool_loans', [newLoan]).then(function(inserted) {
-    var row = Array.isArray(inserted) ? inserted[0] : inserted;
-    var mapped = mapLoanFromDB(row);
-    if (!workbenchState.toolLoans) workbenchState.toolLoans = [];
-    workbenchState.toolLoans.unshift(mapped);
-    renderToolManagement();
-    showSaveStatus('saved', '已保存', 1500);
+  persistDataFresh(function(latest) {
+    if (!latest.toolLoans) latest.toolLoans = [];
+    latest.toolLoans.push({
+      id: 'TL' + Date.now(),
+      borrower: borrower,
+      phone: phone,
+      address: address,
+      tools: _loanSelectedTools,
+      seller: _loanSelectedSeller || '',
+      loanDate: loanDateStr,
+      expectedReturnDate: returnDateStr,
+      actualReturnDate: '',
+      deposit: deposit,
+      note: note,
+      status: 'out',
+      createdAt: new Date().toISOString()
+    });
+    return latest;
+  }).then(function(result) {
+    if (!result) return;
     showToast('工具借出登记成功', 'success');
-  }).catch(function(e) {
-    showSaveStatus('failed', '保存失败', 3000);
-    showToast('保存失败，请重试', 'error');
-  });
+  }).catch(function() {});
 }
 
 function openToolLoanDetail(idx) {
@@ -7378,33 +6712,27 @@ function returnToolLoan(idx) {
   var loanId = workbenchState.toolLoans[idx] ? workbenchState.toolLoans[idx].id : null;
   if (!loanId) return;
   closeToolLoanDetail();
-  showSaveStatus('saving', '保存中...');
-  _lastSaveTime = Date.now();
-  var now = new Date();
-  var returnDate = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
-  sbUpdateOne('tool_loans', loanId, { status: 'returned', actual_return_date: returnDate }).then(function() {
-    var loan = workbenchState.toolLoans.find(function(tl) { return tl.id === loanId; });
-    if (loan) { loan.status = 'returned'; loan.actualReturnDate = returnDate; }
-    window.WORKBENCH_DATA = structuredClone(workbenchState);
-    _lastDataFingerprint = '';
-    renderToolManagement();
-    showSaveStatus('saved', '已保存', 1500);
+  persistDataFresh(function(latest) {
+    var li = latest.toolLoans.findIndex(function(tl) { return tl.id === loanId; });
+    if (li < 0) { showToast('记录不存在，可能已被其他成员修改', 'error'); return null; }
+    latest.toolLoans[li].status = 'returned';
+    var now = new Date();
+    latest.toolLoans[li].actualReturnDate = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    return latest;
+  }).then(function(result) {
+    if (!result) return;
     showToast('工具归还已确认', 'success');
-  }).catch(function(e) {
-    showSaveStatus('failed', '保存失败', 3000);
-    showToast('保存失败，请重试', 'error');
-  });
+  }).catch(function() {});
 }
 
 function renderAll() {
   if (currentTab === 'dashboard') renderDashboard();
   if (currentTab === 'products') renderProducts();
+  if (currentTab === 'products') renderProducts();
   if (currentTab === 'sales') renderSales();
   if (currentTab === 'credit') renderCreditRecords();
   if (currentTab === 'lowstock') renderLowStock();
   if (currentTab === 'tools') renderToolManagement();
-  if (currentTab === 'repair') renderRepair();
-  if (currentTab === 'categories') renderCategories();
 
 }
 
@@ -7696,206 +7024,10 @@ window.addEventListener('resize', function() {
   });
 })();
 
-// ===== Pull to Refresh =====
-(function() {
-  var pullStartY = 0, pullCurrentY = 0, isPulling = false;
-  var pullDistance = 0;
-  var PULL_THRESHOLD = 70; // 下拉超过这个距离触发刷新
-  var MAX_PULL = 120;
-  var indicator = null, overlay = null;
-  var isRefreshing = false;
-
-  function getIndicator() {
-    if (!indicator) indicator = document.getElementById('pullRefreshIndicator');
-    return indicator;
-  }
-  function getOverlay() {
-    if (!overlay) overlay = document.getElementById('pullRefreshOverlay');
-    return overlay;
-  }
-
-  function onTouchStart(e) {
-    if (isRefreshing) return;
-    // 只有页面滚动到顶部才能触发下拉
-    if (window.scrollY > 0) return;
-    // 弹窗打开时不触发
-    if (document.querySelector('.modal.show, .modal-overlay.show, .popover-overlay.show, .center-popup-overlay.show, .confirm-overlay.show')) return;
-    pullStartY = e.touches[0].clientY;
-    isPulling = true;
-    pullDistance = 0;
-  }
-
-  function onTouchMove(e) {
-    if (!isPulling || isRefreshing) return;
-    pullCurrentY = e.touches[0].clientY;
-    var diff = pullCurrentY - pullStartY;
-    if (diff <= 0) {
-      pullDistance = 0;
-      var ind = getIndicator(), ov = getOverlay();
-      if (ind) ind.style.transform = 'translateX(-50%) translateY(-60px)';
-      if (ov) ov.style.height = '0px';
-      return;
-    }
-    // 阻尼效果：越拉越费力
-    pullDistance = Math.min(diff * 0.5, MAX_PULL);
-    var ind = getIndicator(), ov = getOverlay();
-    if (ind) {
-      ind.style.transform = 'translateX(-50%) translateY(' + (pullDistance - 60) + 'px)';
-      if (pullDistance >= PULL_THRESHOLD) {
-        ind.classList.add('ready');
-      } else {
-        ind.classList.remove('ready');
-      }
-    }
-    if (ov) ov.style.height = pullDistance + 'px';
-  }
-
-  function onTouchEnd(e) {
-    if (!isPulling) return;
-    isPulling = false;
-    var ind = getIndicator(), ov = getOverlay();
-    if (pullDistance >= PULL_THRESHOLD) {
-      // 触发刷新
-      doRefresh();
-    } else {
-      // 回弹
-      if (ind) {
-        ind.style.transition = 'transform 0.3s ease';
-        ind.style.transform = 'translateX(-50%) translateY(-60px)';
-        ind.classList.remove('ready');
-        setTimeout(function() { ind.style.transition = ''; }, 300);
-      }
-      if (ov) {
-        ov.style.transition = 'height 0.3s ease';
-        ov.style.height = '0px';
-        setTimeout(function() { ov.style.transition = ''; }, 300);
-      }
-    }
-    pullDistance = 0;
-  }
-
-  function doRefresh() {
-        // 先检查页面是否有更新，有更新则强制刷新整个页面
-    checkAppVersion().then(function(hasUpdate) {
-      if (hasUpdate) {
-        // 页面代码已更新，强制重新加载（绕过缓存）
-        window.location.reload();
-        return;
-      }
-      doRefreshData();
-    });
-  }
-
-  function doRefreshData() {
-    isRefreshing = true;
-    var ind = getIndicator(), ov = getOverlay();
-    if (ind) {
-      ind.style.transition = 'transform 0.3s ease';
-      ind.style.transform = 'translateX(-50%) translateY(10px)';
-      ind.classList.add('refreshing');
-      ind.classList.remove('ready');
-    }
-    if (ov) {
-      ov.style.transition = 'height 0.3s ease';
-      ov.style.height = '50px';
-    }
-    // 强制从云端拉取最新数据（立即执行，不延迟）
-    _lastDataFingerprint = '';
-    if (refreshTimer) { clearTimeout(refreshTimer); refreshTimer = null; }
-    if (_isRefreshing) {
-      // 如果正在自动刷新，等它完成
-      var waitInterval = setInterval(function() {
-        if (!_isRefreshing) {
-          clearInterval(waitInterval);
-          _lastDataFingerprint = '';
-          scheduleRefresh();
-        }
-      }, 50);
-    } else {
-      scheduleRefresh();
-    }
-    // 等待刷新完成
-    var checkInterval = setInterval(function() {
-      if (!_isRefreshing) {
-        clearInterval(checkInterval);
-        finishRefresh();
-      }
-    }, 100);
-    // 超时保护
-    setTimeout(function() {
-      clearInterval(checkInterval);
-      if (isRefreshing) finishRefresh();
-    }, 8000);
-  }
-
-  // 版本检查：从服务器获取版本文件，与本地不同则说明页面有更新
-  function checkAppVersion() {
-    var url = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '') + 'version.txt?t=' + Date.now();
-    return fetch(url, { cache: 'no-store' })
-      .then(function(resp) {
-        if (!resp.ok) { return false; }
-        return resp.text();
-      })
-      .then(function(text) {
-        if (!text) { return false; }
-        var serverVersion = text.trim();
-        return serverVersion && serverVersion !== APP_VERSION;
-      })
-      .catch(function(err) {
-        return false;
-      });
-  }
-
-  function finishRefresh() {
-    isRefreshing = false;
-    var ind = getIndicator(), ov = getOverlay();
-    if (ind) {
-      ind.style.transition = 'transform 0.3s ease';
-      ind.style.transform = 'translateX(-50%) translateY(-60px)';
-      ind.classList.remove('refreshing', 'ready');
-      setTimeout(function() { ind.style.transition = ''; }, 300);
-    }
-    if (ov) {
-      ov.style.transition = 'height 0.3s ease';
-      ov.style.height = '0px';
-      setTimeout(function() { ov.style.transition = ''; }, 300);
-    }
-  }
-
-  document.addEventListener('touchstart', onTouchStart, { passive: true });
-  document.addEventListener('touchmove', onTouchMove, { passive: true });
-  document.addEventListener('touchend', onTouchEnd, { passive: true });
-  document.addEventListener('touchcancel', onTouchEnd, { passive: true });
-})();
-
 function init() {
-  // 版本标记，方便确认加载的是最新代码
-  console.log('[Version] cloud-sync v8.3');
-  window.APP_VERSION = 'v8.3';
-  // Show loading overlay
-  var loadingOverlay = document.createElement("div");
-  loadingOverlay.id = "cloudLoadingOverlay";
-  loadingOverlay.style.cssText = "position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;";
-  loadingOverlay.innerHTML = '<div style="width:40px;height:40px;border:3px solid var(--primary-100);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-size:15px;color:var(--text-secondary);">正在加载云端数据...</div>';
-  if (!document.getElementById("cloudLoadingOverlay")) document.body.appendChild(loadingOverlay);
-  var style = document.createElement("style");
-  style.textContent = "@keyframes spin{to{transform:rotate(360deg)}}";
-  document.head.appendChild(style);
-
-  initStateFromCloud().then(function() {
-    var ov = document.getElementById("cloudLoadingOverlay");
-    if (ov) ov.remove();
+  initState();
   var d = new Date(), p = function(n) { return n < 10 ? '0' + n : '' + n; };
   document.getElementById('headerDate').textContent = d.getFullYear() + '年' + p(d.getMonth()+1) + '月' + p(d.getDate()) + '日 ' + ['日','一','二','三','四','五','六'][d.getDay()];
-  // 添加同步指示器
-  var headerDate = document.getElementById('headerDate');
-  if (headerDate && !document.getElementById('syncIndicator')) {
-    var si = document.createElement('div');
-    si.id = 'syncIndicator';
-    si.style.cssText = 'font-size:11px;color:var(--success);text-align:right;line-height:1.3;margin-top:2px;';
-    si.textContent = '同步中...';
-    headerDate.parentNode.appendChild(si);
-  }
 
   // 把所有 overlay 弹窗和悬浮按钮移到 body 末尾，避免 .main 的 transform 影响 fixed 定位
   document.querySelectorAll(
@@ -7944,12 +7076,6 @@ function init() {
   switchTab('dashboard');
   renderCategories();
   initPhoneLongPress();
-  initRealtimeSync();
-  }).catch(function(err) {
-    console.error("Init failed:", err);
-    var ov = document.getElementById("cloudLoadingOverlay");
-    if (ov) { ov.innerHTML = '<div style="color:var(--danger);font-size:15px;">数据加载失败，请检查网络后刷新</div><button onclick="location.reload()" style="margin-top:12px;padding:8px 24px;border-radius:999px;background:var(--primary);color:#fff;border:none;font-size:14px;cursor:pointer;">重试</button>'; }
-  });
 }
 
 if (document.readyState === 'loading') {
@@ -7979,8 +7105,8 @@ if (document.readyState === 'loading') {
     <div class="credit-detail-footer" id="creditDetailFooter" style="padding:12px 20px 18px;border-top:0.5px solid var(--border);"></div>
   </div>
 </div>
-
-<div class="refund-modal-overlay" id="refundModal" onclick="if(event.target===this)closeRefundModal()">
+<!-- Refund Modal -->
+<div class="refund-modal-overlay" id="refundModal" onclick="if(event.target===this)closeRefundModal()" ontouchmove="if(!event.target.closest('.refund-modal-card'))event.preventDefault()">
   <div class="refund-modal-card">
     <div class="refund-modal-header">
       <h3>退货操作</h3>
