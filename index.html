@@ -5189,6 +5189,7 @@ function renderCreditRecords() {
     setTimeout(function() { moveCreditStatusSlider(); }, 0);
     return;
   }
+  statusFiltered.sort(function(a, b) { return new Date(b.saleTime) - new Date(a.saleTime); });
   html += '<div class="credit-records-list">';
   statusFiltered.forEach(function(s) {
     var saleIdx = workbenchState.sales.indexOf(s);
