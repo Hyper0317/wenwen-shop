@@ -80,7 +80,7 @@ log("----- 第一步：清空云端旧数据 -----","info");
 for(var t=0;t<tables.length;t++){var tbl=tables[t];try{log("清空 "+tbl+"...");await delAll(tbl);log("✅ "+tbl+" 已清空");}catch(e){log("⚠️ 清空 "+tbl+" 失败: "+e.message,"warn");}step++;setProgress(Math.round(step/totalSteps*100));}
 
 log("","info");log("----- 第二步：导入新数据 -----","info");
-var steps=[{n:"categories",d:MIGRATION_DATA.categories,c:null},{n:"products",d:MIGRATION_DATA.products,c:"id"},{n:"tools",d:MIGRATION_DATA.tools,c:"id"},{n:"sales",d:MIGRATION_DATA.sales,c:"id"},{n:"repair_records",d:MIGRATION_DATA.repair_records,c:"id"},{n:"tool_loans",d:MIGRATION_DATA.tool_loans,c:"id"},{n:"preferences",d:MIGRATION_DATA.preferences,c:"id"}];
+var steps=[{n:"categories",d:MIGRATION_DATA.categories,c:null},{n:"products",d:MIGRATION_DATA.products,c:"id"},{n:"tools",d:MIGRATION_DATA.tools,c:"id"},{n:"sales",d:MIGRATION_DATA.sales,c:"id"},{n:"repair_records",d:MIGRATION_DATA.repair_records.map(function(r){var c=Object.assign({},r);delete c.id;return c;}),c:null},{n:"tool_loans",d:MIGRATION_DATA.tool_loans,c:"id"},{n:"preferences",d:MIGRATION_DATA.preferences,c:"id"}];
 for(var s=0;s<steps.length;s++){var st=steps[s];try{log("导入 "+st.n+" ("+st.d.length+" 条)...");if(st.c){results[st.n]=await upsert(st.n,st.d,st.c);}else{var url=SUPABASE_URL+"/rest/v1/"+st.n;var r=await sbXHR("POST",url,sbHeaders(),JSON.stringify(st.d));results[st.n]=Array.isArray(r)?r.length:0;}log("✅ "+st.n+": 导入 "+results[st.n]+" 条");}catch(e){results[st.n]=0;log("❌ "+st.n+" 导入失败: "+e.message,"err");}step++;setProgress(Math.round(step/totalSteps*100));}
 
 log("","info");log("----- 第三步：验证导入结果 -----","info");
