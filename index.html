@@ -4134,6 +4134,7 @@ function renderProducts() {
   }
   var html = '<div class="product-grid">';
   var batchNum = 0;
+  var allCards = [];
   filtered.forEach(function(p) {
     var stockClass = getStockClass(p.stock);
     var cardClass = stockClass === 'out' ? ' out-stock' : (stockClass === 'low' ? ' low-stock' : '');
@@ -4154,7 +4155,7 @@ function renderProducts() {
         '<button class="btn-sell" onclick="event.stopPropagation();openSellModal(\'' + p.id + '\')" ' + (p.stock <= 0 ? 'disabled' : '') + '>' + (p.stock <= 0 ? '罾货' : '<svg class="icon-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>售出') + '</button>' +
         '<button class="btn-cart" onclick="event.stopPropagation();addToCart(\'' + p.id + '\')" ' + (p.stock <= 0 ? 'disabled' : '') + '><svg class="icon-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>加入购物车</button>' +
       '</div>';
-    html += '<div class="product-card' + cardClass + batchClass + '" data-pid="' + p.id + '" ' + cardClick + '>' +
+    allCards.push('<div class="product-card' + cardClass + batchClass + '" data-pid="' + p.id + '" ' + cardClick + '>' +
       batchCheck +
       '<span class="product-card-id">' + escapeHtml(p.id) + '</span>' +
       editBtnHtml +
@@ -4174,8 +4175,21 @@ function renderProducts() {
       actionsHtml +
     '</div>';
   });
-  html += '</div>';
-  container.innerHTML = html;
+  // 分批渲染：先显示前60个，其余用requestAnimationFrame异步补充
+  var RENDER_SIZE = 60;
+  var idx = 0;
+  function flushBatch() {
+    var end = Math.min(idx + RENDER_SIZE, allCards.length);
+    for (var i = idx; i < end; i++) { html += allCards[i]; }
+    idx = end;
+    if (idx < allCards.length) {
+      container.innerHTML = html + '</div>';
+      requestAnimationFrame(flushBatch);
+    } else {
+      container.innerHTML = html + '</div>';
+    }
+  }
+  flushBatch();
 }
 
 function openSellModal(productId) {
