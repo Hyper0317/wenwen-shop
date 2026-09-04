@@ -4175,7 +4175,21 @@ function renderProducts() {
     '</div>';
   });
   html += '</div>';
-  container.innerHTML = html;
+  // 分批渲染：先显示前60个卡片，其余用rAF异步补充
+  var _cards = html.split('<div class="product-card');
+  var _header = _cards[0]; // <div class="product-grid">
+  var _cardParts = _cards.slice(1).map(function(c) { return '<div class="product-card' + c; });
+  var _idx = 0;
+  function _flush() {
+    var _end = Math.min(_idx + 60, _cardParts.length);
+    var _html = _header;
+    for (var i = 0; i < _end; i++) { _html += _cardParts[i]; }
+    _html += '</div>';
+    container.innerHTML = _html;
+    _idx = _end;
+    if (_idx < _cardParts.length) { requestAnimationFrame(_flush); }
+  }
+  _flush();
 }
 
 function openSellModal(productId) {
