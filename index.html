@@ -4681,7 +4681,30 @@ function renderSales() {
       '</div><div class="sale-amount">' + amountPrefix + '¥' + s.totalAmount.toFixed(2) + '</div></div>';
   });
   html += '</div>';
-  container.innerHTML = html;
+  // 懒加载：首屏20条，滚动触底追加
+  var _sCards = html.split('<div class="sale-card');
+  var _sHeader = _sCards[0];
+  var _sCardParts = _sCards.slice(1).map(function(c) { return '<div class="sale-card' + c; });
+  var _sVisible = 0;
+  function _renderSalesBatch() {
+    var _end = Math.min(_sVisible + 20, _sCardParts.length);
+    var _html = _sHeader;
+    for (var i = 0; i < _end; i++) { _html += _sCardParts[i]; }
+    if (_end < _sCardParts.length) { _html += '<div id="_salesSentinel" style="height:1px;"></div>'; }
+    _html += '</div>';
+    container.innerHTML = _html;
+    _sVisible = _end;
+    if (_sVisible < _sCardParts.length) { _setupSalesObserver(); }
+  }
+  function _setupSalesObserver() {
+    var _sentinel = document.getElementById('_salesSentinel');
+    if (!_sentinel) return;
+    var _obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { _obs.disconnect(); _renderSalesBatch(); }
+    }, { rootMargin: '300px' });
+    _obs.observe(_sentinel);
+  }
+  _renderSalesBatch();
 }
 
 function openSaleDetail(idx) {
@@ -5263,7 +5286,30 @@ function renderCreditRecords() {
     '</div>';
   });
   html += '</div>';
-  listContainer.innerHTML = html;
+  // 懒加载：首屏20条，滚动触底追加
+  var _cCards = html.split('<div class="credit-record-card');
+  var _cHeader = _cCards[0];
+  var _cCardParts = _cCards.slice(1).map(function(c) { return '<div class="credit-record-card' + c; });
+  var _cVisible = 0;
+  function _renderCreditBatch() {
+    var _end = Math.min(_cVisible + 20, _cCardParts.length);
+    var _html = _cHeader;
+    for (var i = 0; i < _end; i++) { _html += _cCardParts[i]; }
+    if (_end < _cCardParts.length) { _html += '<div id="_creditSentinel" style="height:1px;"></div>'; }
+    _html += '</div>';
+    listContainer.innerHTML = _html;
+    _cVisible = _end;
+    if (_cVisible < _cCardParts.length) { _setupCreditObserver(); }
+  }
+  function _setupCreditObserver() {
+    var _sentinel = document.getElementById('_creditSentinel');
+    if (!_sentinel) return;
+    var _obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { _obs.disconnect(); _renderCreditBatch(); }
+    }, { rootMargin: '300px' });
+    _obs.observe(_sentinel);
+  }
+  _renderCreditBatch();
   setTimeout(function() { moveCreditStatusSlider(); }, 0);
 }
 
