@@ -4622,6 +4622,7 @@ function renderSales() {
       '<div class="sales-summary-value">' + salesCount + '<span class="sales-summary-unit">笔</span></div>' +
     '</div>' +
   '</div>';
+  filtered.sort(function(a, b) { return new Date(b.saleTime) - new Date(a.saleTime); });
   html += '<div class="sales-list">';
   filtered.forEach(function(s, idx) {
     var sellerTag = '';
