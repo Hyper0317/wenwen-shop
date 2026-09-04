@@ -4175,21 +4175,30 @@ function renderProducts() {
     '</div>';
   });
   html += '</div>';
-  // 分批渲染：先显示前60个卡片，其余用rAF异步补充
+  // 懒加载：先渲染首屏6个，滚动到底部时再追加，搜索时不受影响
   var _cards = html.split('<div class="product-card');
-  var _header = _cards[0]; // <div class="product-grid">
+  var _header = _cards[0];
   var _cardParts = _cards.slice(1).map(function(c) { return '<div class="product-card' + c; });
-  var _idx = 0;
-  function _flush() {
-    var _end = Math.min(_idx + 60, _cardParts.length);
+  var _visible = 0;
+  var _BATCH = 6;
+  function _renderVisible() {
+    var _end = Math.min(_visible + _BATCH, _cardParts.length);
     var _html = _header;
     for (var i = 0; i < _end; i++) { _html += _cardParts[i]; }
     _html += '</div>';
     container.innerHTML = _html;
-    _idx = _end;
-    if (_idx < _cardParts.length) { requestAnimationFrame(_flush); }
+    _visible = _end;
   }
-  _flush();
+  _renderVisible();
+  if (_visible < _cardParts.length) {
+    var _scrollContainer = container.closest('.page-content') || container;
+    var _onScroll = function() {
+      if (_visible >= _cardParts.length) { _scrollContainer.removeEventListener('scroll', _onScroll); return; }
+      var _nearBottom = _scrollContainer.scrollHeight - _scrollContainer.scrollTop - _scrollContainer.clientHeight < 200;
+      if (_nearBottom) { _BATCH = 20; _renderVisible(); }
+    };
+    _scrollContainer.addEventListener('scroll', _onScroll, { passive: true });
+  }
 }
 
 function openSellModal(productId) {
