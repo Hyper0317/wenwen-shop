@@ -63,8 +63,7 @@ var SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 
 function sbHeaders(){return{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=representation"};}
 function sbXHR(m,u,h,b){return new Promise(function(res,rej){var x=new XMLHttpRequest();x.open(m,u,true);for(var k in h){if(h.hasOwnProperty(k))x.setRequestHeader(k,h[k]);}x.timeout=30000;x.onreadystatechange=function(){if(x.readyState===4){if(x.status>=200&&x.status<300){try{res(JSON.parse(x.responseText));}catch(e){res(x.responseText);}}else{rej(new Error(m+" "+u+" failed: "+x.status+" "+x.responseText));}}};x.onerror=function(){rej(new Error("network error"));};x.ontimeout=function(){rej(new Error("timeout"));};x.send(b||null);});}
-function log(msg,type){var box=document.getElementById("logBox");var s=document.createElement("span");if(type==="err")s.className="err";else if(type==="warn")s.className="warn";else if(type==="info")s.className="info";s.textContent=msg+"
-";box.appendChild(s);box.scrollTop=box.scrollHeight;}
+function log(msg,type){var box=document.getElementById("logBox");var s=document.createElement("span");if(type==="err")s.className="err";else if(type==="warn")s.className="warn";else if(type==="info")s.className="info";s.textContent=msg+"\n";box.appendChild(s);box.scrollTop=box.scrollHeight;}
 function setProgress(p){document.getElementById("progressBar").style.width=p+"%";}
 
 async function delAll(table){var url=SUPABASE_URL+"/rest/v1/"+table;if(table==="categories"){url+="?name=neq.%22%22";}else{url+="?id=gt.0";}await sbXHR("DELETE",url,sbHeaders(),null);}
@@ -87,11 +86,11 @@ for(var s=0;s<steps.length;s++){var st=steps[s];try{log("导入 "+st.n+" ("+st.d
 log("","info");log("----- 第三步：验证导入结果 -----","info");
 var exp={categories:MIGRATION_DATA.categories.length,products:MIGRATION_DATA.products.length,tools:MIGRATION_DATA.tools.length,sales:MIGRATION_DATA.sales.length,repair_records:MIGRATION_DATA.repair_records.length,tool_loans:MIGRATION_DATA.tool_loans.length,preferences:MIGRATION_DATA.preferences.length};
 var allOk=true;var vHtml="";
-for(var i=0;i<tables.length;i++){var tb=tables[i];try{var cnt=await countT(tb);var ok=cnt===exp[tb];if(!ok)allOk=false;log((ok?"✅":"⚠️")+" "+tb+": 云端 "+cnt+" 条 / 预期 "+exp[tb]+" 条",ok?"":"warn");vHtml+="<div class="stat"><span>"+(ok?"✅":"⚠️")+" "+tb+"</span><span class="count">"+cnt+" / "+exp[tb]+"</span></div>";}catch(e){allOk=false;log("❌ 无法验证 "+tb+": "+e.message,"err");vHtml+="<div class="stat"><span>❌ "+tb+"</span><span class="count">验证失败</span></div>";}}
+for(var i=0;i<tables.length;i++){var tb=tables[i];try{var cnt=await countT(tb);var ok=cnt===exp[tb];if(!ok)allOk=false;log((ok?"✅":"⚠️")+" "+tb+": 云端 "+cnt+" 条 / 预期 "+exp[tb]+" 条",ok?"":"warn");vHtml+="<div class='stat'><span>"+(ok?"✅":"⚠️")+" "+tb+"</span><span class='count'>"+cnt+" / "+exp[tb]+"</span></div>";}catch(e){allOk=false;log("❌ 无法验证 "+tb+": "+e.message,"err");vHtml+="<div class='stat'><span>❌ "+tb+"</span><span class='count'>验证失败</span></div>";}}
 
 setProgress(100);log("","info");if(allOk){log("===== ✅ 迁移完成！所有数据验证通过 =====","info");}else{log("===== ⚠️ 迁移完成，但部分数据验证不匹配 =====","warn");}log("完成时间: "+new Date().toLocaleString());
-var ra=document.getElementById("resultArea");ra.innerHTML="<div class="card"><h2>"+(allOk?"✅":"⚠️")+" 迁移结果</h2>"+vHtml+"</div>";
-if(allOk){ra.innerHTML+="<div class="result-box result-ok">✅ 所有数据已成功导入！请打开 <a href="https://hyper0317.github.io/wenwen-shop/" target="_blank">雯雯的小店网页版</a> 验证。</div>";}else{ra.innerHTML+="<div class="result-box result-fail">⚠️ 部分数据可能未完全导入，请截图发给小黄。</div>";}
+var ra=document.getElementById("resultArea");ra.innerHTML="<div class='card'><h2>"+(allOk?"✅":"⚠️")+" 迁移结果</h2>"+vHtml+"</div>";
+if(allOk){ra.innerHTML+="<div class='result-box result-ok'>✅ 所有数据已成功导入！请打开 <a href='https://hyper0317.github.io/wenwen-shop/' target='_blank'>雯雯的小店网页版</a> 验证。</div>";}else{ra.innerHTML+="<div class='result-box result-fail'>⚠️ 部分数据可能未完全导入，请截图发给小黄。</div>";}
 btn.textContent="迁移完成";btn.className=allOk?"btn btn-success":"btn btn-danger";
 }
 
