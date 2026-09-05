@@ -1698,21 +1698,21 @@ body {
   border-radius: var(--radius); padding: 20px 16px;
   margin-bottom: 12px; box-shadow: 0 4px 20px rgba(255,59,48,0.25);
 }
-.credit-summary-item { flex: 1; text-align: center; padding: 0 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.credit-summary-item { flex: 1; text-align: center; padding: 0 6px; display: flex; flex-direction: column; justify-content: center; }
 .credit-summary-label {
-  font-size: 13px; color: rgba(255,255,255,0.75);
-  font-weight: 500; margin-bottom: 6px; letter-spacing: 0.3px;
+  font-size: 11px; color: rgba(255,255,255,0.7);
+  font-weight: 500; margin-bottom: 4px; letter-spacing: 0.3px;
 }
 .credit-summary-value {
-  font-size: 36px; font-weight: 800; color: #fff;
+  font-size: 24px; font-weight: 800; color: #fff;
   font-family: "DIN Alternate", "Helvetica Neue", "Arial", sans-serif;
   font-variant-numeric: tabular-nums; letter-spacing: -0.5px; line-height: 1.2;
 }
 .credit-summary-sub {
-  font-size: 13px; color: rgba(255,255,255,0.7);
-  font-weight: 500; margin-top: 4px;
+  font-size: 12px; color: rgba(255,255,255,0.65);
+  font-weight: 500; margin-top: 2px;
 }
-.credit-summary-unit { font-size: 18px; font-weight: 600; margin-left: 2px; }
+.credit-summary-unit { font-size: 15px; font-weight: 600; margin-left: 2px; }
 .credit-summary-divider {
   width: 1px; background: rgba(255,255,255,0.18);
   margin: 2px 0; flex-shrink: 0;
@@ -2074,7 +2074,7 @@ body {
       <span class="bn-label">概览</span>
     </button>
     <button class="bottom-nav-item" data-tab="products" data-idx="1">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
       <span class="bn-label">商品</span>
     </button>
     <button class="bottom-nav-item" data-tab="sales" data-idx="2">
@@ -2107,7 +2107,7 @@ body {
 <div class="main">
   <div class="tab-content active" id="tab-dashboard">
     <div class="stats-grid" id="statsGrid"></div>
-    <div class="section-title"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 最近添加商品</span></div>
+    <div class="section-title"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 最近添加商品</span></div>
     <div id="recentProducts"></div>
   </div>
 
@@ -2332,7 +2332,7 @@ body {
   <div class="tab-content" id="tab-tools">
     <!-- Tool Inventory Section -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;margin-bottom:20px;">
-      <div class="section-title" style="margin:0;"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 工具库存</span></div>
+      <div class="section-title" style="margin:0;"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 工具库存</span></div>
       <button onclick="openToolModal()" style="background:var(--primary);color:#fff;border:none;padding:7px 18px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;box-shadow:0 3px 8px rgba(0,122,255,0.3),0 1px 3px rgba(0,122,255,0.2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>添加工具</button>
     </div>
     <div id="toolInventoryList"></div>
@@ -2721,7 +2721,7 @@ body {
 <div class="modal-overlay" id="detailModal" ontouchmove="if(!event.target.closest('.modal'))event.preventDefault()">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 商品详情</div>
+      <div class="modal-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 商品详情</div>
       <button class="modal-close" onclick="closeDetailModal()">✕</button>
     </div>
     <div class="modal-body" id="detailModalBody"></div>
@@ -3653,39 +3653,38 @@ function getStockBadgeText(qty) {
   return '有货';
 }
 
-// ===== 拼音首字母映射表（覆盖常用汉字）=====
-var PINYIN_MAP = {
-  '阿':'a','艾':'a','爱':'a','安':'a','岸':'a','按':'a','案':'a','暗':'a','奥':'a','澳':'a',
-  '巴':'b','白':'b','百':'b','摆':'b','柏':'b','班':'b','般':'b','板':'b','半':'b','办':'b','包':'b','宝':'b','保':'b','堡':'b','报':'b','薄':'b','北':'b','贝':'b','备':'b','倍':'b','被':'b','本':'b','苯':'b','比':'b','毕':'b','币':'b','必':'b','闭':'b','碧':'b','边':'b','变':'b','标':'b','表':'b','别':'b','宾':'b','冰':'b','丙':'b','柄':'b','并':'b','波':'b','玻':'b','补':'b','布':'b','步':'b','部':'b','不':'b',
-  '才':'c','材':'c','彩':'c','菜':'c','参':'c','餐':'c','仓':'c','操':'c','草':'c','册':'c','侧':'c','层':'c','叉':'c','茶':'c','查':'c','差':'c','柴':'c','产':'c','长':'c','场':'c','常':'c','厂':'c','超':'c','朝':'c','潮':'c','车':'c','彻':'c','尘':'c','晨':'c','成':'c','城':'c','承':'c','程':'c','惩':'c','池':'c','迟':'c','尺':'c','齿':'c','冲':'c','重':'c','充':'c','出':'c','初':'c','除':'c','厨':'c','楚':'c','处':'c','触':'c','川':'c','穿':'c','传':'c','船':'c','窗':'c','串':'c','床':'c','创':'c','吹':'c','锤':'c','春':'c','纯':'c','瓷':'c','慈':'c','辞':'c','磁':'c','次':'c','从':'c','粗':'c','促':'c','催':'c','脆':'c','村':'c','存':'c','寸':'c','搓':'c','错':'c',
-  '搭':'d','达':'d','打':'d','大':'d','代':'d','带':'d','袋':'d','戴':'d','丹':'d','单':'d','担':'d','胆':'d','但':'d','弹':'d','蛋':'d','当':'d','挡':'d','刀':'d','导':'d','岛':'d','倒':'d','到':'d','道':'d','得':'d','德':'d','灯':'d','登':'d','等':'d','低':'d','底':'d','地':'d','弟':'d','帝':'d','电':'d','店':'d','垫':'d','典':'d','点':'d','碘':'d','淀':'d','钉':'d','顶':'d','定':'d','东':'d','冬':'d','动':'d','冻':'d','洞':'d','都':'d','斗':'d','豆':'d','毒':'d','独':'d','度':'d','渡':'d','端':'d','短':'d','段':'d','断':'d','堆':'d','对':'d','吨':'d','顿':'d','多':'d','朵':'d',
-  '额':'e','俄':'e','恶':'e','恩':'e','儿':'e','耳':'e','二':'e',
-  '发':'f','伐':'f','罚':'f','法':'f','帆':'f','翻':'f','凡':'f','烦':'f','反':'f','返':'f','范':'f','方':'f','房':'f','防':'f','妨':'f','仿':'f','访':'f','放':'f','飞':'f','非':'f','肥':'f','废':'f','费':'f','分':'f','芬':'f','粉':'f','丰':'f','风':'f','封':'f','峰':'f','锋':'f','蜂':'f','凤':'f','奉':'f','佛':'f','否':'f','夫':'f','扶':'f','服':'f','浮':'f','符':'f','幅':'f','福':'f','辐':'f','府':'f','腐':'f','父':'f','付':'f','负':'f','妇':'f','附':'f','复':'f','副':'f','富':'f','覆':'f',
-  '改':'g','盖':'g','干':'g','甘':'g','杆':'g','赶':'g','感':'g','刚':'g','钢':'g','港':'g','高':'g','糕':'g','稿':'g','告':'g','哥':'g','歌':'g','革':'g','格':'g','隔':'g','个':'g','各':'g','给':'g','根':'g','跟':'g','工':'g','弓':'g','公':'g','功':'g','共':'g','供':'g','宫':'g','狗':'g','够':'g','构':'g','购':'g','谷':'g','股':'g','骨':'g','固':'g','故':'g','顾':'g','刮':'g','挂':'g','关':'g','观':'g','管':'g','馆':'g','贯':'g','灌':'g','光':'g','广':'g','归':'g','规':'g','硅':'g','轨':'g','柜':'g','贵':'g','滚':'g','国':'g','果':'g','过':'g',
-  '哈':'h','海':'h','害':'h','含':'h','寒':'h','韩':'h','汉':'h','焊':'h','杭':'h','豪':'h','好':'h','号':'h','合':'h','何':'h','河':'h','核':'h','贺':'h','黑':'h','痕':'h','很':'h','恒':'h','横':'h','衡':'h','轰':'h','红':'h','洪':'h','虹':'h','侯':'h','后':'h','厚':'h','呼':'h','弧':'h','胡':'h','湖':'h','虎':'h','互':'h','户':'h','护':'h','花':'h','华':'h','滑':'h','化':'h','划':'h','怀':'h','坏':'h','环':'h','还':'h','换':'h','黄':'h','皇':'h','煌':'h','回':'h','会':'h','汇':'h','绘':'h','婚':'h','活':'h','火':'h','获':'h','或':'h','货':'h','霍':'h',
-  '机':'j','鸡':'j','积':'j','基':'j','绩':'j','激':'j','及':'j','吉':'j','极':'j','级':'j','即':'j','急':'j','集':'j','几':'j','己':'j','济':'j','计':'j','记':'j','技':'j','际':'j','季':'j','既':'j','剂':'j','继':'j','加':'j','家':'j','佳':'j','嘉':'j','夹':'j','甲':'j','架':'j','假':'j','价':'j','坚':'j','间':'j','监':'j','检':'j','减':'j','剪':'j','简':'j','见':'j','建':'j','剑':'j','健':'j','舰':'j','渐':'j','将':'j','江':'j','姜':'j','匠':'j','交':'j','胶':'j','焦':'j','角':'j','脚':'j','教':'j','阶':'j','接':'j','节':'j','洁':'j','结':'j','截':'j','捷':'j','姐':'j','解':'j','介':'j','界':'j','借':'j','今':'j','金':'j','津':'j','紧':'j','仅':'j','进':'j','近':'j','晋':'j','浸':'j','禁':'j','京':'j','经':'j','精':'j','景':'j','警':'j','净':'j','竞':'j','境':'j','静':'j','纠':'j','酒':'j','旧':'j','救':'j','就':'j','居':'j','局':'j','菊':'j','矩':'j','举':'j','巨':'j','具':'j','俱':'j','卷':'j','决':'j','绝':'j','君':'j','均':'j','俊':'j',
-  '开':'k','凯':'k','楷':'k','刊':'k','看':'k','康':'k','抗':'k','考':'k','烤':'k','靠':'k','科':'k','壳':'k','可':'k','克':'k','客':'k','课':'k','肯':'k','坑':'k','空':'k','孔':'k','控':'k','口':'k','扣':'k','枯':'k','库':'k','裤':'k','跨':'k','块':'k','快':'k','宽':'k','矿':'k','况':'k','框':'k','亏':'k','葵':'k','馈':'k','困':'k','扩':'k',
-  '拉':'l','啦':'l','来':'l','蓝':'l','栏':'l','拦':'l','篮':'l','兰':'l','烂':'l','滥':'l','郎':'l','廊':'l','朗':'l','浪':'l','劳':'l','老':'l','乐':'l','勒':'l','雷':'l','镭':'l','类':'l','冷':'l','厘':'l','梨':'l','离':'l','理':'l','里':'l','力':'l','立':'l','丽':'l','利':'l','励':'l','历':'l','厉':'l','连':'l','廉':'l','怜':'l','联':'l','莲':'l','炼':'l','恋':'l','链':'l','良':'l','凉':'l','梁':'l','量':'l','两':'l','亮':'l','辽':'l','料':'l','列':'l','劣':'l','猎':'l','邻':'l','林':'l','临':'l','伶':'l','灵':'l','岭':'l','领':'l','令':'l','另':'l','留':'l','流':'l','琉':'l','硫':'l','柳':'l','六':'l','龙':'l','隆':'l','楼':'l','漏':'l','卢':'l','芦':'l','鲁':'l','陆':'l','录':'l','路':'l','驴':'l','铝':'l','旅':'l','律':'l','绿':'l','氯':'l','滤':'l','乱':'l','略':'l','轮':'l','论':'l','罗':'l','螺':'l','络':'l','落':'l','璃':'l','锣':'l','麓':'l',
-  '麻':'m','马':'m','码':'m','玛':'m','买':'m','卖':'m','麦':'m','满':'m','曼':'m','慢':'m','忙':'m','盲':'m','毛':'m','冒':'m','帽':'m','贸':'m','美':'m','镁':'m','门':'m','蒙':'m','猛':'m','梦':'m','弥':'m','米':'m','密':'m','蜜':'m','棉':'m','免':'m','面':'m','苗':'m','秒':'m','庙':'m','妙':'m','民':'m','敏':'m','名':'m','明':'m','铭':'m','命':'m','摸':'m','模':'m','膜':'m','磨':'m','魔':'m','抹':'m','末':'m','莫':'m','墨':'m','默':'m','谋':'m','木':'m','目':'m','牧':'m','穆':'m',
-  '拿':'n','那':'n','纳':'n','乃':'n','奶':'n','耐':'n','南':'n','男':'n','难':'n','脑':'n','闹':'n','内':'n','能':'n','尼':'n','泥':'n','你':'n','逆':'n','年':'n','念':'n','娘':'n','鸟':'n','尿':'n','业':'n','宁':'n','凝':'n','牛':'n','纽':'n','农':'n','浓':'n','女':'n',
-  '欧':'o','偶':'o',
-  '拍':'p','排':'p','牌':'p','派':'p','盘':'p','判':'p','旁':'p','胖':'p','抛':'p','跑':'p','泡':'p','培':'p','配':'p','喷':'p','盆':'p','朋':'p','棚':'p','膨':'p','批':'p','皮':'p','疲':'p','匹':'p','屁':'p','片':'p','偏':'p','漂':'p','票':'p','拼':'p','品':'p','平':'p','评':'p','瓶':'p','坡':'p','破':'p','剖':'p','铺':'p','普':'p',
-  '七':'q','期':'q','漆':'q','齐':'q','奇':'q','骑':'q','旗':'q','企':'q','起':'q','气':'q','汽':'q','契':'q','器':'q','卡':'q','千':'q','迁':'q','铅':'q','前':'q','钱':'q','潜':'q','浅':'q','枪':'q','墙':'q','强':'q','抢':'q','桥':'q','切':'q','茄':'q','亲':'q','青':'q','轻':'q','氢':'q','清':'q','情':'q','晴':'q','求':'q','球':'q','区':'q','曲':'q','驱':'q','取':'q','去':'q','趣':'q','全':'q','权':'q','泉':'q','圈':'q','缺':'q','确':'q','群':'q',
-  '然':'r','燃':'r','染':'r','让':'r','绕':'r','热':'r','人':'r','仁':'r','忍':'r','认':'r','任':'r','日':'r','容':'r','溶':'r','融':'r','柔':'r','肉':'r','如':'r','乳':'r','入':'r','软':'r','锐':'r','润':'r',
-  '撒':'s','赛':'s','三':'s','散':'s','桑':'s','色':'s','森':'s','杀':'s','沙':'s','刹':'s','傻':'s','晒':'s','山':'s','闪':'s','善':'s','伤':'s','商':'s','上':'s','烧':'s','少':'s','绍':'s','蛇':'s','设':'s','社':'s','射':'s','涉':'s','摄':'s','申':'s','伸':'s','身':'s','深':'s','神':'s','生':'s','声':'s','胜':'s','省':'s','圣':'s','师':'s','诗':'s','施':'s','湿':'s','十':'s','石':'s','时':'s','实':'s','拾':'s','食':'s','使':'s','始':'s','世':'s','市':'s','示':'s','式':'s','事':'s','试':'s','视':'s','室':'s','适':'s','收':'s','手':'s','寿':'s','售':'s','受':'s','输':'s','蔬':'s','术':'s','树':'s','数':'s','刷':'s','衰':'s','双':'s','水':'s','税':'s','顺':'s','说':'s','丝':'s','司':'s','私':'s','思':'s','斯':'s','死':'s','四':'s','寺':'s','似':'s','松':'s','速':'s','塑':'s','宿':'s','酸':'s','算':'s','随':'s','碎':'s','孙':'s','锁':'s',
-  '塌':'t','塔':'t','台':'t','太':'t','泰':'t','谈':'t','弹':'t','汤':'t','糖':'t','唐':'t','堂':'t','躺':'t','逃':'t','套':'t','特':'t','梯':'t','提':'t','题':'t','体':'t','替':'t','天':'t','田':'t','甜':'t','条':'t','铁':'t','厅':'t','听':'t','通':'t','同':'t','铜':'t','童':'t','桶':'t','筒':'t','统':'t','投':'t','头':'t','透':'t','突':'t','图':'t','涂':'t','土':'t','推':'t','退':'t','吞':'t','托':'t','脱':'t','拖':'t',
-  '瓦':'w','外':'w','完':'w','玩':'w','晚':'w','万':'w','王':'w','网':'w','往':'w','忘':'w','望':'w','危':'w','威':'w','微':'w','为':'w','围':'w','尾':'w','委':'w','卫':'w','未':'w','文':'w','闻':'w','稳':'w','问':'w','翁':'w','窝':'w','我':'w','沃':'w','污':'w','屋':'w','无':'w','吴':'w','武':'w','五':'w','舞':'w','务':'w','物':'w','误':'w',
-  '夕':'x','西':'x','吸':'x','希':'x','析':'x','息':'x','习':'x','席':'x','洗':'x','喜':'x','系':'x','细':'x','下':'x','夏':'x','先':'x','纤':'x','鲜':'x','闲':'x','咸':'x','显':'x','险':'x','现':'x','线':'x','宪':'x','相':'x','香':'x','箱':'x','湘':'x','想':'x','向':'x','项':'x','象':'x','像':'x','消':'x','小':'x','晓':'x','孝':'x','效':'x','校':'x','些':'x','协':'x','写':'x','泄':'x','卸':'x','心':'x','新':'x','信':'x','兴':'x','星':'x','行':'x','型':'x','形':'x','醒':'x','修':'x','秀':'x','袖':'x','须':'x','需':'x','许':'x','叙':'x','续':'x','宣':'x','旋':'x','选':'x','学':'x','雪':'x','血':'x','寻':'x','循':'x',
-  '压':'y','牙':'y','亚':'y','烟':'y','延':'y','严':'y','研':'y','盐':'y','颜':'y','眼':'y','演':'y','羊':'y','阳':'y','洋':'y','仰':'y','养':'y','样':'y','腰':'y','摇':'y','咬':'y','药':'y','要':'y','也':'y','夜':'y','业':'y','叶':'y','液':'y','一':'y','伊':'y','衣':'y','医':'y','依':'y','仪':'y','宜':'y','移':'y','遗':'y','乙':'y','已':'y','以':'y','亿':'y','义':'y','艺':'y','议':'y','易':'y','异':'y','益':'y','意':'y','因':'y','银':'y','引':'y','印':'y','应':'y','英':'y','樱':'y','营':'y','赢':'y','硬':'y','永':'y','用':'y','优':'y','油':'y','游':'y','有':'y','右':'y','于':'y','予':'y','余':'y','鱼':'y','娱':'y','雨':'y','语':'y','玉':'y','育':'y','预':'y','域':'y','元':'y','原':'y','源':'y','圆':'y','缘':'y','远':'y','院':'y','愿':'y','约':'y','月':'y','跃':'y','越':'y','云':'y','允':'y','运':'y',
-  '杂':'z','砸':'z','栽':'z','宰':'z','再':'z','在':'z','咱':'z','赞':'z','脏':'z','早':'z','造':'z','则':'z','泽':'z','窄':'z','宅':'z','沾':'z','展':'z','占':'z','战':'z','站':'z','张':'z','章':'z','长':'z','掌':'z','丈':'z','招':'z','找':'z','照':'z','罩':'z','折':'z','哲':'z','者':'z','这':'z','浙':'z','针':'z','珍':'z','真':'z','诊':'z','振':'z','镇':'z','正':'z','证':'z','支':'z','知':'z','织':'z','脂':'z','直':'z','值':'z','职':'z','植':'z','只':'z','指':'z','至':'z','制':'z','质':'z','治':'z','中':'z','忠':'z','终':'z','钟':'z','种':'z','重':'z','众':'z','周':'z','轴':'z','竹':'z','主':'z','煮':'z','住':'z','助':'z','注':'z','驻':'z','柱':'z','铸':'z','专':'z','砖':'z','转':'z','装':'z','壮':'z','状':'z','追':'z','准':'z','桌':'z','浊':'z','资':'z','子':'z','紫':'z','自':'z','字':'z','总':'z','走':'z','足':'z','族':'z','组':'z','钻':'z','嘴':'z','最':'z','罪':'z','左':'z','作':'z','坐':'z','做':'z',
-};
+// ===== 拼音首字母搜索（从商品数据自动构建）=====
+var _pinyinMap = {};
+var _PY_BOUNDS = ['啊','芭','擦','搭','蛾','发','噶','哈','击','喀','垃','妈','拿','哦','啪','期','然','撒','塌','挖','昔','压','匝'];
+var _PY_LETTERS = ['a','b','c','d','e','f','g','h','j','k','l','m','n','o','p','q','r','s','t','w','x','y','z'];
+function _getCharInitial(ch) {
+  if (!/[\u4e00-\u9fff]/.test(ch)) return ch.toLowerCase();
+  for (var i = 0; i < _PY_BOUNDS.length; i++) {
+    if (ch.localeCompare(_PY_BOUNDS[i], 'zh-CN') < 0) return _PY_LETTERS[Math.max(0, i - 1)];
+  }
+  return 'z';
+}
+function buildPinyinMap() {
+  _pinyinMap = {};
+  if (!workbenchState || !workbenchState.products) return;
+  var chars = {};
+  workbenchState.products.forEach(function(p) {
+    [p.name, p.category, p.location, p.id].forEach(function(t) {
+      if (!t) return;
+      for (var i = 0; i < t.length; i++) {
+        var ch = t[i];
+        if (/[\u4e00-\u9fff]/.test(ch) && !chars[ch]) chars[ch] = true;
+      }
+    });
+  });
+  Object.keys(chars).forEach(function(ch) { _pinyinMap[ch] = _getCharInitial(ch); });
+}
 function getPinyinInitials(str) {
   if (!str) return '';
   var result = '';
   for (var i = 0; i < str.length; i++) {
     var ch = str[i];
-    if (PINYIN_MAP[ch]) { result += PINYIN_MAP[ch]; }
-    else { result += ch.toLowerCase(); }
+    result += _pinyinMap[ch] || ch.toLowerCase();
   }
   return result;
 }
@@ -3711,7 +3710,6 @@ function fuzzyMatchSearch(text, query) {
   }
   return true;
 }
-
 function escapeHtml(text) {
   if (!text) return '';
   var div = document.createElement('div');
@@ -4236,36 +4234,7 @@ function renderProducts() {
     '</div>';
   });
   html += '</div>';
-  // 懒加载：先渲染首屏20个，滚动触底时追加20个，搜索时重新渲染不受影响
-  var _cards = html.split('<div class="product-card');
-  var _header = _cards[0];
-  var _cardParts = _cards.slice(1).map(function(c) { return '<div class="product-card' + c; });
-  var _visible = 0;
-  var _BATCH = 20;
-  function _renderVisible() {
-    var _end = Math.min(_visible + _BATCH, _cardParts.length);
-    var _html = _header;
-    for (var i = 0; i < _end; i++) { _html += _cardParts[i]; }
-    if (_end < _cardParts.length) {
-      _html += '<div id="_productSentinel" style="height:1px;"></div>';
-    }
-    _html += '</div>';
-    container.innerHTML = _html;
-    _visible = _end;
-    if (_visible < _cardParts.length) { _setupObserver(); }
-  }
-  function _setupObserver() {
-    var _sentinel = document.getElementById('_productSentinel');
-    if (!_sentinel) return;
-    var _observer = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) {
-        _observer.disconnect();
-        _renderVisible();
-      }
-    }, { rootMargin: '300px' });
-    _observer.observe(_sentinel);
-  }
-  _renderVisible();
+  container.innerHTML = html;
 }
 
 function openSellModal(productId) {
@@ -4712,7 +4681,6 @@ function renderSales() {
       '<div class="sales-summary-value">' + salesCount + '<span class="sales-summary-unit">笔</span></div>' +
     '</div>' +
   '</div>';
-  filtered.sort(function(a, b) { return new Date(b.saleTime) - new Date(a.saleTime); });
   html += '<div class="sales-list">';
   filtered.forEach(function(s, idx) {
     var sellerTag = '';
@@ -4742,30 +4710,7 @@ function renderSales() {
       '</div><div class="sale-amount">' + amountPrefix + '¥' + s.totalAmount.toFixed(2) + '</div></div>';
   });
   html += '</div>';
-  // 懒加载：首屏20条，滚动触底追加
-  var _sCards = html.split('<div class="sale-card');
-  var _sHeader = _sCards[0];
-  var _sCardParts = _sCards.slice(1).map(function(c) { return '<div class="sale-card' + c; });
-  var _sVisible = 0;
-  function _renderSalesBatch() {
-    var _end = Math.min(_sVisible + 20, _sCardParts.length);
-    var _html = _sHeader;
-    for (var i = 0; i < _end; i++) { _html += _sCardParts[i]; }
-    if (_end < _sCardParts.length) { _html += '<div id="_salesSentinel" style="height:1px;"></div>'; }
-    _html += '</div>';
-    container.innerHTML = _html;
-    _sVisible = _end;
-    if (_sVisible < _sCardParts.length) { _setupSalesObserver(); }
-  }
-  function _setupSalesObserver() {
-    var _sentinel = document.getElementById('_salesSentinel');
-    if (!_sentinel) return;
-    var _obs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) { _obs.disconnect(); _renderSalesBatch(); }
-    }, { rootMargin: '300px' });
-    _obs.observe(_sentinel);
-  }
-  _renderSalesBatch();
+  container.innerHTML = html;
 }
 
 function openSaleDetail(idx) {
@@ -4969,7 +4914,7 @@ function confirmRefund() {
     unitPrice: s.unitPrice,
     totalAmount: refundAmount,
     unit: s.unit,
-    saleTime: s.saleTime,
+    saleTime: refundTime,
     seller: s.seller,
     paymentMethod: s.paymentMethod,
     creditInfo: s.creditInfo,
@@ -5303,7 +5248,6 @@ function renderCreditRecords() {
     setTimeout(function() { moveCreditStatusSlider(); }, 0);
     return;
   }
-  statusFiltered.sort(function(a, b) { return new Date(b.saleTime) - new Date(a.saleTime); });
   html += '<div class="credit-records-list">';
   statusFiltered.forEach(function(s) {
     var saleIdx = workbenchState.sales.indexOf(s);
@@ -5347,30 +5291,7 @@ function renderCreditRecords() {
     '</div>';
   });
   html += '</div>';
-  // 懒加载：首屏20条，滚动触底追加
-  var _cCards = html.split('<div class="credit-record-card');
-  var _cHeader = _cCards[0];
-  var _cCardParts = _cCards.slice(1).map(function(c) { return '<div class="credit-record-card' + c; });
-  var _cVisible = 0;
-  function _renderCreditBatch() {
-    var _end = Math.min(_cVisible + 20, _cCardParts.length);
-    var _html = _cHeader;
-    for (var i = 0; i < _end; i++) { _html += _cCardParts[i]; }
-    if (_end < _cCardParts.length) { _html += '<div id="_creditSentinel" style="height:1px;"></div>'; }
-    _html += '</div>';
-    listContainer.innerHTML = _html;
-    _cVisible = _end;
-    if (_cVisible < _cCardParts.length) { _setupCreditObserver(); }
-  }
-  function _setupCreditObserver() {
-    var _sentinel = document.getElementById('_creditSentinel');
-    if (!_sentinel) return;
-    var _obs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) { _obs.disconnect(); _renderCreditBatch(); }
-    }, { rootMargin: '300px' });
-    _obs.observe(_sentinel);
-  }
-  _renderCreditBatch();
+  listContainer.innerHTML = html;
   setTimeout(function() { moveCreditStatusSlider(); }, 0);
 }
 
@@ -5685,9 +5606,9 @@ function renderDashboard() {
   var repairIconSvg = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
   document.getElementById('statsGrid').innerHTML =
     '<div class="stat-card"><div class="stat-icon">' + getIconDInline('product', 36) + '</div><div class="stat-value">' + totalProducts + '</div><div class="stat-label">商品总数</div></div>' +
-    '<div class="stat-card"><div class="stat-icon">' + getIconDInline('chart', 36) + '</div><div class="stat-value">' + totalStock + '</div><div class="stat-label">总库存量</div></div>' +
-    '<div class="stat-card"><div class="stat-icon">' + getIconDInline('cart', 36) + '</div><div class="stat-value">' + todayCount + '</div><div class="stat-label">今日交易</div></div>' +
     '<div class="stat-card success"><div class="stat-icon">' + getIconDInline('money', 36) + '</div><div class="stat-value">¥' + todaySales.toFixed(0) + '</div><div class="stat-label">今日销售额</div></div>' +
+    '<div class="stat-card"><div class="stat-icon">' + getIconDInline('cart', 36) + '</div><div class="stat-value">' + todayCount + '</div><div class="stat-label">今日交易</div></div>' +
+    '<div class="stat-card"><div class="stat-icon">' + getIconDInline('chart', 36) + '</div><div class="stat-value">' + totalStock + '</div><div class="stat-label">总库存量</div></div>' +
     '<div class="stat-card warning"><div class="stat-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div><div class="stat-value">' + lowStockCount + '</div><div class="stat-label">低库存商品</div></div>' +
     '<div class="stat-card warning"><div class="stat-icon">' + repairIconSvg + '</div><div class="stat-value">' + pendingRepairCount + '</div><div class="stat-label">待维修</div></div>';
   var recent = workbenchState.products.slice().sort(function(a, b) {
@@ -6427,7 +6348,7 @@ function getIconDInline(name, size, colorOverride) {
     blue: '#007AFF', green: '#34C759', red: '#FF3B30', orange: '#FF9500', gray: '#86868B', purple: '#5856D6'
   };
   var paths = {
-    product: { bg: 'blue', svg: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/>' },
+    product: { bg: 'blue', svg: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8.3 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/>' },
     money: { bg: 'green', svg: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
     cart: { bg: 'blue', plain: true, svg: '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>' },
     chart: { bg: 'blue', plain: true, sw: 2.5, svg: '<path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v4"/><path d="M13 11v9"/><path d="M18 6v14"/>' },
@@ -7537,6 +7458,7 @@ function returnToolLoan(idx) {
 }
 
 function renderAll() {
+  buildPinyinMap();
   if (currentTab === 'dashboard') renderDashboard();
   if (currentTab === 'products') renderProducts();
   if (currentTab === 'sales') renderSales();
