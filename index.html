@@ -3706,6 +3706,26 @@ function fuzzyMatchSearch(text, query) {
     if (textLower.indexOf(kw) >= 0) matched = true;
     if (!matched && kwClean && textClean.indexOf(kwClean) >= 0) matched = true;
     if (!matched && /^[a-z0-9]+$/.test(kwClean) && textPinyin.indexOf(kwClean) >= 0) matched = true;
+    // 跳跃匹配：输入的每个字符按顺序出现在文本中即可（不要求连续）
+    if (!matched && kwClean) {
+      var ti = 0;
+      for (var ci = 0; ci < kwClean.length; ci++) {
+        ti = textClean.indexOf(kwClean[ci], ti);
+        if (ti < 0) break;
+        ti++;
+      }
+      if (ci === kwClean.length) matched = true;
+    }
+    // 拼音首字母跳跃匹配
+    if (!matched && /^[a-z]+$/.test(kwClean)) {
+      var pi = 0;
+      for (var ci2 = 0; ci2 < kwClean.length; ci2++) {
+        pi = textPinyin.indexOf(kwClean[ci2], pi);
+        if (pi < 0) break;
+        pi++;
+      }
+      if (ci2 === kwClean.length) matched = true;
+    }
     if (!matched) return false;
   }
   return true;
