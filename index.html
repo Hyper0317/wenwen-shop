@@ -3053,9 +3053,9 @@ function mapSaleFromDB(row) {
     saleTime: row.sale_time || row.created_at || new Date().toISOString(),
     seller: row.seller || '',
     paymentMethod: row.payment_method || '',
-    creditInfo: row.credit_info || null,
+    creditInfo: (typeof row.credit_info === 'string') ? JSON.parse(row.credit_info) : (row.credit_info || null),
     recordType: row.record_type || 'sale',
-    refundInfo: row.refund_info || null
+    refundInfo: (typeof row.refund_info === 'string') ? JSON.parse(row.refund_info) : (row.refund_info || null)
   };
 }
 function mapSaleToDB(s) {
