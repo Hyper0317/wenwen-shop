@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>完整数据导入 - 雯雯的小店</title>
+<style>
+body { font-family: -apple-system, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background: #f9f9f9; }
+h2 { color: #333; }
+.btn { display: block; width: 100%; padding: 16px; margin: 10px 0; font-size: 18px; border: none;
+  border-radius: 12px; background: #007AFF; color: white; cursor: pointer; }
+.btn:disabled { background: #ccc; }
+.log { background: #fff; padding: 12px; border-radius: 8px; margin: 8px 0; font-size: 14px;
+  white-space: pre-wrap; max-height: 500px; overflow-y: auto; border: 1px solid #e0e0e0; }
+.ok { color: #34C759; font-weight: bold; }
+.err { color: #FF3B30; font-weight: bold; }
+.warn { color: #FF9500; font-weight: bold; }
+.info { color: #007AFF; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+th { background: #f0f0f0; }
+</style>
+</head>
+<body>
+<h2>📋 完整数据导入工具</h2>
+<p>将苏西版的 <b>5 张遗漏表</b> 一次性导入到 Supabase：</p>
+<table>
+<tr><th>表名</th><th>说明</th><th>记录数</th></tr>
+<tr><td>categories</td><td>商品分类</td><td>14</td></tr>
+<tr><td>repair_records</td><td>维修记录</td><td>9</td></tr>
+<tr><td>tools</td><td>工具</td><td>9</td></tr>
+<tr><td>tool_loans</td><td>工具借出记录</td><td>10</td></tr>
+<tr><td>preferences</td><td>偏好设置</td><td>1</td></tr>
+</table>
+<button class="btn" id="importBtn" onclick="doImport()">开始导入全部数据</button>
+<div class="log" id="log"></div>
+
+<script>
+const SUPABASE_URL = "https://smamozhqfiabrnpohpwe.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYW1vemhxZmlhYnJucG9ocHdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNTU5MzcsImV4cCI6MjEwMjYzMTkzN30.qF4EqcSF442MSTRQAISEMkPc3FqOIhJ95TBSMoWPj6M";
+
+// === 数据 ===
+const CAT_ROWS = [{"name":"工具五金","sort_order":0},{"name":"水暖器材","sort_order":1},{"name":"电料与开关","sort_order":2},{"name":"防水材料","sort_order":3},{"name":"小家电","sort_order":4},{"name":"漆","sort_order":5},{"name":"建筑用品","sort_order":6},{"name":"工具类","sort_order":7},{"name":"农用水管材料","sort_order":8},{"name":"劳保产品","sort_order":9},{"name":"水泵","sort_order":10},{"name":"其他","sort_order":11},{"name":"烟机","sort_order":12},{"name":"PVC管件","sort_order":13}];
+
+const REPAIR_ROWS = [{"id":1,"customer_name":"赵","product_name":"淋雨","phone":"17698269213","address":"赵寨红车附近","date":"8月17日","status":"done","description":"淋雨不出水","done_handler":"岳","done_date":"2026-08-19","done_note":null},{"id":2,"customer_name":"王二进","product_name":"水泵","phone":"13461128070","address":"前街庙北侧","date":"8月17日","status":"done","description":"安装水泵","done_handler":"老板","done_date":"2026-08-17","done_note":null},{"id":3,"customer_name":"任红涛","product_name":"—","phone":"13938295358","address":"赵寨新农村","date":"8月20日","status":"done","description":"淋浴不出水","done_handler":"老板","done_date":"2026-08-22","done_note":null},{"id":4,"customer_name":"国强","product_name":"按水龙头","phone":"15117080901","address":"韩店西头","date":"8月21日","status":"done","description":"","done_handler":"岳","done_date":"2026-08-22","done_note":null},{"id":5,"customer_name":"李国通","product_name":"安装淋雨","phone":"13405028733","address":"刘七","date":"8月21日","status":"done","description":"","done_handler":"老板","done_date":"2026-08-22","done_note":null},{"id":6,"customer_name":"李元乐","product_name":"—","phone":"13733946258","address":"钱庄","date":"8月21日","status":"done","description":"无塔坏","done_handler":"老板","done_date":"2026-08-23","done_note":null},{"id":7,"customer_name":"王延旭","product_name":"—","phone":"15886780930","address":"—","date":"8月24日","status":"done","description":"管","done_handler":"雯爸","done_date":"2026-08-30","done_note":null},{"id":8,"customer_name":"赵国玉","product_name":"空调","phone":"13137533569","address":"赵寨超市前头","date":"8月27日","status":"pending","description":"空调外机不会转","done_handler":null,"done_date":null,"done_note":null},{"id":9,"customer_name":"李进方","product_name":"马桶","phone":"15836987515","address":"钱庄","date":"8月31日","status":"pending","description":"","done_handler":null,"done_date":null,"done_note":null}];
+
+const TOOLS_DATA = [{"id":"T001","name":"电钻","stock":3,"unit":"把","note":""},{"id":"T002","name":"螺丝刀","stock":2,"unit":"把","note":""},{"id":"T003","name":"切割机","stock":1,"unit":"台","note":""},{"id":"T004","name":"胶枪","stock":1,"unit":"把","note":""},{"id":"T006","name":"打灰机","stock":1,"unit":"个","note":""},{"id":"T007","name":"160水钻头","stock":1,"unit":"把","note":""},{"id":"T008","name":"热溶机","stock":3,"unit":"把","note":""},{"id":"T009","name":"剪刀","stock":2,"unit":"把","note":""},{"id":"T010","name":"14#过墙钻头","stock":1,"unit":"个","note":""}];
+
+const LOAN_ROWS = [{"id":"TL1786847967656","borrower":"王博","phone":"17739025292","address":"太扑寨","tools":[{"toolId":"T003","toolName":"切割机","quantity":1,"unit":"台"}],"seller":"雯妈","loan_date":"2026-08-16","expected_return_date":"","actual_return_date":"2026-08-16","deposit":0,"note":"","status":"returned","created_at":"2026-08-16T02:39:27.656Z"},{"id":"TL1786934772614","borrower":"胡莲","phone":"19253637621","address":"东关庄","tools":[{"toolId":"T004","toolName":"胶枪","quantity":1,"unit":"把"}],"seller":"雯雯","loan_date":"2026-08-17","expected_return_date":"","actual_return_date":"2026-08-17","deposit":0,"note":"","status":"returned","created_at":"2026-08-17T02:46:12.614Z"},{"id":"TL1787133432001","borrower":"王国廷","phone":"15836957054","address":"胡村","tools":[{"toolId":"T006","toolName":"打灰机","quantity":1,"unit":"个"}],"seller":"雯妈","loan_date":"2026-08-19","expected_return_date":"","actual_return_date":"2026-08-23","deposit":0,"note":"","status":"returned","created_at":"2026-08-19T09:57:12.001Z"},{"id":"TL1787279508763","borrower":"李鹏","phone":"13733775917","address":"刘七","tools":[{"toolId":"T007","toolName":"160水钻头","quantity":1,"unit":"把"}],"seller":"雯妈","loan_date":"2026-08-21","expected_return_date":"","actual_return_date":"2026-08-22","deposit":0,"note":"","status":"returned","created_at":"2026-08-21T02:31:48.764Z"},{"id":"TL1787446127911","borrower":"张进","phone":"19283753686","address":"西关庄","tools":[{"toolId":"T008","toolName":"热溶机","quantity":1,"unit":"把"}],"seller":"雯妈","loan_date":"2026-08-23","expected_return_date":"","actual_return_date":"2026-08-23","deposit":0,"note":"","status":"returned","created_at":"2026-08-23T00:48:47.911Z"},{"id":"TL1787446153816","borrower":"张进","phone":"","address":"西关庄","tools":[{"toolId":"T009","toolName":"剪刀","quantity":1,"unit":"把"}],"seller":"","loan_date":"2026-08-23","expected_return_date":"","actual_return_date":"2026-08-23","deposit":0,"note":"","status":"returned","created_at":"2026-08-23T00:49:13.816Z"},{"id":"TL1787617064623","borrower":"赵寨","phone":"13087069252","address":"赵寨","tools":[{"toolId":"T004","toolName":"胶枪","quantity":1,"unit":"把"}],"seller":"","loan_date":"2026-08-25","expected_return_date":"","actual_return_date":"2026-08-28","deposit":0,"note":"","status":"returned","created_at":"2026-08-25T00:17:44.623Z"},{"id":"TL1787617331997","borrower":"王朝阳","phone":"","address":"赵寨","tools":[{"toolId":"T006","toolName":"打灰机","quantity":1,"unit":"个"}],"seller":"雯妈","loan_date":"2026-08-25","expected_return_date":"","actual_return_date":"2026-08-28","deposit":0,"note":"","status":"returned","created_at":"2026-08-25T00:22:11.997Z"},{"id":"TL1787803323997","borrower":"王燕峰","phone":"18237538527","address":"狮子口","tools":[{"toolId":"T008","toolName":"热溶机","quantity":1,"unit":"把"},{"toolId":"T009","toolName":"剪刀","quantity":1,"unit":"把"}],"seller":"雯雯","loan_date":"2026-08-27","expected_return_date":"","actual_return_date":"2026-08-27","deposit":50,"note":"","status":"returned","created_at":"2026-08-27T04:02:03.997Z"},{"id":"TL1788067658437","borrower":"张自飞","phone":"15617367938","address":"刘七","tools":[{"toolId":"T004","toolName":"胶枪","quantity":1,"unit":"把"}],"seller":"雯妈","loan_date":"2026-08-30","expected_return_date":"","actual_return_date":"2026-08-30","deposit":0,"note":"","status":"returned","created_at":"2026-08-30T05:27:38.437Z"}];
+
+const PREFS_DATA = {"id":1,"low_stock_threshold":1,"order_counter":{"date":"260906","seq":7},"next_product_id":846,"next_tool_id":11,"updated_at":"2026-09-06T05:33:00.000Z"};
+
+function log(msg, type) {
+  const div = document.getElementById('log');
+  const span = document.createElement('span');
+  if (type === 'ok') span.className = 'ok';
+  if (type === 'err') span.className = 'err';
+  if (type === 'warn') span.className = 'warn';
+  if (type === 'info') span.className = 'info';
+  span.textContent = msg + '\n';
+  div.appendChild(span);
+  div.scrollTop = div.scrollHeight;
+}
+
+async function doImport() {
+  const btn = document.getElementById('importBtn');
+  btn.disabled = true;
+  btn.textContent = '导入中...';
+
+  const headers = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  };
+  const headersMinimal = {...headers, 'Prefer': 'return=minimal'};
+
+  let okCount = 0, errCount = 0;
+
+  try {
+    // 1. categories - 先清空再插入
+    log('1/5 导入 categories（14条分类）...', 'info');
+    try {
+      await fetch(SUPABASE_URL + '/rest/v1/categories?id=neq.DELETE_SENTINEL', { method: 'DELETE', headers: headersMinimal });
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/categories', { method: 'POST', headers, body: JSON.stringify(CAT_ROWS) });
+      const result = await resp.json();
+      if (Array.isArray(result) && result.length === 14) { log('   ✅ categories: ' + result.length + ' 条', 'ok'); okCount++; }
+      else { log('   ⚠️ categories: 返回 ' + (Array.isArray(result) ? result.length : JSON.stringify(result)), 'warn'); okCount++; }
+    } catch(e) { log('   ❌ categories 失败: ' + e.message, 'err'); errCount++; }
+
+    // 2. repair_records - upsert
+    log('2/5 导入 repair_records（9条维修记录）...', 'info');
+    try {
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/repair_records?id=neq.DELETE_SENTINEL', { method: 'DELETE', headers: headersMinimal });
+      const resp2 = await fetch(SUPABASE_URL + '/rest/v1/repair_records', { method: 'POST', headers, body: JSON.stringify(REPAIR_ROWS) });
+      const result2 = await resp2.json();
+      if (Array.isArray(result2) && result2.length === 9) { log('   ✅ repair_records: ' + result2.length + ' 条', 'ok'); okCount++; }
+      else { log('   ⚠️ repair_records: 返回 ' + (Array.isArray(result2) ? result2.length : JSON.stringify(result2)), 'warn'); okCount++; }
+    } catch(e) { log('   ❌ repair_records 失败: ' + e.message, 'err'); errCount++; }
+
+    // 3. tools - 先清空再插入
+    log('3/5 导入 tools（9条工具）...', 'info');
+    try {
+      await fetch(SUPABASE_URL + '/rest/v1/tools?id=neq.DELETE_SENTINEL', { method: 'DELETE', headers: headersMinimal });
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/tools', { method: 'POST', headers, body: JSON.stringify(TOOLS_DATA) });
+      const result = await resp.json();
+      if (Array.isArray(result) && result.length === 9) { log('   ✅ tools: ' + result.length + ' 条', 'ok'); okCount++; }
+      else { log('   ⚠️ tools: 返回 ' + (Array.isArray(result) ? result.length : JSON.stringify(result)), 'warn'); okCount++; }
+    } catch(e) { log('   ❌ tools 失败: ' + e.message, 'err'); errCount++; }
+
+    // 4. tool_loans - 先清空再插入（tools 字段是 JSON 对象数组）
+    log('4/5 导入 tool_loans（10条借出记录）...', 'info');
+    try {
+      await fetch(SUPABASE_URL + '/rest/v1/tool_loans?id=neq.DELETE_SENTINEL', { method: 'DELETE', headers: headersMinimal });
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/tool_loans', { method: 'POST', headers, body: JSON.stringify(LOAN_ROWS) });
+      const result = await resp.json();
+      if (Array.isArray(result) && result.length === 10) { log('   ✅ tool_loans: ' + result.length + ' 条', 'ok'); okCount++; }
+      else { log('   ⚠️ tool_loans: 返回 ' + (Array.isArray(result) ? result.length : JSON.stringify(result)), 'warn'); okCount++; }
+    } catch(e) { log('   ❌ tool_loans 失败: ' + e.message, 'err'); errCount++; }
+
+    // 5. preferences - upsert
+    log('5/5 导入 preferences（偏好设置）...', 'info');
+    try {
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/preferences', { method: 'POST', headers: {...headers, 'Prefer': 'return=representation,resolution=merge-duplicates'}, body: JSON.stringify([PREFS_DATA]) });
+      const result = await resp.json();
+      if (Array.isArray(result) && result.length >= 1) { log('   ✅ preferences: 导入成功', 'ok'); okCount++; }
+      else { log('   ⚠️ preferences: 返回 ' + JSON.stringify(result), 'warn'); okCount++; }
+    } catch(e) { log('   ❌ preferences 失败: ' + e.message, 'err'); errCount++; }
+
+    // 汇总
+    log('\n========== 汇总 ==========', 'info');
+    log('成功: ' + okCount + '/5 张表', okCount === 5 ? 'ok' : 'warn');
+    if (errCount > 0) log('失败: ' + errCount + ' 张表', 'err');
+    if (okCount === 5) {
+      log('\n✅ 全部 5 张表导入成功！\n请刷新网页版查看。', 'ok');
+    } else {
+      log('\n⚠️ 部分表导入失败，请检查上方日志。', 'warn');
+    }
+
+    btn.textContent = '导入完成';
+  } catch (e) {
+    log('错误: ' + e.message, 'err');
+    btn.disabled = false;
+    btn.textContent = '重新导入';
+  }
+}
+</script>
+</body>
+</html>
