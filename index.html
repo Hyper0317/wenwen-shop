@@ -8047,6 +8047,7 @@ function init() {
   initStateFromCloud().then(function() {
     var ov = document.getElementById("cloudLoadingOverlay");
     if (ov) ov.remove();
+  buildPinyinMap();
   var d = new Date(), p = function(n) { return n < 10 ? '0' + n : '' + n; };
   document.getElementById('headerDate').textContent = d.getFullYear() + '年' + p(d.getMonth()+1) + '月' + p(d.getDate()) + '日 ' + ['日','一','二','三','四','五','六'][d.getDay()];
   // 添加同步指示器
