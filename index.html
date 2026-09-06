@@ -2189,7 +2189,7 @@ body {
     <div class="toolbar" style="flex-direction: row; flex-wrap: nowrap; gap: 10px; align-items: center;">
       <div class="search-box" style="flex: 1 1 50%; min-width: 0;">
         <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
-        <input type="text" id="salesSearch" placeholder="搜索商品名称、编号、订单号..." oninput="renderSales()">
+        <input type="text" id="salesSearch" placeholder="搜索商品名称/编号/拼音首字母..." oninput="renderSales()">
       </div>
       <div class="credit-filter-pill" id="salesFilterPill" onclick="toggleSalesFilterPopover()">
         <span id="salesFilterIcon"></span>
@@ -2251,7 +2251,7 @@ body {
     <div class="toolbar" style="flex-direction: row; flex-wrap: nowrap; gap: 10px; align-items: center;">
       <div class="search-box" style="flex: 1 1 50%; min-width: 0;">
         <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
-        <input type="text" id="creditSearch" placeholder="搜索欠账人、商品..." oninput="renderCreditRecords()">
+        <input type="text" id="creditSearch" placeholder="搜索欠账人/商品/拼音首字母..." oninput="renderCreditRecords()">
       </div>
       <div class="credit-filter-pill" id="creditFilterPill" onclick="toggleCreditFilterPopover()">
         <span id="creditFilterIcon"></span>
@@ -4697,7 +4697,7 @@ function renderSales() {
   var todayPrefix = todayStr();
   var sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   var filtered = workbenchState.sales.filter(function(s) {
-    var matchSearch = !search || s.productName.toLowerCase().indexOf(search) >= 0 || s.productId.toLowerCase().indexOf(search) >= 0 || (s.orderNo && s.orderNo.toLowerCase().indexOf(search) >= 0);
+    var matchSearch = !search || fuzzyMatchSearch(s.productName, search) || fuzzyMatchSearch(s.productId, search) || (s.orderNo && fuzzyMatchSearch(s.orderNo, search)) || (s.seller && fuzzyMatchSearch(s.seller, search));
     var matchTime = true;
     if (salesFilterMode === 'today') matchTime = formatDate(s.saleTime) === todayPrefix;
     else if (salesFilterMode === '7days') matchTime = new Date(s.saleTime) >= sevenDaysAgo;
@@ -5238,9 +5238,9 @@ function renderCreditRecords() {
   });
   var filtered = creditSales.filter(function(s) {
     var matchSearch = !search ||
-      (s.creditInfo && s.creditInfo.person && s.creditInfo.person.toLowerCase().indexOf(search) >= 0) ||
-      s.productName.toLowerCase().indexOf(search) >= 0 ||
-      s.productId.toLowerCase().indexOf(search) >= 0;
+      (s.creditInfo && s.creditInfo.person && fuzzyMatchSearch(s.creditInfo.person, search)) ||
+      fuzzyMatchSearch(s.productName, search) ||
+      fuzzyMatchSearch(s.productId, search);
     var matchTime = true;
     if (creditFilterMode === 'today') matchTime = formatDate(s.saleTime) === todayPrefix;
     else if (creditFilterMode === '7days') matchTime = new Date(s.saleTime) >= sevenDaysAgo;
