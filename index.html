@@ -181,6 +181,10 @@ body {
 .tab-content { display: none; }
 .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
 
+/* Dashboard: 卡片垂直居中，不再显示最近添加商品 */
+#tab-dashboard { display: none !important; }
+#tab-dashboard.active { display: flex !important; flex-direction: column; justify-content: center; min-height: calc(100vh - 180px); }
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ===== Repair / 售后维修 ===== */
@@ -2107,8 +2111,6 @@ body {
 <div class="main">
   <div class="tab-content active" id="tab-dashboard">
     <div class="stats-grid" id="statsGrid"></div>
-    <div class="section-title"><span class="left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;flex-shrink:0;"><rect x="0" y="0" width="24" height="24" rx="6" fill="#007AFF"/><g transform="translate(5,5) scale(0.583)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></g></svg> 最近添加商品</span></div>
-    <div id="recentProducts"></div>
   </div>
 
   <div class="tab-content" id="tab-products">
@@ -5712,6 +5714,7 @@ function renderDashboard() {
     return new Date(b.createdAt) - new Date(a.createdAt);
   }).slice(0, 4);
   var rc = document.getElementById('recentProducts');
+  if (!rc) return;
   if (recent.length === 0) {
     rc.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('product', 48) + '</div><div class="empty-text">还没有商品，去「商品管理」添加吧</div></div>';
     return;
