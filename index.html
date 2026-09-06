@@ -6240,10 +6240,13 @@ function saveRepair() {
       status: status,
       description: desc || ''
     };
+    _lastSaveTime = Date.now();
     sbInsert('repair_records', [newRow]).then(function(inserted) {
       repairSaving = false;
       var insertedRow = Array.isArray(inserted) ? inserted[0] : inserted;
-      workbenchState.repairRecords.push(mapRepairFromDB(insertedRow));
+      var mapped = mapRepairFromDB(insertedRow);
+      var exists = workbenchState.repairRecords.some(function(r) { return r.id === mapped.id; });
+      if (!exists) { workbenchState.repairRecords.push(mapped); }
       renderRepair();
       showSaveStatus('saved', '已保存', 1500);
       showToast('已添加');
