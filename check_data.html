@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>检查 Supabase 数据</title>
+<style>
+body { font-family: -apple-system, sans-serif; max-width: 700px; margin: 20px auto; padding: 15px; }
+.btn { padding: 12px 24px; font-size: 16px; border: none; border-radius: 8px; background: #007AFF; color: #fff; cursor: pointer; margin: 5px; }
+.btn:disabled { background: #ccc; }
+.log { background: #f5f5f5; padding: 12px; border-radius: 8px; margin: 8px 0; font-size: 13px; white-space: pre-wrap; max-height: 600px; overflow-y: auto; }
+.ok { color: #34C759; } .err { color: #FF3B30; } .warn { color: #FF9500; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; font-size: 13px; }
+th { background: #f0f0f0; }
+.dup { background: #FFEBEE; }
+</style>
+</head>
+<body>
+<h2>🔍 检查 Supabase 数据</h2>
+<button class="btn" onclick="checkAll()">检查所有表</button>
+<button class="btn" onclick="checkRepair()">只查维修记录</button>
+<button class="btn" onclick="fixRepair()" style="background:#FF3B30">修复维修记录（去重）</button>
+<div class="log" id="log"></div>
+<div id="tableArea"></div>
+
+<script>
+const SUPABASE_URL = "https://smamozhqfiabrnpohpwe.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYW1vemhxZmlhYnJucG9ocHdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNTU5MzcsImV4cCI6MjEwMjYzMTkzN30.qF4EqcSF442MSTRQAISEMkPc3FqOIhJ95TBSMoWPj6M";
+
+const headers = {
+  'apikey': SUPABASE_KEY,
+  'Authorization': 'Bearer ' + SUPABASE_KEY,
+  'Content-Type': 'application/json'
+};
+
+function log(msg, type) {
+  const div = document.getElementById('log');
+  const span = document.createElement('span');
+  if (type === 'ok') span.className = 'ok';
+  if (type === 'err') span.className = 'err';
+  if (type === 'warn') span.className = 'warn';
+  span.textContent = msg + '\n';
+  div.appendChild(span);
+  div.scrollTop = div.scrollHeight;
+}
+
+async function sbSelect(table, query) {
+  const url = SUPABASE_URL + '/rest/v1/' + table + '?select=*' + (query || '');
+  const resp = await fetch(url, { headers });
+  return await resp.json();
+}
+
+async function sbDelete(table, filter) {
+  const url = SUPABASE_URL + '/rest/v1/' + table + '?' + filter;
+  return await fetch(url, { method: 'DELETE', headers: {...headers, 'Prefer': 'return=representation'} });
+}
+
+async function checkAll() {
+  const tables = ['products', 'sales', 'categories', 'repair_records', 'tools', 'tool_loans', 'preferences'];
+  log('=== 检查所有表 ===\n');
+  for (const t of tables) {
+    try {
+      const data = await sbSelect(t, '&order=id.desc');
+      log(t + ': ' + data.length + ' 条', data.length > 0 ? 'ok' : 'warn');
+    } catch(e) {
+      log(t + ': 查询失败 - ' + e.message, 'err');
+    }
+  }
+}
+
+async function checkRepair() {
+  log('=== 检查 repair_records ===\n');
+  const data = await sbSelect('repair_records', '&order=id.asc');
+  log('总记录数: ' + data.length + '\n');
+
+  // 检查重复（按 customer_name + phone + date 判断）
+  const seen = {};
+  const dups = [];
+  data.forEach((r, i) => {
+    const key = (r.customer_name || '') + '|' + (r.phone || '') + '|' + (r.date || '');
+    if (seen[key] !== undefined) {
+      dups.push({ idx: i, id: r.id, key: key, dupOf: seen[key] });
+    } else {
+      seen[key] = r.id;
+    }
+  });
+
+  if (dups.length > 0) {
+    log('⚠️ 发现 ' + dups.length + ' 条重复记录:', 'warn');
+    dups.forEach(d => log('  id=' + d.id + ' 与 id=' + d.dupOf + ' 重复 (' + d.key + ')', 'warn'));
+  } else {
+    log('✅ 没有发现重复', 'ok');
+  }
+
+  // 显示全部记录
+  let html = '<table><tr><th>id</th><th>客户名</th><th>产品</th><th>电话</th><th>日期</th><th>状态</th></tr>';
+  data.forEach(r => {
+    const key = (r.customer_name || '') + '|' + (r.phone || '') + '|' + (r.date || '');
+    const isDup = dups.some(d => d.id === r.id);
+    html += '<tr class="' + (isDup ? 'dup' : '') + '"><td>' + r.id + '</td><td>' + (r.customer_name||'') + '</td><td>' + (r.product_name||'') + '</td><td>' + (r.phone||'') + '</td><td>' + (r.date||'') + '</td><td>' + (r.status||'') + '</td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('tableArea').innerHTML = html;
+}
+
+async function fixRepair() {
+  log('=== 修复 repair_records（去重）===\n');
+  const data = await sbSelect('repair_records', '&order=id.asc');
+  log('当前总记录数: ' + data.length);
+
+  // 按 customer_name + phone + date 去重，保留 id 最小的
+  const seen = {};
+  const toDelete = [];
+  data.forEach(r => {
+    const key = (r.customer_name || '') + '|' + (r.phone || '') + '|' + (r.date || '');
+    if (seen[key] !== undefined) {
+      // 重复，标记删除 id 较大的
+      toDelete.push(r.id);
+      log('  删除重复: id=' + r.id + ' (' + r.customer_name + ', ' + r.date + ')', 'warn');
+    } else {
+      seen[key] = r.id;
+    }
+  });
+
+  if (toDelete.length === 0) {
+    log('✅ 没有需要删除的重复记录', 'ok');
+    return;
+  }
+
+  log('\n删除 ' + toDelete.length + ' 条重复记录...');
+  for (const id of toDelete) {
+    const resp = await sbDelete('repair_records', 'id=eq.' + id);
+    log('  删除 id=' + id + ' (' + resp.status + ')', 'ok');
+  }
+
+  // 验证
+  const after = await sbSelect('repair_records', '&order=id.asc');
+  log('\n修复后记录数: ' + after.length, 'ok');
+  log('✅ 修复完成！请刷新网页版查看。', 'ok');
+}
+</script>
+</body>
+</html>
