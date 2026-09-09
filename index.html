@@ -908,9 +908,13 @@ body {
 .cart-item-qty button:first-child { border-radius: 8px 0 0 8px; }
 .cart-item-qty button:last-child { border-radius: 0 8px 8px 0; }
 .cart-item-qty input {
-  width: 44px; height: 30px; border: 1px solid var(--border); border-left: none; border-right: none;
+  width: 50px; height: 30px; border: 1px solid var(--border); border-left: none; border-right: none;
   text-align: center; font-size: 14px; font-weight: 600;
+  -moz-appearance: textfield;
 }
+.cart-item-qty input::-webkit-inner-spin-button,
+.cart-item-qty input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.cart-item-qty input:focus { outline: none; border-color: var(--primary); background: var(--primary-50); }
 .cart-item-subtotal { font-size: 14px; font-weight: 700; color: #E4393C; min-width: 70px; text-align: right; font-family: DIN Alternate, Helvetica Neue, Arial, sans-serif; }
 .cart-item-remove {
   width: 28px; height: 28px; border: none; background: transparent;
@@ -6796,6 +6800,24 @@ function updateCartQty(productId, delta) {
   updateCartFab();
 }
 
+function setCartQty(productId, value) {
+  if (!cartItems[productId]) return;
+  var newQty = parseInt(value);
+  if (isNaN(newQty) || newQty < 1) {
+    showToast('请输入有效数量', 'warning');
+    renderCartPanel();
+    return;
+  }
+  if (newQty > cartItems[productId].maxStock) {
+    showToast('已达库存上限', 'warning');
+    renderCartPanel();
+    return;
+  }
+  cartItems[productId].qty = newQty;
+  renderCartPanel();
+  updateCartFab();
+}
+
 function updateCartPrice(productId, value) {
   if (!cartItems[productId]) return;
   var price = parseFloat(value);
@@ -6860,7 +6882,7 @@ function renderCartPanel() {
           '<input type="number" class="cart-item-price-input" value="' + item.price.toFixed(2) + '" min="0" step="0.01" oninput="updateCartPrice(\'' + id + '\', this.value)">' +
           '<div class="cart-item-qty">' +
             '<button onclick="updateCartQty(\'' + id + '\', -1)">−</button>' +
-            '<input type="text" value="' + item.qty + '" readonly>' +
+            '<input type="number" value="' + item.qty + '" min="1" max="' + item.maxStock + '" onchange="setCartQty(\'' + id + '\', this.value)" onfocus="this.select()">' +
             '<button onclick="updateCartQty(\'' + id + '\', 1)">+</button>' +
           '</div>' +
         '</div>' +
