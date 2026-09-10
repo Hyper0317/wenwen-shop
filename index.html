@@ -1685,13 +1685,35 @@ body {
   font-family: "DIN Alternate", "Helvetica Neue", "Arial", sans-serif;
 }
 
+.credit-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.btn-credit-cancel {
+  flex: 1;
+  padding: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, sans-serif;
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+.btn-credit-cancel:active {
+  transform: scale(0.97);
+}
 .btn-credit-confirm {
-  width: 100%;
+  flex: 1;
   padding: 14px;
   border: none;
   border-radius: var(--radius-sm);
   font-size: 16px;
   font-weight: 700;
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, sans-serif;
   cursor: pointer;
   background: linear-gradient(135deg, #FF9500, #FFB340);
   color: #fff;
@@ -2888,7 +2910,7 @@ body {
         <label class="credit-form-label">备注 <span class="optional">（选填）</span></label>
         <textarea class="credit-form-input" id="creditNote" rows="2" placeholder="输入备注信息" style="resize:vertical;min-height:50px;"></textarea>
       </div>
-      <button class="btn-credit-confirm" onclick="completeCredit()">记账完成</button>
+      <div class="credit-btn-row"><button class="btn-credit-cancel" onclick="closeCreditPopover()">取消</button><button class="btn-credit-confirm" onclick="completeCredit()">记账完成</button></div>
     </div>
   </div>
 </div>
