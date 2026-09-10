@@ -6892,7 +6892,7 @@ function getCartTotal() {
 function updateCartFab() {
   var fab = document.getElementById('cartFab');
   var badge = document.getElementById('cartFabBadge');
-  var count = getCartCount();
+  var count = Object.keys(cartItems).length;
   if (count > 0) {
     fab.classList.add('show');
     badge.textContent = count;
