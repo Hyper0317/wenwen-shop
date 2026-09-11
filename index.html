@@ -7622,8 +7622,7 @@ function openToolLoanDetail(idx) {
   if (l.deposit > 0) html += '<div class="tool-detail-row"><div class="tool-detail-label">押金</div><div class="tool-detail-value deposit">¥' + l.deposit.toFixed(2) + '</div></div>';
   if (l.note) html += '<div class="tool-detail-row"><div class="tool-detail-label">备注</div><div class="tool-detail-value">' + escapeHtml(l.note) + '</div></div>';
   html += '<div class="tool-detail-row"><div class="tool-detail-label">状态</div><div class="tool-detail-value">';
-  if (l.status === 'returned') { html += '<span class="tool-loan-status returned">已归还</span>'; }
-  else { html += '<span class="tool-loan-status out">借出中</span>'; }
+  html += l.status === 'returned' ? '已归还' : '借出中';
   html += '</div></div>';
   document.getElementById('toolLoanDetailBody').innerHTML = html;
   var footerHtml = '<button class="btn btn-outline" onclick="closeToolLoanDetail()">关闭</button>';
