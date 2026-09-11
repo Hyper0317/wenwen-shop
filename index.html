@@ -3596,7 +3596,7 @@ function showCartSuccessPopup(productName, cartCount) {
       '<span>购物车共 ' + cartCount + ' 件商品</span>' +
     '</div>' +
     '<button class="btn btn-primary" style="width:auto;padding:10px 32px;margin-top:4px;height:44px;border-radius:999px;background:rgba(0,122,255,0.12);color:#007AFF;border:1px solid rgba(0,122,255,0.2);font-weight:600;" onclick="hideCenterPopup();openCartPanel()">查看购物车</button>';
-  showCenterPopup(html, 2000);
+  showCenterPopup(html, 1000);
 }
 
 function showSaleSuccessPopup(amount, payLabel, detail) {
@@ -3610,7 +3610,7 @@ function showSaleSuccessPopup(amount, payLabel, detail) {
   if (detail) {
     html += '<div class="center-popup-detail">' + escapeHtml(detail) + '</div>';
   }
-  showCenterPopup(html, 2000);
+  showCenterPopup(html, 1000);
 }
 
 var saveStatusTimer = null;
