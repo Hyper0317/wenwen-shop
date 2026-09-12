@@ -864,17 +864,16 @@ body {
 }
 .cart-panel-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
 .cart-panel {
-  background: var(--glass-bg); border-radius: 24px 24px 0 0;
-  width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto;
-  scrollbar-width: none; -ms-overflow-style: none;
+  background: transparent; border-radius: 0;
+  width: 100%; max-width: 560px; height: 95vh; max-height: 95vh;
+  display: flex; flex-direction: column; overflow: hidden;
   animation: cartSlideUp 0.3s ease;
 }
-.cart-panel::-webkit-scrollbar { display: none; }
 @keyframes cartSlideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .cart-panel-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 20px 12px; border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; background: var(--glass-bg); z-index: 10; border-radius: 24px 24px 0 0;
+  padding: 10px 16px 6px;
+  flex-shrink: 0;
 }
 .cart-panel-title { font-size: 17px; font-weight: 700; color: var(--text); }
 .cart-panel-close {
@@ -883,77 +882,120 @@ body {
   cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
 .cart-panel-close:hover { background: var(--border); }
-.cart-panel-body { padding: 12px 20px; }
+.cart-panel-content { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; margin: 0 12px; overflow: hidden; background: rgba(255,255,255,0.62); backdrop-filter: blur(20px) saturate(1.6); -webkit-backdrop-filter: blur(20px) saturate(1.6); border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.55); }
+.cart-panel-body { flex: 1 1 0; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 0 14px 12px; }
+.cart-panel-body::-webkit-scrollbar { display: none; }
 .cart-item {
-  background: var(--card-bg);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-  border: 1px solid var(--border);
-  padding: 14px 16px; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 12px;
+  position: relative;
+  margin-bottom: 10px;
+  border-radius: 20px;
 }
 .cart-item:last-child { margin-bottom: 0; }
-.cart-item-info { flex: 1; min-width: 0; }
-.cart-item-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.cart-item-id { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
-.cart-item-price-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.cart-item-price-input {
-  width: 80px; padding: 4px 8px; border: 1px solid var(--border);
-  border-radius: 8px; font-size: 13px; text-align: center;
-  font-family: DIN Alternate, Helvetica Neue, Arial, sans-serif;
+.cart-item-inner {
+  padding: 12px 14px;
+  position: relative;
+  transition: transform 0.3s ease-out;
+  background: var(--card-bg);
+  z-index: 1;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  border: 1px solid var(--border);
 }
-.cart-item-price-input:focus { border-color: var(--primary); outline: none; }
-.cart-item-qty { display: flex; align-items: center; gap: 4px; }
-.cart-item-qty button {
-  width: 26px; height: 26px; border-radius: 50%;
+.cart-item-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.cart-item-id { font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; margin: 6px 0; }
+.item-top { display: flex; justify-content: space-between; align-items: center; }
+.item-subtotal { font-size: 16px; font-weight: 700; color: #E4393C; white-space: nowrap; font-family: DIN Alternate, Helvetica Neue, Arial, sans-serif; }
+.item-bottom { display: flex; align-items: center; gap: 10px; }
+.field-box { display: flex; flex-direction: column; align-items: center; }
+.field-input {
+  height: 30px; text-align: center;
+  border: 2px solid var(--border); border-radius: 15px;
+  font-size: 15px; font-weight: 600; color: var(--text-secondary);
+  background: var(--bg); outline: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none; -moz-appearance: textfield;
+  pointer-events: auto; cursor: pointer;
+  font-variant-numeric: tabular-nums; flex-shrink: 0;
+}
+.field-input::-webkit-outer-spin-button, .field-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.field-input.selected { border-color: var(--primary); color: var(--text); background: var(--card-bg); box-shadow: 0 0 0 3px var(--primary-100); }
+.qty-input { width: 64px; }
+.amt-input { width: 86px; }
+.center-controls {
+  display: flex; flex-direction: row; gap: 6px; align-items: center;
+  margin-left: auto; opacity: 0; visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+.center-controls.visible { opacity: 1; visibility: visible; }
+.ctrl-btn {
+  width: 28px; height: 28px; border-radius: 50%;
   border: 1.5px solid var(--border); background: var(--card-bg);
-  font-size: 15px; cursor: pointer; color: var(--text-secondary);
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s ease; user-select: none;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03); flex-shrink: 0;
+  color: var(--text-secondary); font-size: 16px; cursor: pointer;
+  line-height: 1; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+  user-select: none; padding: 0; touch-action: none; flex-shrink: 0;
 }
-.cart-item-qty button:active, .cart-item-qty button.pressing {
-  background: var(--primary); color: #fff; border-color: var(--primary);
-  transform: scale(0.85); box-shadow: 0 2px 8px rgba(0,122,255,0.3);
-}
-.cart-item-qty input {
-  width: 46px; height: 26px; border: 1.5px solid var(--border); border-radius: 13px;
-  text-align: center; font-size: 14px; font-weight: 700; background: var(--card-bg);
-  -moz-appearance: textfield; transition: all 0.2s ease;
-}
-.cart-item-qty input::-webkit-inner-spin-button,
-.cart-item-qty input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.cart-item-qty input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-100); }
-.cart-item-subtotal { font-size: 14px; font-weight: 700; color: #E4393C; min-width: 70px; text-align: right; font-family: DIN Alternate, Helvetica Neue, Arial, sans-serif; }
+.ctrl-btn:active { background: var(--primary); border-color: var(--primary); color: #fff; transform: scale(0.92); }
 .cart-item-remove {
-  width: 28px; height: 28px; border: none; background: transparent;
-  color: var(--text-light); font-size: 16px; cursor: pointer; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; flex: 0 0 28px;
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 0; background: #FF3B30; border: none; color: #fff;
+  font-size: 16px; cursor: pointer; box-shadow: 0 1px 3px rgba(255,59,48,0.3);
 }
-.cart-item-remove:hover { background: var(--danger-light); color: var(--danger); }
 .cart-panel-footer {
-  padding: 16px 20px 24px; border-top: 1px solid var(--border);
-  position: sticky; bottom: 0; background: var(--glass-bg);
+  padding: 10px 14px; flex-shrink: 0; margin: 8px 12px 10px;
+  background: rgba(255,255,255,0.62); backdrop-filter: blur(20px) saturate(1.6); -webkit-backdrop-filter: blur(20px) saturate(1.6); border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.55);
 }
-.cart-picker-row { display: flex; gap: 10px; margin-bottom: 14px; }
+.cart-summary-row {
+  display: flex; align-items: stretch;
+  padding: 14px 16px; margin-bottom: 10px;
+  background: rgba(255,255,255,0.62); backdrop-filter: blur(20px) saturate(1.6); -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.55);
+}
+.cart-summary-left { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.cart-summary-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.cart-summary-item.kinds { width: 42px; }
+.cart-summary-item.count { width: 52px; }
+.cart-summary-label { font-size: 10px; color: var(--text-secondary); white-space: nowrap; }
+.cart-summary-value { font-size: 20px; font-weight: 700; color: var(--text); font-family: DIN Alternate, Helvetica Neue, Arial, sans-serif; text-align: center; }
+.cart-summary-divider { width: 1px; background: var(--border); margin: 0 14px; flex-shrink: 0; }
+.cart-summary-right { flex: 1; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 2px; min-width: 0; }
+.cart-summary-amount-label { font-size: 10px; color: var(--text-secondary); white-space: nowrap; }
+.cart-summary-amount { font-size: 28px; font-weight: 800; color: #E4393C; font-family: DIN Alternate, Helvetica Neue, Arial, sans-serif; line-height: 1.1; white-space: nowrap; }
+.cart-action-row { display: flex; gap: 8px; }
 .cart-picker-btn {
-  flex: 1; display: flex; align-items: center; gap: 8px;
-  padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-  background: var(--bg); cursor: pointer; font-size: 14px; transition: all 0.2s;
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 8px; border: 1.5px solid var(--border); border-radius: 14px;
+  background: var(--bg); cursor: pointer; font-size: 14px;
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, sans-serif;
+  font-weight: 700; transition: all 0.2s;
 }
 .cart-picker-btn.selected { border-color: var(--primary); background: var(--primary-50); }
-.cart-picker-btn .picker-icon { font-size: 18px; }
+.cart-picker-btn .picker-icon { font-size: 16px; }
 .cart-picker-btn .picker-label { color: var(--text-secondary); }
-.cart-picker-btn.selected .picker-label { color: var(--primary); font-weight: 600; }
-.cart-total-row {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 14px; padding: 14px; background: var(--success-light); border-radius: var(--radius-sm);
-}
-.cart-total-label { font-size: 14px; color: var(--text-secondary); }
-.cart-total-amount { font-size: 24px; font-weight: 700; color: #E4393C; font-family: DIN Alternate, Helvetica Neue, Arial, sans-serif; }
+.cart-picker-btn.selected .picker-label { color: var(--primary); font-weight: 700; }
+/* 售出人按钮按人选变色 */
+.cart-picker-btn.seller-雯雯 { border-color: #E85A8A; background: #FFE8F0; }
+.cart-picker-btn.seller-雯雯 .picker-label { color: #E85A8A; }
+.cart-picker-btn.seller-雯爸 { border-color: #007AFF; background: #E3F0FF; }
+.cart-picker-btn.seller-雯爸 .picker-label { color: #007AFF; }
+.cart-picker-btn.seller-雯妈 { border-color: #34C759; background: #E8F8ED; }
+.cart-picker-btn.seller-雯妈 .picker-label { color: #34C759; }
+/* 支付方式按钮按选型变色 */
+.cart-picker-btn.pay-alipay { border-color: #007AFF; background: #E3F0FF; }
+.cart-picker-btn.pay-alipay .picker-label { color: #007AFF; }
+.cart-picker-btn.pay-wechat { border-color: #34C759; background: #E8F8ED; }
+.cart-picker-btn.pay-wechat .picker-label { color: #34C759; }
+.cart-picker-btn.pay-cash { border-color: #FF9500; background: #FFF4E6; }
+.cart-picker-btn.pay-cash .picker-label { color: #FF9500; }
+.cart-picker-btn.pay-credit { border-color: #FF3B30; background: #FFEAEA; }
+.cart-picker-btn.pay-credit .picker-label { color: #FF3B30; }
 .cart-checkout-btn {
-  width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm);
-  background: var(--success); color: #fff; font-size: 16px; font-weight: 600;
+  flex: 1; padding: 10px 8px; border: none; border-radius: 14px;
+  background: var(--success); color: #fff; font-size: 14px; font-weight: 700;
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, sans-serif;
   cursor: pointer; transition: all 0.2s;
 }
 .cart-checkout-btn:hover { opacity: 0.9; }
@@ -2222,11 +2264,13 @@ body {
   <!-- Cart Panel (Bottom Sheet) -->
   <div class="cart-panel-overlay" id="cartPanelOverlay" onclick="if(event.target===this)closeCartPanel()">
     <div class="cart-panel">
-      <div class="cart-panel-header">
-        <span class="cart-panel-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#007AFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> 购物车</span>
-        <button class="cart-panel-close" onclick="closeCartPanel()">✕</button>
+      <div class="cart-panel-content">
+        <div class="cart-panel-header">
+          <span class="cart-panel-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#007AFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> 购物车</span>
+          <button class="cart-panel-close" onclick="closeCartPanel()">✕</button>
+        </div>
+        <div class="cart-panel-body" id="cartPanelBody"></div>
       </div>
-      <div class="cart-panel-body" id="cartPanelBody"></div>
       <div class="cart-panel-footer" id="cartPanelFooter" style="display:none;"></div>
     </div>
   </div>
@@ -6944,44 +6988,262 @@ function renderCartPanel() {
   keys.forEach(function(id) {
     var item = cartItems[id];
     var subtotal = (item.qty * item.price).toFixed(2);
-    html += '<div class="cart-item">' +
-      '<div class="cart-item-info">' +
-        '<div class="cart-item-name">' + escapeHtml(item.name) + '</div>' +
-        '<div class="cart-item-id">#' + escapeHtml(item.id) + (item.unit ? ' · ' + escapeHtml(item.unit) : '') + ' · 库存' + item.maxStock + '</div>' +
-        '<div class="cart-item-price-row">' +
-          '<span style="font-size:13px;color:var(--text-secondary);">单价¥</span>' +
-          '<input type="number" class="cart-item-price-input" value="' + item.price.toFixed(2) + '" min="0" step="0.01" oninput="updateCartPrice(\'' + id + '\', this.value)">' +
-          '<div class="cart-item-qty">' +
-            '<button onmousedown="lpQtyStart(this,\'' + id + '\',-1,event)" onmouseup="lpQtyStop()" onmouseleave="lpQtyStop()" ontouchstart="lpQtyStart(this,\'' + id + '\',-1,event)" ontouchend="lpQtyStop()">−</button>' +
-            '<input type="number" value="' + item.qty + '" min="1" max="' + item.maxStock + '" onchange="setCartQty(\'' + id + '\', this.value)" onfocus="this.select()">' +
-            '<button onmousedown="lpQtyStart(this,\'' + id + '\',1,event)" onmouseup="lpQtyStop()" onmouseleave="lpQtyStop()" ontouchstart="lpQtyStart(this,\'' + id + '\',1,event)" ontouchend="lpQtyStop()">+</button>' +
+    html += '<div class="cart-item" data-id="' + id + '">' +
+      '<div class="cart-item-inner">' +
+        '<div class="item-top">' +
+          '<div class="cart-item-name">' + escapeHtml(item.name) + '</div>' +
+          '<div class="item-subtotal">¥' + subtotal + '</div>' +
+        '</div>' +
+        '<div class="cart-item-id">' + escapeHtml(item.id) + ' · 库存' + item.maxStock + ' · 标价¥' + item.price.toFixed(2) + '</div>' +
+        '<div class="item-bottom">' +
+          '<div class="field-box">' +
+            '<input class="field-input qty-input" type="text" value="' + item.qty + '" data-type="qty" data-id="' + id + '" readonly>' +
+          '</div>' +
+          '<div class="field-box">' +
+            '<input class="field-input amt-input" type="text" value="' + item.price.toFixed(2) + '" step="0.5" data-type="amt" data-id="' + id + '" readonly>' +
+          '</div>' +
+          '<div class="center-controls">' +
+            '<button class="ctrl-btn plus-btn" data-id="' + id + '">+</button>' +
+            '<button class="ctrl-btn minus-btn" data-id="' + id + '">−</button>' +
           '</div>' +
         '</div>' +
       '</div>' +
-      '<div class="cart-item-subtotal">¥' + subtotal + '</div>' +
-      '<button class="cart-item-remove" onclick="removeFromCart(\'' + id + '\')">✕</button>' +
+      '<button class="cart-item-remove" data-id="' + id + '">✕</button>' +
     '</div>';
   });
   body.innerHTML = html;
 
+  // === 新卡片交互逻辑 ===
+  var activeFieldNew = null;
+
+  document.querySelectorAll('.cart-item').forEach(function(item) {
+    var inner = item.querySelector('.cart-item-inner');
+    var qtyInput = item.querySelector('.qty-input');
+    var amtInput = item.querySelector('.amt-input');
+    var controls = item.querySelector('.center-controls');
+    var plusBtn = item.querySelector('.plus-btn');
+    var minusBtn = item.querySelector('.minus-btn');
+    var delBtn = item.querySelector('.cart-item-remove');
+    var itemId = item.getAttribute('data-id');
+
+    qtyInput.addEventListener('focus', function(e) { e.target.blur(); });
+    qtyInput.addEventListener('mousedown', function(e) { e.preventDefault(); });
+    qtyInput.addEventListener('click', function(e) {
+      e.stopPropagation();
+      selectFieldNew(qtyInput, controls);
+    });
+
+    amtInput.addEventListener('focus', function(e) { e.target.blur(); });
+    amtInput.addEventListener('mousedown', function(e) { e.preventDefault(); });
+    amtInput.addEventListener('click', function(e) {
+      e.stopPropagation();
+      selectFieldNew(amtInput, controls);
+    });
+
+    function doPlusNew() {
+      if (!activeFieldNew) return;
+      if (activeFieldNew === qtyInput) {
+        var newQty = cartItems[itemId].qty + 1;
+        if (newQty > cartItems[itemId].maxStock) { showToast('已达库存上限', 'warning'); return; }
+        cartItems[itemId].qty = newQty;
+        qtyInput.value = newQty;
+        updateCartSubtotal(item);
+        updateCartTotal();
+        updateCartFab();
+      } else if (activeFieldNew === amtInput) {
+        var newPrice = (parseFloat(amtInput.value) || 0) + 0.5;
+        cartItems[itemId].price = newPrice;
+        amtInput.value = newPrice.toFixed(2);
+        updateCartSubtotal(item);
+        updateCartTotal();
+        updateCartFab();
+      }
+    }
+    function doMinusNew() {
+      if (!activeFieldNew) return;
+      if (activeFieldNew === qtyInput) {
+        var newQty = cartItems[itemId].qty - 1;
+        if (newQty < 1) return;
+        cartItems[itemId].qty = newQty;
+        qtyInput.value = newQty;
+        updateCartSubtotal(item);
+        updateCartTotal();
+        updateCartFab();
+      } else if (activeFieldNew === amtInput) {
+        var cur = parseFloat(amtInput.value) || 0;
+        if (cur > 0.5) {
+          var newPrice = cur - 0.5;
+          cartItems[itemId].price = newPrice;
+          amtInput.value = newPrice.toFixed(2);
+          updateCartSubtotal(item);
+          updateCartTotal();
+          updateCartFab();
+        }
+      }
+    }
+
+    var holdTimerN = null, holdIntervalN = null, holdFiredN = false;
+    function startHoldN(fn) {
+      holdFiredN = false;
+      holdTimerN = setTimeout(function() {
+        holdFiredN = true;
+        fn();
+        var speed = 200;
+        function loop() {
+          fn();
+          speed = Math.max(40, speed * 0.9);
+          holdIntervalN = setTimeout(loop, speed);
+        }
+        holdIntervalN = setTimeout(loop, speed);
+      }, 500);
+    }
+    function stopHoldN() {
+      clearTimeout(holdTimerN); clearTimeout(holdIntervalN);
+      holdTimerN = null; holdIntervalN = null;
+    }
+
+    plusBtn.addEventListener('click', function(e) { e.stopPropagation(); if (!holdFiredN) doPlusNew(); });
+    plusBtn.addEventListener('mousedown', function(e) { e.stopPropagation(); e.preventDefault(); startHoldN(doPlusNew); });
+    plusBtn.addEventListener('mouseup', stopHoldN);
+    plusBtn.addEventListener('mouseleave', stopHoldN);
+    plusBtn.addEventListener('touchstart', function(e) { e.stopPropagation(); e.preventDefault(); startHoldN(doPlusNew); }, { passive: false });
+    plusBtn.addEventListener('touchend', function(e) { e.stopPropagation(); stopHoldN(); if (!holdFiredN) doPlusNew(); });
+    plusBtn.addEventListener('touchcancel', stopHoldN);
+
+    minusBtn.addEventListener('click', function(e) { e.stopPropagation(); if (!holdFiredN) doMinusNew(); });
+    minusBtn.addEventListener('mousedown', function(e) { e.stopPropagation(); e.preventDefault(); startHoldN(doMinusNew); });
+    minusBtn.addEventListener('mouseup', stopHoldN);
+    minusBtn.addEventListener('mouseleave', stopHoldN);
+    minusBtn.addEventListener('touchstart', function(e) { e.stopPropagation(); e.preventDefault(); startHoldN(doMinusNew); }, { passive: false });
+    minusBtn.addEventListener('touchend', function(e) { e.stopPropagation(); stopHoldN(); if (!holdFiredN) doMinusNew(); });
+    minusBtn.addEventListener('touchcancel', stopHoldN);
+
+    var startX = 0, startY = 0, currentX = 0, dragging = false, isOpen = false, directionLocked = false, isHorizontal = false;
+    inner.addEventListener('touchstart', function(e) {
+      if (e.target.closest('.field-input') || e.target.closest('.ctrl-btn')) return;
+      startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+      currentX = 0; dragging = true; directionLocked = false; isHorizontal = false;
+      inner.style.transition = 'none';
+    });
+    inner.addEventListener('touchmove', function(e) {
+      if (!dragging) return;
+      var dx = e.touches[0].clientX - startX;
+      var dy = e.touches[0].clientY - startY;
+      if (!directionLocked) {
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        directionLocked = true;
+        isHorizontal = Math.abs(dx) > Math.abs(dy);
+        if (!isHorizontal) { dragging = false; return; }
+      }
+      if (!isHorizontal) return;
+      e.preventDefault();
+      currentX = dx;
+      var base = isOpen ? -50 : 0;
+      var target = Math.max(-50, Math.min(0, base + currentX));
+      inner.style.transform = 'translateX(' + target + 'px)';
+    }, { passive: false });
+    inner.addEventListener('touchend', function() {
+      if (!dragging) return;
+      dragging = false;
+      var base = isOpen ? -50 : 0;
+      var finalPos = base + currentX;
+      inner.style.transition = 'transform 0.3s ease-out';
+      requestAnimationFrame(function() {
+        if (isOpen) {
+          if (finalPos > -25) { inner.style.transform = 'translateX(0)'; isOpen = false; }
+          else { inner.style.transform = 'translateX(-50px)'; }
+        } else {
+          if (finalPos < -25) { inner.style.transform = 'translateX(-50px)'; isOpen = true; }
+          else { inner.style.transform = 'translateX(0)'; }
+        }
+        currentX = 0;
+      });
+    });
+
+    inner.addEventListener('click', function() {
+      if (isOpen) {
+        inner.style.transition = 'transform 0.3s ease-out';
+        inner.style.transform = 'translateX(0)';
+        isOpen = false;
+      }
+    });
+
+    delBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      removeFromCart(itemId);
+    });
+  });
+
+  function updateCartSubtotal(item) {
+    var id = item.getAttribute('data-id');
+    var data = cartItems[id];
+    if (!data) return;
+    var subtotalEl = item.querySelector('.item-subtotal');
+    if (subtotalEl) { subtotalEl.textContent = '¥' + (data.qty * data.price).toFixed(2); }
+  }
+
+  function updateCartTotal() {
+    var total = getCartTotal();
+    var totalEl = document.querySelector('.cart-summary-amount');
+    if (totalEl) { totalEl.textContent = '¥' + total.toFixed(2); }
+    var countEl = document.querySelectorAll('.cart-summary-value')[1];
+    if (countEl) { countEl.textContent = getCartCount(); }
+    var kindsEl = document.querySelectorAll('.cart-summary-value')[0];
+    if (kindsEl) { kindsEl.textContent = Object.keys(cartItems).length; }
+  }
+
+  function selectFieldNew(input, controls) {
+    document.querySelectorAll('.field-input.selected').forEach(function(el) { el.classList.remove('selected'); });
+    document.querySelectorAll('.center-controls.visible').forEach(function(el) { el.classList.remove('visible'); });
+    input.classList.add('selected');
+    controls.classList.add('visible');
+    activeFieldNew = input;
+  }
+
+  var cartBodyClick = document.getElementById('cartPanelBody');
+  if (cartBodyClick) {
+    cartBodyClick.addEventListener('click', function(e) {
+      if (!e.target.closest('.field-input') && !e.target.closest('.ctrl-btn')) {
+        document.querySelectorAll('.field-input.selected').forEach(function(el) { el.classList.remove('selected'); });
+        document.querySelectorAll('.center-controls.visible').forEach(function(el) { el.classList.remove('visible'); });
+        activeFieldNew = null;
+      }
+    });
+  }
+
   var total = getCartTotal();
+  var cartCount = getCartCount();
+  var cartKinds = Object.keys(cartItems).length;
   var sellerLabel = cartSeller || '售出人';
   var paymentLabel = cartPayment ? getPaymentLabel(cartPayment) : '支付方式';
   footer.innerHTML =
-    '<div class="cart-picker-row">' +
-      '<button class="cart-picker-btn' + (cartSeller ? ' selected' : '') + '" onclick="openCartSellerPopover()">' +
-        '<span class="picker-icon">' + (cartSeller ? getSellerIcon(cartSeller) : getIconDInline('person', 20)) + '</span><span class="picker-label">' + escapeHtml(sellerLabel) + '</span>' +
-      '</button>' +
-      '<button class="cart-picker-btn' + (cartPayment ? ' selected' : '') + '" onclick="openCartPaymentPopover()">' +
-        '<span class="picker-icon">💳</span><span class="picker-label">' + escapeHtml(paymentLabel) + '</span>' +
-      '</button>' +
+    '<div class="cart-summary-row">' +
+      '<div class="cart-summary-left">' +
+        '<div class="cart-summary-item kinds">' +
+          '<span class="cart-summary-label">类数</span>' +
+          '<span class="cart-summary-value">' + cartKinds + '</span>' +
+        '</div>' +
+        '<div class="cart-summary-item count">' +
+          '<span class="cart-summary-label">件数</span>' +
+          '<span class="cart-summary-value">' + cartCount + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cart-summary-divider"></div>' +
+      '<div class="cart-summary-right">' +
+        '<span class="cart-summary-amount-label">总金额</span>' +
+        '<span class="cart-summary-amount">¥' + total.toFixed(2) + '</span>' +
+      '</div>' +
     '</div>' +
     (cartPayment === 'credit' ? renderCartCreditForm() : '') +
-    '<div class="cart-total-row">' +
-      '<span class="cart-total-label">合计</span>' +
-      '<span class="cart-total-amount">¥' + total.toFixed(2) + '</span>' +
-    '</div>' +
-    '<button class="cart-checkout-btn" onclick="checkoutCart()">确认全部售出</button>';
+    '<div class="cart-action-row">' +
+      '<button class="cart-picker-btn' + (cartSeller ? ' selected seller-' + cartSeller : '') + '" onclick="openCartSellerPopover()">' +
+        '<span class="picker-label">' + escapeHtml(sellerLabel) + '</span>' +
+      '</button>' +
+      '<button class="cart-picker-btn' + (cartPayment ? ' selected pay-' + cartPayment : '') + '" onclick="openCartPaymentPopover()">' +
+        '<span class="picker-label">' + escapeHtml(paymentLabel) + '</span>' +
+      '</button>' +
+      '<button class="cart-checkout-btn" onclick="checkoutCart()">售出</button>' +
+    '</div>';
   footer.style.display = 'block';
 }
 
