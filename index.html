@@ -5349,9 +5349,14 @@ function renderCreditRecords() {
     return matchSearch && matchTime;
   });
   // Compute stats: total / repaid / unpaid
+  // 已全退（remainingQty===0）的赊账单欠款为0，不显示也不计入统计
+  function isCreditFullyRefunded(s) {
+    return s.refundInfo && s.refundInfo.remainingQty === 0;
+  }
   var totalAmount = 0, repaidAmount = 0, unpaidAmount = 0;
   var repaidCount = 0, unpaidCount = 0;
   filtered.forEach(function(s) {
+    if (isCreditFullyRefunded(s)) return;
     totalAmount += s.totalAmount;
     if (s.creditInfo && s.creditInfo.repayStatus === 'repaid') {
       repaidAmount += s.totalAmount; repaidCount++;
@@ -5361,6 +5366,7 @@ function renderCreditRecords() {
   });
   // Apply status filter to the list
   var statusFiltered = filtered.filter(function(s) {
+    if (isCreditFullyRefunded(s)) return false;
     if (creditStatusFilter === 'all') return true;
     if (creditStatusFilter === 'repaid') return s.creditInfo && s.creditInfo.repayStatus === 'repaid';
     if (creditStatusFilter === 'unpaid') return !(s.creditInfo && s.creditInfo.repayStatus === 'repaid');
