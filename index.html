@@ -5900,7 +5900,7 @@ function renderDashboard() {
   var pendingRepairCount = (workbenchState.repairRecords || []).filter(function(r) { return r.status !== 'done'; }).length;
   var repairIconSvg = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;flex-shrink:0;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
   document.getElementById('statsGrid').innerHTML =
-    '<div class="stat-card"><div class="stat-icon">' + getIconDInline('product', 36) + '</div><div class="stat-value">' + totalProducts + '</div><div class="stat-label">商品总数</div></div>' +
+    '<div class="stat-card" id="statTotalCard" style="user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;" onclick="handleTotalCardTap()"><div class="stat-icon">' + getIconDInline('product', 36) + '</div><div class="stat-value">' + totalProducts + '</div><div class="stat-label">商品总数</div></div>' +
     '<div class="stat-card"><div class="stat-icon">' + getIconDInline('chart', 36) + '</div><div class="stat-value">' + totalStock + '</div><div class="stat-label">总库存量</div></div>' +
     '<div class="stat-card"><div class="stat-icon">' + getIconDInline('cart', 36) + '</div><div class="stat-value">' + todayCount + '</div><div class="stat-label">今日交易</div></div>' +
     '<div class="stat-card success"><div class="stat-icon">' + getIconDInline('money', 36) + '</div><div class="stat-value">¥' + todaySales.toFixed(0) + '</div><div class="stat-label">今日销售额</div></div>' +
@@ -8538,6 +8538,21 @@ async function doLogin() {
     _kpPwd = '';
     kpRender();
   }
+}
+
+/* 连点「商品总数」卡片 3 下退出到登录页（隐藏式门禁退出） */
+var _exitTapCount = 0, _exitTapTimer = null;
+function handleTotalCardTap() {
+  _exitTapCount++;
+  if (_exitTapTimer) clearTimeout(_exitTapTimer);
+  if (_exitTapCount >= 3) {
+    _exitTapCount = 0;
+    showLoginGate();
+    window.__authPassed = false;
+    showToast('已退出登录', 'success');
+    return;
+  }
+  _exitTapTimer = setTimeout(function() { _exitTapCount = 0; }, 800);
 }
 
 function init() {
