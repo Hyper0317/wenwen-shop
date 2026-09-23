@@ -3858,16 +3858,26 @@ function _getCharInitial(ch) {
 }
 function buildPinyinMap() {
   _pinyinMap = {};
-  if (!workbenchState || !workbenchState.products) return;
+  if (!workbenchState) return;
   var chars = {};
-  workbenchState.products.forEach(function(p) {
-    [p.name, p.category, p.location, p.id].forEach(function(t) {
-      if (!t) return;
-      for (var i = 0; i < t.length; i++) {
-        var ch = t[i];
-        if (/[\u4e00-\u9fff]/.test(ch) && !chars[ch]) chars[ch] = true;
-      }
-    });
+  function _collect(t) {
+    if (!t) return;
+    for (var i = 0; i < t.length; i++) {
+      var ch = t[i];
+      if (/[\u4e00-\u9fff]/.test(ch)) chars[ch] = true;
+    }
+  }
+  (workbenchState.products || []).forEach(function(p) {
+    [p.name, p.category, p.location, p.id].forEach(_collect);
+  });
+  // 销售页/赊账页：销售员、订单号、赊账人姓名也纳入拼音映射
+  (workbenchState.sales || []).forEach(function(s) {
+    [s.productName, s.seller, s.orderNo, s.productId].forEach(_collect);
+    if (s.creditInfo && s.creditInfo.person) _collect(s.creditInfo.person);
+  });
+  // 维修页：客户姓名、商品、地址、经手人
+  (workbenchState.repairRecords || []).forEach(function(r) {
+    [r.customerName, r.productName, r.address, r.doneHandler].forEach(_collect);
   });
   Object.keys(chars).forEach(function(ch) { _pinyinMap[ch] = _getCharInitial(ch); });
 }
@@ -3880,6 +3890,41 @@ function getPinyinInitials(str) {
   }
   return result;
 }
+// 多音字映射：一个字可有多个读音的首字母，搜任意读音都能命中
+var _POLYPHONE = {
+  '长':['c','z'],'重':['c','z'],'曾':['c','z'],'查':['c','z'],'单':['d','c','s'],
+  '仇':['q','c'],'解':['j','x'],'乐':['l','y'],'行':['x','h'],'厦':['s','x'],
+  '会':['h','k'],'系':['x','j'],'参':['c','s'],'藏':['c','z'],'卡':['k','q'],
+  '泊':['b','p'],'秘':['b','m'],'泌':['m','b'],'便':['b','p'],'省':['s','x'],
+  '宿':['s','x'],'弹':['d','t'],'调':['d','t'],'率':['l','s'],'尾':['w','y'],
+  '万':['w','m'],'畜':['x','c'],'疟':['n','y'],'轧':['y','z'],'朴':['p','p'],'酒':['j']
+};
+function _charInitials(ch) {
+  var base = _pinyinMap[ch];
+  if (!base) base = /[\u4e00-\u9fff]/.test(ch) ? _getCharInitial(ch) : ch.toLowerCase();
+  var arr = [base];
+  var extra = _POLYPHONE[ch];
+  if (extra) { for (var i = 0; i < extra.length; i++) if (arr.indexOf(extra[i]) < 0) arr.push(extra[i]); }
+  return arr;
+}
+function _pyListHas(list, s) {
+  for (var i = 0; i < list.length; i++) { if (list[i].indexOf(s) >= 0) return true; }
+  return false;
+}
+function getPinyinInitialsVariants(str) {
+  if (!str) return [''];
+  var variants = [''];
+  for (var i = 0; i < str.length; i++) {
+    var opts = _charInitials(str[i]);
+    var next = [];
+    for (var v = 0; v < variants.length; v++) {
+      for (var o = 0; o < opts.length; o++) next.push(variants[v] + opts[o]);
+    }
+    variants = next;
+    if (variants.length > 16) variants = variants.slice(0, 16);
+  }
+  return variants;
+}
 function cleanText(str) {
   if (!str) return '';
   return str.replace(/[\s\-\_（）()【】\[\]{}「」""''·.,，。、：:；;！!？?/\\|*×÷+=~`@#$%^&<>]/g, '').toLowerCase();
@@ -3889,7 +3934,7 @@ function fuzzyMatchSearch(text, query) {
   if (!text) return false;
   var textLower = text.toLowerCase();
   var textClean = cleanText(text);
-  var textPinyin = getPinyinInitials(text);
+  var textPinyinList = getPinyinInitialsVariants(text);
   var keywords = query.toLowerCase().split(/\s+/).filter(function(k) { return k.length > 0; });
   for (var i = 0; i < keywords.length; i++) {
     var kw = keywords[i];
@@ -3897,7 +3942,7 @@ function fuzzyMatchSearch(text, query) {
     var matched = false;
     if (textLower.indexOf(kw) >= 0) matched = true;
     if (!matched && kwClean && textClean.indexOf(kwClean) >= 0) matched = true;
-    if (!matched && /^[a-z0-9]+$/.test(kwClean) && textPinyin.indexOf(kwClean) >= 0) matched = true;
+    if (!matched && /^[a-z0-9]+$/.test(kwClean) && _pyListHas(textPinyinList, kwClean)) matched = true;
     // 跳跃匹配：输入的每个字符按顺序出现在文本中即可（不要求连续）
     if (!matched && kwClean) {
       var ti = 0;
@@ -3908,15 +3953,17 @@ function fuzzyMatchSearch(text, query) {
       }
       if (ci === kwClean.length) matched = true;
     }
-    // 拼音首字母跳跃匹配
+    // 拼音首字母跳跃匹配（含多音字各读音变体）
     if (!matched && /^[a-z]+$/.test(kwClean)) {
-      var pi = 0;
-      for (var ci2 = 0; ci2 < kwClean.length; ci2++) {
-        pi = textPinyin.indexOf(kwClean[ci2], pi);
-        if (pi < 0) break;
-        pi++;
+      for (var vi = 0; vi < textPinyinList.length && !matched; vi++) {
+        var pi = 0;
+        for (var ci2 = 0; ci2 < kwClean.length; ci2++) {
+          pi = textPinyinList[vi].indexOf(kwClean[ci2], pi);
+          if (pi < 0) break;
+          pi++;
+        }
+        if (ci2 === kwClean.length) matched = true;
       }
-      if (ci2 === kwClean.length) matched = true;
     }
     if (!matched) return false;
   }
@@ -6107,7 +6154,7 @@ function filterRepairCards() {
   var keyword = input.value.toLowerCase();
   document.querySelectorAll('.repair-card').forEach(function(card) {
     var text = card.textContent.toLowerCase();
-    var matchSearch = !keyword || text.includes(keyword);
+    var matchSearch = !keyword || fuzzyMatchSearch(text, keyword);
     var matchFilter = repairCurrentFilter === 'all' || card.dataset.status === repairCurrentFilter;
     card.style.display = (matchSearch && matchFilter) ? '' : 'none';
   });
