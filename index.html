@@ -4260,18 +4260,15 @@ function openProductDetail(id) {
   var stockClass = getStockClass(p.stock);
   var stockText = p.stock + (p.unit ? ' ' + p.unit : '');
   var stockColor = stockClass === 'out' ? 'var(--danger)' : stockClass === 'low' ? 'var(--warning)' : 'var(--success)';
-  /* === 顶部大图区域 === */
-  var imageHtml = '';
-  if (p.imagePath) {
-    imageHtml = '<div style="width:100%;height:240px;border-radius:16px;overflow:hidden;background:#F5F5F0;margin-bottom:16px;cursor:pointer;" onclick="openLightbox(\'' + escapeHtml(p.imagePath) + '\')"><img id="detailImg" style="width:100%;height:100%;object-fit:cover;" alt="商品照片"></div>';
-  } else {
-    imageHtml = '<div style="width:100%;height:200px;border-radius:16px;overflow:hidden;background:#F5F5F0;margin-bottom:16px;display:flex;align-items:center;justify-content:center;"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#007AFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>';
-  }
-  /* === 商品名称 + 编号 === */
+  /* === 商品名称 + 编号/库存/图片按钮 === */
+  var imgBtnHtml = p.imagePath
+    ? '<button style="background:#F0EDE8;border:none;cursor:pointer;padding:4px 10px;border-radius:20px;display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;" title="查看图片" onclick="openLightbox(\'' + escapeHtml(p.imagePath) + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>'
+    : '';
   var titleHtml = '<div style="font-size:22px;font-weight:700;margin-bottom:6px;letter-spacing:-0.3px;">' + escapeHtml(p.name) + '</div>' +
     '<div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">' +
-      '<span style="background:#F0EDE8;color:var(--text-secondary);font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;">编号 ' + escapeHtml(p.id) + '</span>' +
+      '<span style="background:#F0EDE8;color:var(--text-secondary);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;">编号 ' + escapeHtml(p.id) + '</span>' +
       '<span class="stock-badge ' + stockClass + '" style="position:static;">' + getStockBadgeText(p.stock) + '</span>' +
+      imgBtnHtml +
     '</div>';
   /* === 井字格信息区域 === */
   var gridHtml = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#E8E5E0;border-radius:14px;overflow:hidden;margin-bottom:16px;">' +
@@ -4308,15 +4305,11 @@ function openProductDetail(id) {
   '</div>';
   /* === 备注区域（如有） === */
   var noteHtml = p.note ? '<div style="background:#FAF9F6;border-radius:14px;padding:16px;margin-bottom:16px;"><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">备注</div><div style="font-size:14px;line-height:1.6;">' + escapeHtml(p.note) + '</div></div>' : '';
-  body.innerHTML = imageHtml + titleHtml + gridHtml + noteHtml;
+  body.innerHTML = titleHtml + gridHtml + noteHtml;
   document.getElementById('detailModal').classList.add('show');
   var delBtn = document.getElementById('detailDeleteBtn');
   delBtn.dataset.productId = id;
   delBtn.onclick = function() { deleteProductFromDetail(); };
-  if (p.imagePath) {
-    var detailImg = document.getElementById('detailImg');
-    if (detailImg) renderThumbnail(p.imagePath, detailImg);
-  }
 }
 
 function closeDetailModal() { document.getElementById('detailModal').classList.remove('show'); }
