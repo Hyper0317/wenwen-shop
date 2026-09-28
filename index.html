@@ -3157,16 +3157,50 @@ function sbXHR(method, url, headers, body) {
   });
 }
 
+/* 网络波动自动重试：GET/DELETE 幂等可安全重试；POST/PATCH 仅在网关层明确拒绝(401/5xx)时重试，避免重复写入 */
+function sbIsRetryable(err) {
+  var msg = String(err && err.message || '');
+  if (msg.indexOf('timeout') >= 0 || msg.indexOf('network error') >= 0) return 'net';
+  var m = msg.match(/failed: (\d{3})/);
+  if (!m) return null;
+  var code = parseInt(m[1], 10);
+  if (code === 401 || code >= 500) return 'safe';
+  return null;
+}
+
+async function sbXHRRetry(method, url, headers, body) {
+  var maxAttempts = 3;
+  var lastErr = null;
+  for (var attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await sbXHR(method, url, headers, body);
+    } catch (e) {
+      lastErr = e;
+      if (attempt >= maxAttempts) break;
+      var kind = sbIsRetryable(e);
+      /* 写操作只在网关层拒绝(请求未处理)时重试；读操作任何可重试错误都重试 */
+      var isRead = (method === 'GET' || method === 'DELETE');
+      if (isRead) {
+        if (!kind) break;
+      } else {
+        if (kind !== 'safe') break;
+      }
+      await new Promise(function(r) { setTimeout(r, 1000 * attempt); });
+    }
+  }
+  throw lastErr;
+}
+
 async function sbSelect(table, query) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?select=*' + (query || '');
   var h = sbHeaders();
-  return await sbXHR('GET', url, h, null);
+  return await sbXHRRetry('GET', url, h, null);
 }
 
 async function sbSelectSingle(table, filter) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?select=*&' + filter;
   var h = sbHeaders();
-  var rows = await sbXHR('GET', url, h, null);
+  var rows = await sbXHRRetry('GET', url, h, null);
   return rows[0] || null;
 }
 
@@ -3177,12 +3211,12 @@ async function sbUpsert(table, rows, onConflict) {
     url += '?on_conflict=' + onConflict;
     headers['Prefer'] = 'return=representation,resolution=merge-duplicates';
   }
-  return await sbXHR('POST', url, headers, JSON.stringify(rows));
+  return await sbXHRRetry('POST', url, headers, JSON.stringify(rows));
 }
 
 async function sbDeleteAll(table) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?id=gt.0';
-  try { await sbXHR('DELETE', url, sbHeaders(), null); }
+  try { await sbXHRRetry('DELETE', url, sbHeaders(), null); }
   catch(e) { console.error('Delete ' + table + ' error:', e.message); }
 }
 
@@ -3190,12 +3224,12 @@ async function sbInsert(table, rows) {
   var url = SUPABASE_URL + '/rest/v1/' + table;
   var headers = sbHeaders();
   headers['Prefer'] = 'return=representation';
-  return await sbXHR('POST', url, headers, JSON.stringify(rows));
+  return await sbXHRRetry('POST', url, headers, JSON.stringify(rows));
 }
 
 async function sbDeleteOne(table, rowId) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + rowId;
-  try { await sbXHR('DELETE', url, sbHeaders(), null); }
+  try { await sbXHRRetry('DELETE', url, sbHeaders(), null); }
   catch(e) { console.error('DeleteOne ' + table + ' error:', e.message); }
 }
 
@@ -3203,7 +3237,7 @@ async function sbUpdateOne(table, rowId, data) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + rowId;
   var headers = sbHeaders();
   headers['Prefer'] = 'return=representation';
-  return await sbXHR('PATCH', url, headers, JSON.stringify(data));
+  return await sbXHRRetry('PATCH', url, headers, JSON.stringify(data));
 }
 
 // Convert DB rows (snake_case) to workbenchState (camelCase)
