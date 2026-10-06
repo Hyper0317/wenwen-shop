@@ -3364,6 +3364,7 @@ async function loadFromCloud() {
       tools: (tools || []).map(mapToolFromDB),
       toolLoans: (loans || []).map(mapLoanFromDB),
       nextProductId: (prefsRow && prefsRow.next_product_id) || 1,
+      _prefsLoaded: !!prefsRow,
       nextToolId: (prefsRow && prefsRow.next_tool_id) || 1,
       _orderCounter: (prefsRow && prefsRow.order_counter) || {},
       preferences: { lowStockThreshold: (prefsRow && prefsRow.low_stock_threshold) || 10 }
@@ -4235,28 +4236,43 @@ function saveProduct() {
       showToast('保存失败，请重试', 'error');
     });
   } else {
-    // 新增：单条 insert
-    var newId = 'P' + String(workbenchState.nextProductId || 1).padStart(4, '0');
+    // 新增：单条 insert；编号以云端最大编号为准，撞号自动顺延重试，保证多设备不冲突
     var now = new Date().toISOString();
-    var newProduct = {
-      id: newId, name: name, category: _category, unit: _unit, price: price,
-      stock: stock, location: _location, note: _note,
-      image_path: _imagePath || '', created_at: now, updated_at: now
+    var insertNewProduct = function(newId) {
+      var newProduct = {
+        id: newId, name: name, category: _category, unit: _unit, price: price,
+        stock: stock, location: _location, note: _note,
+        image_path: _imagePath || '', created_at: now, updated_at: now
+      };
+      return sbInsert('products', [newProduct]).then(function(inserted) {
+        var row = Array.isArray(inserted) ? inserted[0] : inserted;
+        var mapped = mapProductFromDB(row);
+        workbenchState.products.push(mapped);
+        workbenchState.nextProductId = parseInt(newId.slice(1), 10) + 1;
+        // 只有成功读到云端编号时才写回，防止旧值覆盖（编号以云端最大编号为准，写回仅作加速缓存）
+        if (workbenchState._prefsLoaded) {
+          sbUpdateOne('preferences', 1, { next_product_id: workbenchState.nextProductId });
+        }
+        renderProducts(); renderDashboard();
+        showSaveStatus('saved', '已保存', 1500);
+        showToast('商品已添加', 'success');
+      }).catch(function(e) {
+        // 撞号：取云端最大编号+1 重试一次
+        if (workbenchState._insertRetried) { throw e; }
+        workbenchState._insertRetried = true;
+        return sbSelect('products', '&select=id&order=id.desc&limit=1').then(function(rows) {
+          var maxNum = 0;
+          if (rows && rows[0] && rows[0].id) { maxNum = parseInt(String(rows[0].id).replace('P',''), 10) || 0; }
+          var nextId = 'P' + String(maxNum + 1).padStart(4, '0');
+          workbenchState.nextProductId = maxNum + 2;
+          return insertNewProduct(nextId);
+        }).catch(function(e2) {
+          showSaveStatus('failed', '保存失败', 3000);
+          showToast('保存失败，请重试', 'error');
+        });
+      });
     };
-    sbInsert('products', [newProduct]).then(function(inserted) {
-      var row = Array.isArray(inserted) ? inserted[0] : inserted;
-      var mapped = mapProductFromDB(row);
-      workbenchState.products.push(mapped);
-      workbenchState.nextProductId = (workbenchState.nextProductId || 1) + 1;
-      // 单条 update preferences
-      sbUpdateOne('preferences', 1, { next_product_id: workbenchState.nextProductId });
-      renderProducts(); renderDashboard();
-      showSaveStatus('saved', '已保存', 1500);
-      showToast('商品已添加', 'success');
-    }).catch(function(e) {
-      showSaveStatus('failed', '保存失败', 3000);
-      showToast('保存失败，请重试', 'error');
-    });
+    insertNewProduct('P' + String(workbenchState.nextProductId || 1).padStart(4, '0'));
   }
 }
 
