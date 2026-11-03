@@ -5008,18 +5008,20 @@ function renderSales() {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + getIconDInline('list', 48) + '</div><div class="empty-text">' + (workbenchState.sales.length === 0 ? '还没有销售记录' : '没有找到匹配的记录') + '</div></div>';
     return;
   }
-  // 本期销售总额：只算销售记录，退货记录不算
+  // 本期销售总额：净销售额 = 销售金额 - 退货金额
   var salesTotal = 0;
   var salesCount = 0;
   filtered.forEach(function(s) {
-    if (s.recordType !== 'refund') {
+    if (s.recordType === 'refund') {
+      salesTotal -= s.totalAmount;
+    } else {
       salesTotal += s.totalAmount;
       salesCount++;
     }
   });
   var html = '<div class="sales-summary-bar">' +
     '<div class="sales-summary-item">' +
-      '<div class="sales-summary-label">本期销售总额</div>' +
+      '<div class="sales-summary-label">净销售额（销售-退货）</div>' +
       '<div class="sales-summary-value">¥' + salesTotal.toFixed(2) + '</div>' +
     '</div>' +
     '<div class="sales-summary-divider"></div>' +
