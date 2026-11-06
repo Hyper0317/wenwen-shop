@@ -2,6 +2,13 @@
 
 更新时间：2026-11-06 13:50（Asia/Shanghai）
 
+## GitHub 跟踪入口
+
+- 进度 Issue：https://github.com/Hyper0317/wenwen-shop/issues/1
+- 交接文档 PR：https://github.com/Hyper0317/wenwen-shop/pull/2
+
+当前状态为暂停开发。恢复时先阅读本文件，再从 PR 中的「待办」继续。
+
 ## 项目定位
 
 - 网页源：`Hyper0317/wenwen-shop`，线上 `https://hyper0317.github.io/wenwen-shop/`
