@@ -1,13 +1,13 @@
 # 雯雯的小店 Android 原生版：跨 Session 交接
 
-更新时间：2026-11-06 16:10（Asia/Shanghai）
+更新时间：2026-11-06 16:30（Asia/Shanghai）
 
 ## GitHub 跟踪入口
 
 - 进度 Issue：https://github.com/Hyper0317/wenwen-shop/issues/1
 - 交接文档 PR：https://github.com/Hyper0317/wenwen-shop/pull/2
 
-当前 `v2.0.1` 已完成本轮开发与验证。后续继续开发时，先阅读本文件，再从未完成待办继续。
+当前 `v2.0.2` 已完成本轮开发与验证。后续继续开发时，先阅读本文件，再从未完成待办继续。
 
 ## 项目定位
 
@@ -22,9 +22,9 @@
 ### 构建与分发
 
 - 包名：`com.wenwen.shop`
-- 已交付 APK：`v2.0.1`，versionCode `17`
-- APK：`outputs/雯雯的小店-Android-v2.0.1.apk`
-- SHA-256：`73B17D5DAA4233D38CA2519C41D5950982BE0BA9F1642755F73422F4406CEF31`
+- 已交付 APK：`v2.0.2`，versionCode `18`
+- APK：`outputs/雯雯的小店-Android-v2.0.2.apk`
+- SHA-256：`D880311593BA1E0126C36698896ED7CE955ED788C21081B804D4EA4060E4B3A2`
 - APK 使用 v2 debug 签名，可直接内部安装
 
 ### 视觉与页面
