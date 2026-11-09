@@ -20,6 +20,7 @@
 - `testDebugUnitTest`：通过。
 - `assembleDebug`：通过。
 - `assembleDebugAndroidTest`：通过。
+- `lintDebug`：通过，0 errors / 19 个既有图标重复警告。
 - 完整设备交互回归：13/13 通过。
 - 已验证售出人弹窗修复后，雯雯、雯爸、雯妈三个选项真实可见。
 - 已验证购物车 2/3 高度弹性抽屉：全展开、慢速下拉到半展开、内容区操作、重新上拉、滚动和快速下滑关闭。
