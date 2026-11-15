@@ -6,6 +6,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNGRkYwRjUiLz48ZWxsaXBzZSBjeD0iMzIiIGN5PSIzNiIgcng9IjIyIiByeT0iMTgiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48ZWxsaXBzZSBjeD0iMTYiIGN5PSIyMiIgcng9IjciIHJ5PSI2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS41Ii8+PGVsbGlwc2UgY3g9IjQ4IiBjeT0iMjIiIHJ4PSI3IiByeT0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIvPjxlbGxpcHNlIGN4PSIxNCIgY3k9IjIwIiByeD0iMyIgcnk9IjIuNSIgZmlsbD0iI0ZGQjZDMSIvPjxlbGxpcHNlIGN4PSI1MCIgY3k9IjIwIiByeD0iMyIgcnk9IjIuNSIgZmlsbD0iI0ZGQjZDMSIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwLDE2KSI+PHBhdGggZD0iTTAsMCBMOCwtMyBMMTAsMyBMNiw1IEwyLDcgWiIgZmlsbD0iI0U4MzMyRCIvPjxjaXJjbGUgY3g9IjMiIGN5PSIyIiByPSIyIiBmaWxsPSIjRkY2QjZCIi8+PGNpcmNsZSBjeD0iNyIgY3k9IjEiIHI9IjEuNSIgZmlsbD0iI0ZGNkI2QiIvPjwvZz48ZWxsaXBzZSBjeD0iMjciIGN5PSIzNCIgcng9IjIuNSIgcng9IjMuNSIgZmlsbD0iIzFhMWExYSIvPjxlbGxpcHNlIGN4PSIzNyIgY3k9IjM0IiByeD0iMi41IiByeT0iMy41IiBmaWxsPSIjMWExYTFhIi8+PGVsbGlwc2UgY3g9IjMyIiBjeT0iNDAiIHJ4PSIzIiByeT0iMiIgZmlsbD0iI0ZGRDcwMCIvPjxwYXRoIGQ9Ik0yOSw0MiBRMzIsNDUgMzUsNDIiIHN0cm9rZT0iIzk5OSIgc3Ryb2tlLXdpZHRoPSIxLjIiIGZpbGw9Im5vbmUiLz48bGluZSB4MT0iMzIiIHkxPSI0MiIgeDI9IjMyIiB5Mj0iNDQiIHN0cm9rZT0iIzk5OSIgc3Ryb2tlLXdpZHRoPSIxIi8+PGxpbmUgeDE9IjI4IiB5MT0iNDMiIHgyPSIyNCIgeTI9IjQxIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMC44Ii8+PGxpbmUgeDE9IjM2IiB5MT0iNDMiIHgyPSI0MCIgeTI9IjQxIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMC44Ii8+PC9zdmc+">
 <title>雯雯的小店</title>
 <script src="./雯雯的小店.data.js"></script>
+<script src="./js/cloud-write.js?v=8.4"></script>
 <style>
 :root {
   --primary: #007AFF;
@@ -3114,6 +3115,39 @@ var sellSelectedPayment = null;
 var sellCreditInfo = null;
 var creditFormMode = 'single';
 
+var CLOUD_WRITE_MODE = (function() {
+  var storedMode = '';
+  try { storedMode = localStorage.getItem(WenwenCloudWrites.MODE_STORAGE_KEY) || ''; } catch(e) {}
+  var queryMode = WenwenCloudWrites.readQueryMode(window.location.search);
+  if (queryMode) {
+    try { localStorage.setItem(WenwenCloudWrites.MODE_STORAGE_KEY, queryMode); } catch(e2) {}
+  }
+  return WenwenCloudWrites.resolveMode({
+    explicit: window.WENWEN_WRITE_MODE,
+    search: window.location.search,
+    stored: storedMode
+  });
+})();
+
+function isRpcWriteMode() {
+  return WenwenCloudWrites.isRpcMode(CLOUD_WRITE_MODE);
+}
+
+function setCloudWriteMode(mode) {
+  var normalized = WenwenCloudWrites.normalizeMode(mode);
+  if (!normalized) throw new Error('写入模式只能是 RPC_WRITE 或 LEGACY_WRITE');
+  try { localStorage.setItem(WenwenCloudWrites.MODE_STORAGE_KEY, normalized); } catch(e) {}
+  try {
+    var target = new URL(window.location.href);
+    target.searchParams.set('write_mode', normalized);
+    window.location.replace(target.toString());
+  } catch(e2) {
+    window.location.reload();
+  }
+  return normalized;
+}
+window.setWenwenWriteMode = setCloudWriteMode;
+
 // ===== Supabase Cloud Data Layer (fetch-based, no external library) =====
 var SUPABASE_URL = 'https://smamozhqfiabrnpohpwe.supabase.co';
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYW1vemhxZmlhYnJucG9ocHdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNTU5MzcsImV4cCI6MjEwMjYzMTkzN30.qF4EqcSF442MSTRQAISEMkPc3FqOIhJ95TBSMoWPj6M';
@@ -3169,7 +3203,7 @@ function sbIsRetryable(err) {
   return null;
 }
 
-async function sbXHRRetry(method, url, headers, body) {
+async function sbXHRRetry(method, url, headers, body, idempotentWrite) {
   var maxAttempts = 3;
   var lastErr = null;
   for (var attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -3181,7 +3215,7 @@ async function sbXHRRetry(method, url, headers, body) {
       var kind = sbIsRetryable(e);
       /* 写操作只在网关层拒绝(请求未处理)时重试；读操作任何可重试错误都重试 */
       var isRead = (method === 'GET' || method === 'DELETE');
-      if (isRead) {
+      if (isRead || idempotentWrite === true) {
         if (!kind) break;
       } else {
         if (kind !== 'safe') break;
@@ -3244,6 +3278,14 @@ async function sbInsert(table, rows) {
   return await sbXHRRetry('POST', url, headers, JSON.stringify(rows));
 }
 
+async function sbRpc(functionName, payload) {
+  var url = SUPABASE_URL + '/rest/v1/rpc/' + functionName;
+  var headers = sbHeaders();
+  headers['Prefer'] = 'return=representation';
+  /* 销售、批量销售和退货都由固定 ID 保证幂等，超时后重试同一载荷不会重复入账。 */
+  return await sbXHRRetry('POST', url, headers, JSON.stringify(payload), true);
+}
+
 async function sbDeleteOne(table, rowId) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + rowId;
   try { await sbXHRRetry('DELETE', url, sbHeaders(), null); }
@@ -3254,7 +3296,8 @@ async function sbUpdateOne(table, rowId, data) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + rowId;
   var headers = sbHeaders();
   headers['Prefer'] = 'return=representation';
-  return await sbXHRRetry('PATCH', url, headers, JSON.stringify(data));
+  var result = await sbXHRRetry('PATCH', url, headers, JSON.stringify(data));
+  return WenwenCloudWrites.validateSingleRepresentation(result, 'PATCH ' + table + ' id=' + rowId);
 }
 
 // Convert DB rows (snake_case) to workbenchState (camelCase)
@@ -4666,6 +4709,46 @@ function generateOrderNo(latest) {
   return datePart + seqPart;
 }
 
+function createClientWriteId(prefix) {
+  return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+function submitSingleSaleRpc(productId, quantity, unitPrice, seller, paymentMethod, creditInfo) {
+  var saleId = createClientWriteId('S');
+  var payload = {
+    p_sale_id: saleId,
+    p_product_id: productId,
+    p_quantity: quantity,
+    p_unit_price: unitPrice,
+    p_seller: seller || '',
+    p_payment_method: paymentMethod || '',
+    p_credit_info: creditInfo || null
+  };
+  return sbRpc('wenwen_app_sale_v1', payload).then(function(result) {
+    result = WenwenCloudWrites.validateSingleSaleResult(result, saleId);
+    var p = findProductById(productId);
+    var mapped = mapSaleFromDB(result.sale);
+    if (!workbenchState.sales.some(function(sale) { return sale.id === mapped.id; })) {
+      workbenchState.sales.unshift(mapped);
+    }
+    if (p && typeof result.stock === 'number') {
+      p.stock = result.stock;
+      p.updatedAt = result.sale.sale_time || new Date().toISOString();
+    }
+    if (result.orderCounter) workbenchState._orderCounter = result.orderCounter;
+    var payLabel = paymentMethod ? getPaymentLabel(paymentMethod) : '';
+    var productLabel = mapped.productName + ' × ' + mapped.quantity + (mapped.unit ? ' ' + mapped.unit : '');
+    showSaleSuccessPopup(mapped.totalAmount, payLabel, productLabel);
+    renderSellList(); renderDashboard();
+    if (currentTab === 'sales') renderSales();
+    showSaveStatus('saved', '已保存', 1500);
+  }).catch(function(e) {
+    console.error('[confirmSell:RPC] 保存失败:', e);
+    showSaveStatus('failed', '保存失败', 3000);
+    showToast('保存失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
+  });
+}
+
 function confirmSell() {
   var p = findProductById(sellTargetProductId);
   if (!p) { showToast('商品不存在（找不到 ' + sellTargetProductId + '）', 'error'); return; }
@@ -4683,6 +4766,11 @@ function confirmSell() {
   closeSellModal();
   showSaveStatus('saving', '保存中...');
   _lastSaveTime = Date.now();
+
+  if (isRpcWriteMode()) {
+    submitSingleSaleRpc(_productId, qty, price, _seller, _payment, _creditInfo);
+    return;
+  }
 
   var saleTime = new Date().toISOString();
   var saleId = 'S' + Date.now().toString(36);
@@ -5277,6 +5365,45 @@ function confirmRefund() {
   closeSaleDetail();
   showSaveStatus('saving', '退货处理中...');
   _lastSaveTime = Date.now();
+
+  if (isRpcWriteMode()) {
+    var rpcRefundId = createClientWriteId('R');
+    sbRpc('wenwen_app_refund_v1', {
+      p_refund_id: rpcRefundId,
+      p_original_sale_id: s.id,
+      p_quantity: refundQty,
+      p_refund_person: refundPerson || '',
+      p_refund_note: refundNote || ''
+    }).then(function(result) {
+      result = WenwenCloudWrites.validateRefundResult(result, rpcRefundId, s.id);
+      var refundMapped = mapSaleFromDB(result.refundSale);
+      var originalMapped = mapSaleFromDB(result.originalSale);
+      var originalIndex = workbenchState.sales.findIndex(function(sale) { return sale.id === s.id; });
+      if (originalIndex >= 0) workbenchState.sales[originalIndex] = originalMapped;
+      if (!workbenchState.sales.some(function(sale) { return sale.id === refundMapped.id; })) {
+        workbenchState.sales.unshift(refundMapped);
+      }
+      if (p && typeof result.stock === 'number') {
+        p.stock = result.stock;
+        p.updatedAt = new Date().toISOString();
+      }
+      renderSellList();
+      renderDashboard();
+      renderCreditRecords();
+      if (currentTab === 'sales') renderSales();
+      showSaveStatus('saved', '退货成功', 1500);
+      showToast(
+        '退货成功：' + originalMapped.productName + ' ×' + refundQty
+          + (typeof result.stock === 'number' ? '，库存已退回' : '（商品已删除，未退回库存）'),
+        'success'
+      );
+    }).catch(function(e) {
+      console.error('[confirmRefund:RPC] 退货失败:', e);
+      showSaveStatus('failed', '退货失败', 3000);
+      showToast('退货失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
+    });
+    return;
+  }
   
   var refundId = 'R' + Date.now().toString(36);
   var refundRow = mapSaleToDB({
@@ -7550,6 +7677,54 @@ function checkoutCart() {
   showSaveStatus('saving', '保存中...');
   _lastSaveTime = Date.now();
 
+  if (isRpcWriteMode()) {
+    var rpcLines = [];
+    var rpcTotal = 0;
+    keys.forEach(function(id) {
+      var item = _cartItems[id];
+      rpcLines.push({ product_id: id, quantity: item.qty, unit_price: item.price });
+      rpcTotal += item.qty * item.price;
+    });
+    var batchId = createClientWriteId('B');
+    sbRpc('wenwen_app_batch_sale_v1', {
+      p_batch_id: batchId,
+      p_lines: rpcLines,
+      p_seller: _cartSeller,
+      p_payment_method: _cartPayment,
+      p_credit_info: _cartPayment === 'credit' ? _cartCreditInfo : null
+    }).then(function(result) {
+      result = WenwenCloudWrites.validateBatchSaleResult(result, rpcLines.length);
+      result.sales.forEach(function(row) {
+        var mapped = mapSaleFromDB(row);
+        if (!workbenchState.sales.some(function(sale) { return sale.id === mapped.id; })) {
+          workbenchState.sales.unshift(mapped);
+        }
+      });
+      Object.keys(result.stocks).forEach(function(productId) {
+        var product = findProductById(productId);
+        if (product && typeof result.stocks[productId] === 'number') {
+          product.stock = result.stocks[productId];
+          product.updatedAt = new Date().toISOString();
+        }
+      });
+      if (result.orderCounter) workbenchState._orderCounter = result.orderCounter;
+      cartItems = {};
+      cartSeller = null;
+      cartPayment = null;
+      cartCreditInfo = null;
+      updateCartFab();
+      showSaleSuccessPopup(rpcTotal, null, '共 ' + keys.length + ' 件商品');
+      renderSellList(); renderDashboard();
+      if (currentTab === 'sales') renderSales();
+      showSaveStatus('saved', '已保存', 1500);
+    }).catch(function(e) {
+      console.error('[checkoutCart:RPC] 保存失败:', e);
+      showSaveStatus('failed', '保存失败', 3000);
+      showToast('保存失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
+    });
+    return;
+  }
+
   // 先检查库存
   for (var i = 0; i < keys.length; i++) {
     var id = keys[i];
@@ -8676,7 +8851,7 @@ function init() {
     try { if (localStorage.getItem('ww_auth') === '1') { window.__authPassed = true; } } catch(e) {}
     if (!window.__authPassed) { window.__afterAuth = init; showLoginGate(); return; }
   }
-  window.APP_VERSION = 'v8.3';
+  window.APP_VERSION = 'v8.4';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
