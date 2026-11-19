@@ -16,9 +16,10 @@
     background: #fff; border-radius: 24px; padding: 32px 28px; max-width: 420px; width: 100%;
     box-shadow: 0 12px 40px rgba(30, 80, 160, .12); text-align: center;
   }
-  .icon { width: 72px; height: 72px; border-radius: 18px; margin: 0 auto 16px;
-    background: linear-gradient(135deg, #4a9fff, #0e5ddb); display: flex;
-    align-items: center; justify-content: center; color: #fff; font-size: 34px; font-weight: 700; }
+  .icon {
+    display: block; width: 72px; height: 72px; border-radius: 18px; margin: 0 auto 16px;
+    object-fit: cover; box-shadow: 0 8px 22px rgba(112, 75, 0, .18);
+  }
   h1 { font-size: 20px; margin-bottom: 6px; }
   .ver { color: #0e5ddb; font-weight: 600; font-size: 15px; margin-bottom: 18px; }
   .notes {
@@ -41,7 +42,7 @@
 </head>
 <body>
   <div class="card">
-    <div class="icon">雯</div>
+    <img class="icon" src="app_icon.png" alt="雯雯的小店 APP 图标">
     <h1>雯雯的小店</h1>
     <div class="ver" id="ver">正在获取最新版本…</div>
     <div class="notes" id="notes" style="display:none"></div>
