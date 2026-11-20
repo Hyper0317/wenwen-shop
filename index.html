@@ -3511,15 +3511,32 @@ function initRealtimeSync() {
   if (_realtimeSubscribed) return;
   _realtimeSubscribed = true;
 
-  // 主通道：1 秒快速轮询（所有浏览器都支持，最可靠）
-  var pollCount = 0;
-  var pollingTimer = setInterval(function() {
-    pollCount++;
-    var shouldSkip = Date.now() - _lastSaveTime <= 1500;
-    if (!shouldSkip) {
-      scheduleRefresh();
+  // 主通道：页面可见时 20 秒轮询；页面隐藏（锁屏/切后台/切标签）时完全暂停，
+  // 回到前台立即刷新一次。原 1.5 秒全量轮询在免费档 5GB egress 下约半天即超限。
+  // 待 Realtime postgres_changes 事件推送上线后删除此轮询。
+  var POLL_INTERVAL_MS = 20000;
+  var pollingTimer = null;
+  function pollTick() {
+    if (document.hidden) return;
+    if (Date.now() - _lastSaveTime <= 1500) return;
+    scheduleRefresh();
+  }
+  function startPolling() {
+    if (pollingTimer !== null) return;
+    pollingTimer = setInterval(pollTick, POLL_INTERVAL_MS);
+  }
+  function stopPolling() {
+    if (pollingTimer !== null) { clearInterval(pollingTimer); pollingTimer = null; }
+  }
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      stopPolling();
+    } else {
+      startPolling();
+      pollTick();
     }
-  }, 1500);
+  });
+  startPolling();
 
   // 辅助通道：WebSocket Realtime（能用就用，实现秒级同步）
   var wsUrl = SUPABASE_URL.replace('https://', 'wss://') + '/realtime/v1/websocket';
