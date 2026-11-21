@@ -9,7 +9,7 @@
 
   var RPC_WRITE = 'RPC_WRITE';
   var LEGACY_WRITE = 'LEGACY_WRITE';
-  var DEFAULT_MODE = LEGACY_WRITE;
+  var DEFAULT_MODE = RPC_WRITE;
   var MODE_STORAGE_KEY = 'wenwen_write_mode';
 
   function normalizeMode(value) {
