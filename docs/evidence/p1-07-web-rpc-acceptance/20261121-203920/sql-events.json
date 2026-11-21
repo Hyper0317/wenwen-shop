@@ -1,0 +1,82 @@
+[
+  {
+    "time": "2026-11-21T12:39:35.1705592Z",
+    "label": "database-identity-preflight",
+    "operation": "batch",
+    "source": "supabase-cli",
+    "sqlSha256": "0b1f87dd032d5117df644cbb36d105c9c4c9880e2ddc946213b9441001fd80f3",
+    "durationMs": 4642,
+    "success": true,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:39:40.8130832Z",
+    "label": "reset-public-schema",
+    "operation": "batch",
+    "source": "supabase-cli",
+    "sqlSha256": "229c765356b0f6b9f4743696a5f0d7946cc11c1bdbb1c9a542570ed3a0eb68e6",
+    "durationMs": 5624,
+    "success": true,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:39:47.3970377Z",
+    "label": "apply-baseline",
+    "operation": "batch",
+    "source": "supabase-cli",
+    "sqlSha256": "3484d0afdf4bc5e36065c0ed64b629783b95c8cea0463e16d967f318762b999c",
+    "durationMs": 6581,
+    "success": true,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:39:52.1713529Z",
+    "label": "apply-migration:20261115183000_p1_01_atomic_single_sale.sql",
+    "operation": "batch",
+    "source": "supabase-cli",
+    "sqlSha256": "55fa917dba5dd90bcca8c0c3abbcda64943a2098264d8ef0fc25942cff4823f2",
+    "durationMs": 4759,
+    "success": true,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:39:59.3293781Z",
+    "label": "apply-migration:20261115200000_p1_03_atomic_batch_sale.sql",
+    "operation": "batch",
+    "source": "supabase-cli",
+    "sqlSha256": "97f18c760c9c22f075ae7563500f2903e5d0bf9cdb767e14815b41be16df0e11",
+    "durationMs": 7156,
+    "success": true,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:05.4632916Z",
+    "label": "apply-migration:20261115213000_p1_04_atomic_refund.sql",
+    "operation": "batch",
+    "source": "supabase-cli",
+    "sqlSha256": "8c15e0a8e9ea422c7ff4335736e0d776386e4d661e550051f4d6e4a0d9bc6782",
+    "durationMs": 6132,
+    "success": true,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:10.6246964Z",
+    "label": "apply-migration:20261116101500_p4_01_product_barcode.sql",
+    "operation": "batch",
+    "source": "supabase-cli",
+    "sqlSha256": "59f98b59ebbfcee31af8059c63570b2ba300728e3c6680116b8a151817816e8a",
+    "durationMs": 5149,
+    "success": true,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:15.5276619Z",
+    "label": "apply-test-seed",
+    "operation": "batch",
+    "source": "supabase-cli",
+    "sqlSha256": "7f4d9a271e70634dc1ae1b127543908aa4f64cfe8bd0a05db63f717e78a19b99",
+    "durationMs": 4891,
+    "success": true,
+    "errorType": ""
+  }
+]

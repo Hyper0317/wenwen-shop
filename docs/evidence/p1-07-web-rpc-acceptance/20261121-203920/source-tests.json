@@ -1,0 +1,31 @@
+{
+  "status": "PASSED",
+  "webRepository": "D:\\AI\\ChatGPT\\WenwenShopAndroid\\CodexWorktrees\\wenwen-shop-p1-07",
+  "webRevision": "3dd047e3ab106548d48d83489b610be55ded195c",
+  "webContract": {
+    "exitCode": 0,
+    "output": "TAP version 13\r\n# Subtest: write mode defaults to legacy and allows an explicit RPC opt-in\r\nok 1 - write mode defaults to legacy and allows an explicit RPC opt-in\r\n  ---\r\n  duration_ms: 1.3187\r\n  type: 'test'\r\n  ...\r\n# Subtest: conflict errors stop automatic retries and require manual review\r\nok 2 - conflict errors stop automatic retries and require manual review\r\n  ---\r\n  duration_ms: 0.2384\r\n  type: 'test'\r\n  ...\r\n# Subtest: single sale result requires a matching fixed sale ID and valid stock\r\nok 3 - single sale result requires a matching fixed sale ID and valid stock\r\n  ---\r\n  duration_ms: 0.5514\r\n  type: 'test'\r\n  ...\r\n# Subtest: batch sale result requires every represented sale and an authoritative stock map\r\nok 4 - batch sale result requires every represented sale and an authoritative stock map\r\n  ---\r\n  duration_ms: 0.2676\r\n  type: 'test'\r\n  ...\r\n# Subtest: refund result requires both fixed refund and original sale identities\r\nok 5 - refund result requires both fixed refund and original sale identities\r\n  ---\r\n  duration_ms: 0.2213\r\n  type: 'test'\r\n  ...\r\n# Subtest: strict single-row writes reject zero and multi-row representations\r\nok 6 - strict single-row writes reject zero and multi-row representations\r\n  ---\r\n  duration_ms: 0.8188\r\n  type: 'test'\r\n  ...\r\n# Subtest: page uses RPC for transactional routes and strict representation for single-row writes\r\nok 7 - page uses RPC for transactional routes and strict representation for single-row writes\r\n  ---\r\n  duration_ms: 0.9007\r\n  type: 'test'\r\n  ...\r\n# Subtest: inline page script parses as JavaScript\r\nok 8 - inline page script parses as JavaScript\r\n  ---\r\n  duration_ms: 4.2507\r\n  type: 'test'\r\n  ...\r\n1..8\r\n# tests 8\r\n# suites 0\r\n# pass 8\r\n# fail 0\r\n# cancelled 0\r\n# skipped 0\r\n# todo 0\r\n# duration_ms 140.7523\r\n"
+  },
+  "browserRuntime": {
+    "exitCode": 0,
+    "output": "P1-07 browser runtime: 10/10 passed\r\n"
+  },
+  "files": [
+    {
+      "path": "D:/AI/ChatGPT/WenwenShopAndroid/CodexWorktrees/wenwen-shop-p1-07/index.html",
+      "sha256": "3b04046199f5f189ab1d9c6a3320cf7964f200460e945cd6ace040ea6445883c"
+    },
+    {
+      "path": "D:/AI/ChatGPT/WenwenShopAndroid/CodexWorktrees/wenwen-shop-p1-07/js/cloud-write.js",
+      "sha256": "e82b1abffa54c723f60b3c2f6ca5632e05f8190ca10f801383abf3ea999fddc1"
+    },
+    {
+      "path": "D:/AI/ChatGPT/WenwenShopAndroid/CodexWorktrees/wenwen-shop-p1-07/tests/p1-07-write-mode.test.js",
+      "sha256": "6dbbde2d00a0cfb445bf316da2cf589ff74ce607bb0cb81663e7851301e0b13a"
+    },
+    {
+      "path": "D:/AI/ChatGPT/WenwenShopAndroid/CodexWorktrees/wenwen-shop-p1-07/tests/p1-07-browser-runtime.cjs",
+      "sha256": "a0f900d220e8b6066e5591b315b09fe696645cbd96a6472ad1c89f2b493c03ac"
+    }
+  ]
+}
