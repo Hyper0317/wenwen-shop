@@ -3580,13 +3580,13 @@ function initRealtimeSync() {
   if (_realtimeSubscribed) return;
   _realtimeSubscribed = true;
 
-  // 主通道：页面可见时 20 秒轮询；页面隐藏（锁屏/切后台/切标签）时完全暂停，
-  // 回到前台立即刷新一次。原 1.5 秒全量轮询在免费档 5GB egress 下约半天即超限。
-  // 待 Realtime postgres_changes 事件推送上线后删除此轮询。
+  // 兜底通道：仅当 WebSocket 不健康时，页面可见才每 20 秒全量轮询；
+  // WS 正常时实时事件驱动增量同步，轮询空转不产生流量。
   var POLL_INTERVAL_MS = 20000;
   var pollingTimer = null;
+  var wsHealthy = false;
   function pollTick() {
-    if (document.hidden) return;
+    if (document.hidden || wsHealthy) return;
     if (Date.now() - _lastSaveTime <= 1500) return;
     scheduleRefresh();
   }
@@ -3602,37 +3602,49 @@ function initRealtimeSync() {
       stopPolling();
     } else {
       startPolling();
-      pollTick();
+      if (!wsHealthy) pollTick();
     }
   });
   startPolling();
 
-  // 辅助通道：WebSocket Realtime（能用就用，实现秒级同步）
+  // 主通道：Supabase Realtime postgres_changes，收到变更只拉取变化的行。
   var wsUrl = SUPABASE_URL.replace('https://', 'wss://') + '/realtime/v1/websocket';
   var apiKey = SUPABASE_KEY;
   var ws = null;
   var wsReconnectTimer = null;
   var heartbeatTimer = null;
+  var wsSeq = 1;
+  var changeBuf = {};
+  var changeFlushTimer = null;
+  var SMALL_TABLES = { categories: 1, repair_records: 1, tools: 1, tool_loans: 1 };
 
   function connectWS() {
     try {
       ws = new WebSocket(wsUrl + '?apikey=' + apiKey + '&vsn=1.0.0');
     } catch(e) {
-      console.log('[Realtime] WebSocket init failed, using polling only');
+      console.log('[Realtime] WebSocket init failed, polling fallback');
       return;
     }
 
     ws.onopen = function() {
-      console.log('[Realtime] WebSocket connected');
-      var tables = ['products', 'sales', 'categories', 'repair_records', 'tools', 'tool_loans', 'preferences'];
-      tables.forEach(function(table, idx) {
-        ws.send(JSON.stringify({
-          topic: 'realtime:public:' + table,
-          event: 'phx_join',
-          payload: { config: { broadcast: { self: false }, presence: { key: '' } } },
-          ref: String(idx + 1)
-        }));
-      });
+      console.log('[Realtime] WebSocket connected, subscribing postgres_changes');
+      ws.send(JSON.stringify({
+        topic: 'realtime:public:wenwen-live-' + Math.random().toString(36).slice(2, 10),
+        event: 'phx_join',
+        payload: {
+          config: {
+            broadcast: { self: false },
+            presence: { key: '' },
+            postgres_changes: [
+              { event: 'INSERT', schema: 'public' },
+              { event: 'UPDATE', schema: 'public' },
+              { event: 'DELETE', schema: 'public' }
+            ]
+          }
+        },
+        ref: String(wsSeq++)
+      }));
+      wsHealthy = true;
       heartbeatTimer = setInterval(function() {
         if (ws && ws.readyState === 1) {
           ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: 'hb' }));
@@ -3643,25 +3655,92 @@ function initRealtimeSync() {
     ws.onmessage = function(event) {
       try {
         var msg = JSON.parse(event.data);
-        if (msg.event === 'INSERT' || msg.event === 'UPDATE' || msg.event === 'DELETE' || msg.event === '*"') {
-          if (Date.now() - _lastSaveTime > 2000) {
-            scheduleRefresh();
-          }
-        }
+        if (msg.event !== 'postgres_changes') return;
+        if (Date.now() - _lastSaveTime <= 2500) return; // 本机刚写完，回声忽略
+        var d = msg.payload && msg.payload.data;
+        if (!d || (d.schema && d.schema !== 'public') || !d.table) return;
+        var rec = d.type === 'DELETE' ? d.old_record : d.record;
+        var id = rec && rec.id;
+        if (!changeBuf[d.table]) changeBuf[d.table] = { up: {}, del: {} };
+        if (d.type === 'DELETE') { if (id != null) changeBuf[d.table].del[id] = 1; }
+        else if (id != null) { changeBuf[d.table].up[id] = 1; }
+        if (changeFlushTimer) clearTimeout(changeFlushTimer);
+        changeFlushTimer = setTimeout(applyChanges, 500);
       } catch(e) {}
     };
 
     ws.onclose = function() {
-      console.log('[Realtime] WebSocket closed, retry in 10s');
+      wsHealthy = false;
+      console.log('[Realtime] WebSocket closed, polling fallback; retry 10s');
       clearInterval(heartbeatTimer);
       if (wsReconnectTimer) clearTimeout(wsReconnectTimer);
       wsReconnectTimer = setTimeout(connectWS, 10000);
+      if (!document.hidden) { startPolling(); pollTick(); }
     };
 
     ws.onerror = function() {
-      console.log('[Realtime] WebSocket error, using polling only');
+      wsHealthy = false;
       try { ws.close(); } catch(e) {}
     };
+  }
+
+  function upsertById(arr, rows) {
+    var byId = {};
+    rows.forEach(function(r) { byId[r.id] = r; });
+    arr = arr.filter(function(r) { return !(r.id in byId); });
+    return arr.concat(rows);
+  }
+
+  async function applyChanges() {
+    var ch = changeBuf; changeBuf = {}; changeFlushTimer = null;
+    if (_isRefreshing) return; // 全量刷新进行中，下一批事件会再来
+    var tables = Object.keys(ch);
+    if (!tables.length) return;
+    // 小表变更或变更量过大：直接全量（小表全量也只有几 KB）
+    var totalIds = tables.reduce(function(n, t) {
+      return n + Object.keys(ch[t].up).length + Object.keys(ch[t].del).length;
+    }, 0);
+    if (tables.some(function(t) { return SMALL_TABLES[t]; }) || totalIds > 50) {
+      scheduleRefresh();
+      return;
+    }
+    try {
+      var next = structuredClone(workbenchState);
+      for (var t = 0; t < tables.length; t++) {
+        var table = tables[t];
+        var upIds = Object.keys(ch[table].up);
+        var delIds = Object.keys(ch[table].del);
+        if (table === 'products') {
+          if (upIds.length) {
+            var rows = await sbSelect('products', '&id=in.(' + upIds.map(encodeURIComponent).join(',') + ')');
+            next.products = upsertById(next.products, rows.map(mapProductFromDB))
+              .sort(function(a, b) { return a.id < b.id ? 1 : -1; });
+          }
+          if (delIds.length) next.products = next.products.filter(function(p) { return !ch.products.del[p.id]; });
+        } else if (table === 'sales') {
+          if (upIds.length) {
+            var srows = await sbSelect('sales', '&id=in.(' + upIds.map(encodeURIComponent).join(',') + ')');
+            next.sales = upsertById(next.sales, srows.map(mapSaleFromDB))
+              .sort(function(a, b) { return (a.saleTime || '') < (b.saleTime || '') ? 1 : -1; });
+          }
+          if (delIds.length) next.sales = next.sales.filter(function(s) { return !ch.sales.del[s.id]; });
+        } else if (table === 'preferences') {
+          var prefsRow = await sbSelectSingle('preferences', 'id=eq.1');
+          if (prefsRow) {
+            next.nextProductId = prefsRow.next_product_id || 1;
+            next.nextToolId = prefsRow.next_tool_id || 1;
+            next._orderCounter = prefsRow.order_counter || {};
+            next.preferences = { lowStockThreshold: prefsRow.low_stock_threshold || 10 };
+          }
+        }
+      }
+      applyWorkspaceData(next);
+      _lastDataFingerprint = ''; // 下次全量轮询仍可正常比对
+      console.log('[Realtime] incremental sync applied:', totalIds, 'rows');
+    } catch(e) {
+      console.log('[Realtime] incremental apply failed, falling back to full refresh:', e.message);
+      scheduleRefresh();
+    }
   }
 
   connectWS();
@@ -8908,7 +8987,7 @@ function init() {
     try { if (localStorage.getItem('ww_auth') === '1') { window.__authPassed = true; } } catch(e) {}
     if (!window.__authPassed) { window.__afterAuth = init; showLoginGate(); return; }
   }
-  window.APP_VERSION = 'v8.4';
+  window.APP_VERSION = 'v8.6';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
