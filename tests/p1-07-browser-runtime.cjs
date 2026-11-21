@@ -130,7 +130,7 @@ async function main() {
       editorAvailable: typeof window.setWenwenWriteMode === 'function'
     }));
     assert.deepEqual(defaultState, {
-      mode: 'LEGACY_WRITE',
+      mode: 'RPC_WRITE',
       apiLoaded: true,
       rpcAvailable: true,
       editorAvailable: true
