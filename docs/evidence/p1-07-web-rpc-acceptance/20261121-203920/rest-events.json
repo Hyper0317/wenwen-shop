@@ -1,0 +1,410 @@
+[
+  {
+    "time": "2026-11-21T12:39:29.5287511Z",
+    "method": "GET",
+    "path": "/auth/v1/settings",
+    "status": 200,
+    "durationMs": 1570,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:39:30.4832611Z",
+    "method": "GET",
+    "path": "/auth/v1/settings",
+    "status": 200,
+    "durationMs": 634,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:19.0908519Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 739,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:19.7189251Z",
+    "method": "GET",
+    "path": "/rest/v1/preferences",
+    "status": 200,
+    "durationMs": 623,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:20.3795793Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_sale_v1",
+    "status": 200,
+    "durationMs": 652,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:21.1565157Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 776,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:21.7564872Z",
+    "method": "GET",
+    "path": "/rest/v1/preferences",
+    "status": 200,
+    "durationMs": 599,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:22.4565157Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_sale_v1",
+    "status": 200,
+    "durationMs": 694,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:23.0907748Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 633,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:23.7642119Z",
+    "method": "GET",
+    "path": "/rest/v1/preferences",
+    "status": 200,
+    "durationMs": 672,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:24.4309528Z",
+    "method": "GET",
+    "path": "/rest/v1/sales",
+    "status": 200,
+    "durationMs": 666,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:25.0851961Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_sale_v1",
+    "status": 409,
+    "durationMs": 636,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:25.7403352Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 654,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:26.3035718Z",
+    "method": "GET",
+    "path": "/rest/v1/preferences",
+    "status": 200,
+    "durationMs": 562,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:26.9087269Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 603,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:27.5558886Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_refund_v1",
+    "status": 200,
+    "durationMs": 646,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:28.1355585Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 579,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:28.5426075Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_refund_v1",
+    "status": 200,
+    "durationMs": 404,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:28.9163419Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 373,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:29.5276051Z",
+    "method": "GET",
+    "path": "/rest/v1/sales",
+    "status": 200,
+    "durationMs": 610,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:30.1752874Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_refund_v1",
+    "status": 400,
+    "durationMs": 644,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:30.8360849Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 660,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:31.2371407Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 400,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:31.6361245Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 398,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:32.0128754Z",
+    "method": "GET",
+    "path": "/rest/v1/preferences",
+    "status": 200,
+    "durationMs": 376,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:32.5942544Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_batch_sale_v1",
+    "status": 200,
+    "durationMs": 580,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:33.1982971Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 603,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:33.5892502Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 390,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:34.3381522Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_batch_sale_v1",
+    "status": 200,
+    "durationMs": 741,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:34.7722528Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 433,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:35.1756948Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 402,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:35.7641933Z",
+    "method": "GET",
+    "path": "/rest/v1/sales",
+    "status": 200,
+    "durationMs": 587,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:36.4173158Z",
+    "method": "POST",
+    "path": "/rest/v1/rpc/wenwen_app_batch_sale_v1",
+    "status": 409,
+    "durationMs": 649,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:36.8331461Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 415,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:37.4510232Z",
+    "method": "GET",
+    "path": "/rest/v1/preferences",
+    "status": 200,
+    "durationMs": 617,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:37.8367473Z",
+    "method": "PATCH",
+    "path": "/rest/v1/sales",
+    "status": 200,
+    "durationMs": 382,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:38.4606689Z",
+    "method": "GET",
+    "path": "/rest/v1/sales",
+    "status": 200,
+    "durationMs": 623,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:38.9008001Z",
+    "method": "PATCH",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 438,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:39.4930988Z",
+    "method": "PATCH",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 590,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:40.1323476Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 638,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:40.7098154Z",
+    "method": "POST",
+    "path": "/rest/v1/sales",
+    "status": 201,
+    "durationMs": 576,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:41.1090354Z",
+    "method": "PATCH",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 398,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:41.4922916Z",
+    "method": "PATCH",
+    "path": "/rest/v1/preferences",
+    "status": 200,
+    "durationMs": 382,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:41.8510729Z",
+    "method": "GET",
+    "path": "/rest/v1/preferences",
+    "status": 200,
+    "durationMs": 358,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:42.2425907Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 391,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:42.6585072Z",
+    "method": "GET",
+    "path": "/rest/v1/sales",
+    "status": 200,
+    "durationMs": 415,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:43.2840207Z",
+    "method": "GET",
+    "path": "/rest/v1/categories",
+    "status": 200,
+    "durationMs": 625,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:43.6876365Z",
+    "method": "GET",
+    "path": "/rest/v1/tools",
+    "status": 200,
+    "durationMs": 403,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:44.2833882Z",
+    "method": "GET",
+    "path": "/rest/v1/tool_loans",
+    "status": 200,
+    "durationMs": 595,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:44.8727025Z",
+    "method": "GET",
+    "path": "/rest/v1/repair_records",
+    "status": 200,
+    "durationMs": 588,
+    "errorType": ""
+  },
+  {
+    "time": "2026-11-21T12:40:45.2375356Z",
+    "method": "GET",
+    "path": "/rest/v1/products",
+    "status": 200,
+    "durationMs": 364,
+    "errorType": ""
+  }
+]

@@ -1,0 +1,739 @@
+{
+  "status": "PASSED",
+  "task": "P1-07",
+  "projectRef": "almeuirpfxteiktwbyls",
+  "runId": "20261121-203920",
+  "sourceRevision": "eabd330513aa84937570fb74395870e980190c55",
+  "webRevision": "3dd047e3ab106548d48d83489b610be55ded195c",
+  "startedAt": "2026-11-21T20:39:20.2305944+08:00",
+  "finishedAt": "2026-11-21T20:40:45.2574479+08:00",
+  "checks": [
+    {
+      "name": "isolated Supabase project selected",
+      "passed": true,
+      "detail": "project=almeuirpfxteiktwbyls",
+      "time": "2026-11-21T20:39:27.9351858+08:00"
+    },
+    {
+      "name": "isolated publishable/anon key accepted by project",
+      "passed": true,
+      "detail": "auth settings returned HTTP 200",
+      "time": "2026-11-21T20:39:29.5332604+08:00"
+    },
+    {
+      "name": "Android source revision captured",
+      "passed": true,
+      "detail": "commit=eabd330513aa84937570fb74395870e980190c55",
+      "time": "2026-11-21T20:39:29.6163236+08:00"
+    },
+    {
+      "name": "web source revision captured",
+      "passed": true,
+      "detail": "commit=3dd047e3ab106548d48d83489b610be55ded195c",
+      "time": "2026-11-21T20:39:29.6851603+08:00"
+    },
+    {
+      "name": "isolated database rebuilt from approved baseline, migrations and seed",
+      "passed": true,
+      "detail": "project=almeuirpfxteiktwbyls",
+      "time": "2026-11-21T20:40:15.5312270+08:00"
+    },
+    {
+      "name": "web write-mode unit tests passed",
+      "passed": true,
+      "detail": "exit=0",
+      "time": "2026-11-21T20:40:18.3481217+08:00"
+    },
+    {
+      "name": "web browser runtime tests passed",
+      "passed": true,
+      "detail": "exit=0",
+      "time": "2026-11-21T20:40:18.3490290+08:00"
+    },
+    {
+      "name": "web single RPC payload returns the fixed sale ID",
+      "passed": true,
+      "detail": "sale=P107-S-0c3c129103",
+      "time": "2026-11-21T20:40:21.7585306+08:00"
+    },
+    {
+      "name": "web single RPC deducts inventory exactly once",
+      "passed": true,
+      "detail": "before=10,after=8",
+      "time": "2026-11-21T20:40:21.7598268+08:00"
+    },
+    {
+      "name": "web single RPC advances order counter exactly once",
+      "passed": true,
+      "detail": "before=20261115/4,after=261121/1",
+      "time": "2026-11-21T20:40:21.7614809+08:00"
+    },
+    {
+      "name": "same fixed sale ID retry returns the original sale",
+      "passed": true,
+      "detail": "sale=P107-S-0c3c129103",
+      "time": "2026-11-21T20:40:24.4313691+08:00"
+    },
+    {
+      "name": "same fixed sale ID retry does not deduct inventory twice",
+      "passed": true,
+      "detail": "stock=8",
+      "time": "2026-11-21T20:40:24.4316732+08:00"
+    },
+    {
+      "name": "same fixed sale ID retry does not advance counter twice",
+      "passed": true,
+      "detail": "counter=261121/1",
+      "time": "2026-11-21T20:40:24.4329427+08:00"
+    },
+    {
+      "name": "same fixed sale ID retry keeps exactly one sale row",
+      "passed": true,
+      "detail": "rows=1",
+      "time": "2026-11-21T20:40:24.4331774+08:00"
+    },
+    {
+      "name": "web credit_info is stored as a JSONB object",
+      "passed": true,
+      "detail": "object=True",
+      "time": "2026-11-21T20:40:24.4419990+08:00"
+    },
+    {
+      "name": "same sale ID with different web payload returns 409",
+      "passed": true,
+      "detail": "status=409",
+      "time": "2026-11-21T20:40:26.3039590+08:00"
+    },
+    {
+      "name": "conflicting sale retry leaves stock and counter unchanged",
+      "passed": true,
+      "detail": "stock=8,counter=261121/1",
+      "time": "2026-11-21T20:40:26.3043080+08:00"
+    },
+    {
+      "name": "web refund RPC returns fixed refund and original sale identities",
+      "passed": true,
+      "detail": "refund=P107-R-0c3c129103,original=P107-S-0c3c129103",
+      "time": "2026-11-21T20:40:28.1370104+08:00"
+    },
+    {
+      "name": "web refund RPC restores inventory exactly once",
+      "passed": true,
+      "detail": "before=8,after=9",
+      "time": "2026-11-21T20:40:28.1373468+08:00"
+    },
+    {
+      "name": "same fixed refund ID retry does not restore inventory twice",
+      "passed": true,
+      "detail": "stock=9",
+      "time": "2026-11-21T20:40:29.5279319+08:00"
+    },
+    {
+      "name": "same fixed refund ID retry keeps exactly one refund row",
+      "passed": true,
+      "detail": "rows=1",
+      "time": "2026-11-21T20:40:29.5289767+08:00"
+    },
+    {
+      "name": "web refund_info is stored as a JSONB object",
+      "passed": true,
+      "detail": "object=True",
+      "time": "2026-11-21T20:40:29.5297967+08:00"
+    },
+    {
+      "name": "web over-refund is rejected without inventory change",
+      "passed": true,
+      "detail": "status=400,stock=9",
+      "time": "2026-11-21T20:40:30.8364275+08:00"
+    },
+    {
+      "name": "web batch RPC returns one sale per cart line",
+      "passed": true,
+      "detail": "sales=2",
+      "time": "2026-11-21T20:40:33.5908771+08:00"
+    },
+    {
+      "name": "web batch RPC returns authoritative stock map",
+      "passed": true,
+      "detail": "products=P9001,P9002",
+      "time": "2026-11-21T20:40:33.5934407+08:00"
+    },
+    {
+      "name": "web batch RPC deducts both inventories exactly once",
+      "passed": true,
+      "detail": "P9001=8,P9002=2",
+      "time": "2026-11-21T20:40:33.5938000+08:00"
+    },
+    {
+      "name": "web batch RPC advances order counter exactly once",
+      "passed": true,
+      "detail": "before=261121/1,after=261121/2",
+      "time": "2026-11-21T20:40:33.5962432+08:00"
+    },
+    {
+      "name": "same fixed batch ID retry does not deduct inventory twice",
+      "passed": true,
+      "detail": "P9001=8,P9002=2",
+      "time": "2026-11-21T20:40:35.7645699+08:00"
+    },
+    {
+      "name": "same fixed batch ID retry keeps exactly one row per cart line",
+      "passed": true,
+      "detail": "rows=2",
+      "time": "2026-11-21T20:40:35.7648658+08:00"
+    },
+    {
+      "name": "same batch ID with different cart payload returns 409",
+      "passed": true,
+      "detail": "status=409",
+      "time": "2026-11-21T20:40:37.4513743+08:00"
+    },
+    {
+      "name": "conflicting batch retry leaves stock and counter unchanged",
+      "passed": true,
+      "detail": "stock=8",
+      "time": "2026-11-21T20:40:37.4518076+08:00"
+    },
+    {
+      "name": "strict single-row credit PATCH returns exactly one represented object",
+      "passed": true,
+      "detail": "status=200,rows=1",
+      "time": "2026-11-21T20:40:38.4609850+08:00"
+    },
+    {
+      "name": "strict credit PATCH read-after-write preserves JSONB object",
+      "passed": true,
+      "detail": "sale object readable",
+      "time": "2026-11-21T20:40:38.4620153+08:00"
+    },
+    {
+      "name": "strict single-row product PATCH returns exactly one represented object",
+      "passed": true,
+      "detail": "status=200,rows=1",
+      "time": "2026-11-21T20:40:38.9018930+08:00"
+    },
+    {
+      "name": "zero-row PATCH is observable as empty representation for client rejection",
+      "passed": true,
+      "detail": "status=200,rows=0",
+      "time": "2026-11-21T20:40:39.4933814+08:00"
+    },
+    {
+      "name": "LEGACY_WRITE direct sales insert remains callable",
+      "passed": true,
+      "detail": "status=201,id=P107-L-0c3c129103",
+      "time": "2026-11-21T20:40:40.7101305+08:00"
+    },
+    {
+      "name": "LEGACY_WRITE strict product and counter PATCH remain callable",
+      "passed": true,
+      "detail": "single-row rollback path verified",
+      "time": "2026-11-21T20:40:41.4924943+08:00"
+    },
+    {
+      "name": "legacy web read paths remain compatible with post-RPC data",
+      "passed": true,
+      "detail": "paths=7,failures=",
+      "time": "2026-11-21T20:40:44.8729387+08:00"
+    },
+    {
+      "name": "web RPC acceptance leaves no negative inventory",
+      "passed": true,
+      "detail": "negativeRows=0",
+      "time": "2026-11-21T20:40:45.2380211+08:00"
+    }
+  ],
+  "restEvents": [
+    {
+      "time": "2026-11-21T12:39:29.5287511Z",
+      "method": "GET",
+      "path": "/auth/v1/settings",
+      "status": 200,
+      "durationMs": 1570,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:39:30.4832611Z",
+      "method": "GET",
+      "path": "/auth/v1/settings",
+      "status": 200,
+      "durationMs": 634,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:19.0908519Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 739,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:19.7189251Z",
+      "method": "GET",
+      "path": "/rest/v1/preferences",
+      "status": 200,
+      "durationMs": 623,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:20.3795793Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_sale_v1",
+      "status": 200,
+      "durationMs": 652,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:21.1565157Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 776,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:21.7564872Z",
+      "method": "GET",
+      "path": "/rest/v1/preferences",
+      "status": 200,
+      "durationMs": 599,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:22.4565157Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_sale_v1",
+      "status": 200,
+      "durationMs": 694,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:23.0907748Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 633,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:23.7642119Z",
+      "method": "GET",
+      "path": "/rest/v1/preferences",
+      "status": 200,
+      "durationMs": 672,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:24.4309528Z",
+      "method": "GET",
+      "path": "/rest/v1/sales",
+      "status": 200,
+      "durationMs": 666,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:25.0851961Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_sale_v1",
+      "status": 409,
+      "durationMs": 636,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:25.7403352Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 654,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:26.3035718Z",
+      "method": "GET",
+      "path": "/rest/v1/preferences",
+      "status": 200,
+      "durationMs": 562,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:26.9087269Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 603,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:27.5558886Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_refund_v1",
+      "status": 200,
+      "durationMs": 646,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:28.1355585Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 579,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:28.5426075Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_refund_v1",
+      "status": 200,
+      "durationMs": 404,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:28.9163419Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 373,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:29.5276051Z",
+      "method": "GET",
+      "path": "/rest/v1/sales",
+      "status": 200,
+      "durationMs": 610,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:30.1752874Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_refund_v1",
+      "status": 400,
+      "durationMs": 644,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:30.8360849Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 660,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:31.2371407Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 400,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:31.6361245Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 398,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:32.0128754Z",
+      "method": "GET",
+      "path": "/rest/v1/preferences",
+      "status": 200,
+      "durationMs": 376,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:32.5942544Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_batch_sale_v1",
+      "status": 200,
+      "durationMs": 580,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:33.1982971Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 603,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:33.5892502Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 390,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:34.3381522Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_batch_sale_v1",
+      "status": 200,
+      "durationMs": 741,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:34.7722528Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 433,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:35.1756948Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 402,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:35.7641933Z",
+      "method": "GET",
+      "path": "/rest/v1/sales",
+      "status": 200,
+      "durationMs": 587,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:36.4173158Z",
+      "method": "POST",
+      "path": "/rest/v1/rpc/wenwen_app_batch_sale_v1",
+      "status": 409,
+      "durationMs": 649,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:36.8331461Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 415,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:37.4510232Z",
+      "method": "GET",
+      "path": "/rest/v1/preferences",
+      "status": 200,
+      "durationMs": 617,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:37.8367473Z",
+      "method": "PATCH",
+      "path": "/rest/v1/sales",
+      "status": 200,
+      "durationMs": 382,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:38.4606689Z",
+      "method": "GET",
+      "path": "/rest/v1/sales",
+      "status": 200,
+      "durationMs": 623,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:38.9008001Z",
+      "method": "PATCH",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 438,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:39.4930988Z",
+      "method": "PATCH",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 590,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:40.1323476Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 638,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:40.7098154Z",
+      "method": "POST",
+      "path": "/rest/v1/sales",
+      "status": 201,
+      "durationMs": 576,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:41.1090354Z",
+      "method": "PATCH",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 398,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:41.4922916Z",
+      "method": "PATCH",
+      "path": "/rest/v1/preferences",
+      "status": 200,
+      "durationMs": 382,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:41.8510729Z",
+      "method": "GET",
+      "path": "/rest/v1/preferences",
+      "status": 200,
+      "durationMs": 358,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:42.2425907Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 391,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:42.6585072Z",
+      "method": "GET",
+      "path": "/rest/v1/sales",
+      "status": 200,
+      "durationMs": 415,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:43.2840207Z",
+      "method": "GET",
+      "path": "/rest/v1/categories",
+      "status": 200,
+      "durationMs": 625,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:43.6876365Z",
+      "method": "GET",
+      "path": "/rest/v1/tools",
+      "status": 200,
+      "durationMs": 403,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:44.2833882Z",
+      "method": "GET",
+      "path": "/rest/v1/tool_loans",
+      "status": 200,
+      "durationMs": 595,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:44.8727025Z",
+      "method": "GET",
+      "path": "/rest/v1/repair_records",
+      "status": 200,
+      "durationMs": 588,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:45.2375356Z",
+      "method": "GET",
+      "path": "/rest/v1/products",
+      "status": 200,
+      "durationMs": 364,
+      "errorType": ""
+    }
+  ],
+  "sqlEvents": [
+    {
+      "time": "2026-11-21T12:39:35.1705592Z",
+      "label": "database-identity-preflight",
+      "operation": "batch",
+      "source": "supabase-cli",
+      "sqlSha256": "0b1f87dd032d5117df644cbb36d105c9c4c9880e2ddc946213b9441001fd80f3",
+      "durationMs": 4642,
+      "success": true,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:39:40.8130832Z",
+      "label": "reset-public-schema",
+      "operation": "batch",
+      "source": "supabase-cli",
+      "sqlSha256": "229c765356b0f6b9f4743696a5f0d7946cc11c1bdbb1c9a542570ed3a0eb68e6",
+      "durationMs": 5624,
+      "success": true,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:39:47.3970377Z",
+      "label": "apply-baseline",
+      "operation": "batch",
+      "source": "supabase-cli",
+      "sqlSha256": "3484d0afdf4bc5e36065c0ed64b629783b95c8cea0463e16d967f318762b999c",
+      "durationMs": 6581,
+      "success": true,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:39:52.1713529Z",
+      "label": "apply-migration:20261115183000_p1_01_atomic_single_sale.sql",
+      "operation": "batch",
+      "source": "supabase-cli",
+      "sqlSha256": "55fa917dba5dd90bcca8c0c3abbcda64943a2098264d8ef0fc25942cff4823f2",
+      "durationMs": 4759,
+      "success": true,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:39:59.3293781Z",
+      "label": "apply-migration:20261115200000_p1_03_atomic_batch_sale.sql",
+      "operation": "batch",
+      "source": "supabase-cli",
+      "sqlSha256": "97f18c760c9c22f075ae7563500f2903e5d0bf9cdb767e14815b41be16df0e11",
+      "durationMs": 7156,
+      "success": true,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:05.4632916Z",
+      "label": "apply-migration:20261115213000_p1_04_atomic_refund.sql",
+      "operation": "batch",
+      "source": "supabase-cli",
+      "sqlSha256": "8c15e0a8e9ea422c7ff4335736e0d776386e4d661e550051f4d6e4a0d9bc6782",
+      "durationMs": 6132,
+      "success": true,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:10.6246964Z",
+      "label": "apply-migration:20261116101500_p4_01_product_barcode.sql",
+      "operation": "batch",
+      "source": "supabase-cli",
+      "sqlSha256": "59f98b59ebbfcee31af8059c63570b2ba300728e3c6680116b8a151817816e8a",
+      "durationMs": 5149,
+      "success": true,
+      "errorType": ""
+    },
+    {
+      "time": "2026-11-21T12:40:15.5276619Z",
+      "label": "apply-test-seed",
+      "operation": "batch",
+      "source": "supabase-cli",
+      "sqlSha256": "7f4d9a271e70634dc1ae1b127543908aa4f64cfe8bd0a05db63f717e78a19b99",
+      "durationMs": 4891,
+      "success": true,
+      "errorType": ""
+    }
+  ],
+  "note": "Evidence contains no API key, authorization header, request body, raw SQL, database password or connection string."
+}

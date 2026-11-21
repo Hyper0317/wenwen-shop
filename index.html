@@ -7,6 +7,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <title>雯雯的小店</title>
 <script src="./雯雯的小店.data.js"></script>
+<script src="./js/cloud-write.js?v=8.4"></script>
 <style>
 :root {
   --primary: #007AFF;
@@ -3115,6 +3116,39 @@ var sellSelectedPayment = null;
 var sellCreditInfo = null;
 var creditFormMode = 'single';
 
+var CLOUD_WRITE_MODE = (function() {
+  var storedMode = '';
+  try { storedMode = localStorage.getItem(WenwenCloudWrites.MODE_STORAGE_KEY) || ''; } catch(e) {}
+  var queryMode = WenwenCloudWrites.readQueryMode(window.location.search);
+  if (queryMode) {
+    try { localStorage.setItem(WenwenCloudWrites.MODE_STORAGE_KEY, queryMode); } catch(e2) {}
+  }
+  return WenwenCloudWrites.resolveMode({
+    explicit: window.WENWEN_WRITE_MODE,
+    search: window.location.search,
+    stored: storedMode
+  });
+})();
+
+function isRpcWriteMode() {
+  return WenwenCloudWrites.isRpcMode(CLOUD_WRITE_MODE);
+}
+
+function setCloudWriteMode(mode) {
+  var normalized = WenwenCloudWrites.normalizeMode(mode);
+  if (!normalized) throw new Error('写入模式只能是 RPC_WRITE 或 LEGACY_WRITE');
+  try { localStorage.setItem(WenwenCloudWrites.MODE_STORAGE_KEY, normalized); } catch(e) {}
+  try {
+    var target = new URL(window.location.href);
+    target.searchParams.set('write_mode', normalized);
+    window.location.replace(target.toString());
+  } catch(e2) {
+    window.location.reload();
+  }
+  return normalized;
+}
+window.setWenwenWriteMode = setCloudWriteMode;
+
 // ===== Supabase Cloud Data Layer (fetch-based, no external library) =====
 var SUPABASE_URL = 'https://smamozhqfiabrnpohpwe.supabase.co';
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYW1vemhxZmlhYnJucG9ocHdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNTU5MzcsImV4cCI6MjEwMjYzMTkzN30.qF4EqcSF442MSTRQAISEMkPc3FqOIhJ95TBSMoWPj6M';
@@ -3170,7 +3204,7 @@ function sbIsRetryable(err) {
   return null;
 }
 
-async function sbXHRRetry(method, url, headers, body) {
+async function sbXHRRetry(method, url, headers, body, idempotentWrite) {
   var maxAttempts = 3;
   var lastErr = null;
   for (var attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -3182,7 +3216,7 @@ async function sbXHRRetry(method, url, headers, body) {
       var kind = sbIsRetryable(e);
       /* 写操作只在网关层拒绝(请求未处理)时重试；读操作任何可重试错误都重试 */
       var isRead = (method === 'GET' || method === 'DELETE');
-      if (isRead) {
+      if (isRead || idempotentWrite === true) {
         if (!kind) break;
       } else {
         if (kind !== 'safe') break;
@@ -3245,6 +3279,40 @@ async function sbInsert(table, rows) {
   return await sbXHRRetry('POST', url, headers, JSON.stringify(rows));
 }
 
+async function sbRpc(functionName, payload, probeQuery) {
+  var url = SUPABASE_URL + '/rest/v1/rpc/' + functionName;
+  var headers = sbHeaders();
+  headers['Prefer'] = 'return=representation';
+  var body = JSON.stringify(payload);
+  var lastErr = null;
+  var maxAttempts = 3;
+  for (var attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await sbXHR('POST', url, headers, body);
+    } catch (e) {
+      if (WenwenCloudWrites.isConflictError(e)) {
+        throw new Error(WenwenCloudWrites.formatWriteError(e));
+      }
+      lastErr = e;
+      var kind = sbIsRetryable(e);
+      if (!kind || attempt >= maxAttempts) break;
+      if (kind === 'net') {
+        if (!probeQuery) {
+          throw new Error('写入结果未知，请先刷新并按固定 ID 核对，禁止重复提交');
+        }
+        try {
+          /* 超时后不能直接重放；先按客户端固定 ID 查询权威记录。 */
+          await sbXHRRetry('GET', SUPABASE_URL + probeQuery, sbHeaders(), null);
+        } catch (probeErr) {
+          throw new Error('写入结果未知且暂时无法查询，请刷新后人工核对，禁止重复提交');
+        }
+      }
+      await new Promise(function(r) { setTimeout(r, 250 * attempt); });
+    }
+  }
+  throw lastErr || new Error('RPC 写入失败');
+}
+
 async function sbDeleteOne(table, rowId) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + rowId;
   try { await sbXHRRetry('DELETE', url, sbHeaders(), null); }
@@ -3255,7 +3323,8 @@ async function sbUpdateOne(table, rowId, data) {
   var url = SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + rowId;
   var headers = sbHeaders();
   headers['Prefer'] = 'return=representation';
-  return await sbXHRRetry('PATCH', url, headers, JSON.stringify(data));
+  var result = await sbXHRRetry('PATCH', url, headers, JSON.stringify(data));
+  return WenwenCloudWrites.validateSingleRepresentation(result, 'PATCH ' + table + ' id=' + rowId);
 }
 
 // Convert DB rows (snake_case) to workbenchState (camelCase)
@@ -4684,6 +4753,50 @@ function generateOrderNo(latest) {
   return datePart + seqPart;
 }
 
+function createClientWriteId(prefix) {
+  return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+function submitSingleSaleRpc(productId, quantity, unitPrice, seller, paymentMethod, creditInfo) {
+  var saleId = createClientWriteId('S');
+  var payload = {
+    p_sale_id: saleId,
+    p_product_id: productId,
+    p_quantity: quantity,
+    p_unit_price: unitPrice,
+    p_seller: seller || '',
+    p_payment_method: paymentMethod || '',
+    p_credit_info: creditInfo || null
+  };
+  return sbRpc(
+    'wenwen_app_sale_v1',
+    payload,
+    '/rest/v1/sales?select=*&id=eq.' + encodeURIComponent(saleId) + '&limit=1'
+  ).then(function(result) {
+    result = WenwenCloudWrites.validateSingleSaleResult(result, saleId);
+    var p = findProductById(productId);
+    var mapped = mapSaleFromDB(result.sale);
+    if (!workbenchState.sales.some(function(sale) { return sale.id === mapped.id; })) {
+      workbenchState.sales.unshift(mapped);
+    }
+    if (p && typeof result.stock === 'number') {
+      p.stock = result.stock;
+      p.updatedAt = result.sale.sale_time || new Date().toISOString();
+    }
+    if (result.orderCounter) workbenchState._orderCounter = result.orderCounter;
+    var payLabel = paymentMethod ? getPaymentLabel(paymentMethod) : '';
+    var productLabel = mapped.productName + ' × ' + mapped.quantity + (mapped.unit ? ' ' + mapped.unit : '');
+    showSaleSuccessPopup(mapped.totalAmount, payLabel, productLabel);
+    renderSellList(); renderDashboard();
+    if (currentTab === 'sales') renderSales();
+    showSaveStatus('saved', '已保存', 1500);
+  }).catch(function(e) {
+    console.error('[confirmSell:RPC] 保存失败:', e);
+    showSaveStatus('failed', '保存失败', 3000);
+    showToast('保存失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
+  });
+}
+
 function confirmSell() {
   var p = findProductById(sellTargetProductId);
   if (!p) { showToast('商品不存在（找不到 ' + sellTargetProductId + '）', 'error'); return; }
@@ -4701,6 +4814,11 @@ function confirmSell() {
   closeSellModal();
   showSaveStatus('saving', '保存中...');
   _lastSaveTime = Date.now();
+
+  if (isRpcWriteMode()) {
+    submitSingleSaleRpc(_productId, qty, price, _seller, _payment, _creditInfo);
+    return;
+  }
 
   var saleTime = new Date().toISOString();
   var saleId = 'S' + Date.now().toString(36);
@@ -5295,6 +5413,49 @@ function confirmRefund() {
   closeSaleDetail();
   showSaveStatus('saving', '退货处理中...');
   _lastSaveTime = Date.now();
+
+  if (isRpcWriteMode()) {
+    var rpcRefundId = createClientWriteId('R');
+    sbRpc(
+      'wenwen_app_refund_v1',
+      {
+        p_refund_id: rpcRefundId,
+        p_original_sale_id: s.id,
+        p_quantity: refundQty,
+        p_refund_person: refundPerson || '',
+        p_refund_note: refundNote || ''
+      },
+      '/rest/v1/sales?select=*&id=eq.' + encodeURIComponent(rpcRefundId) + '&limit=1'
+    ).then(function(result) {
+      result = WenwenCloudWrites.validateRefundResult(result, rpcRefundId, s.id);
+      var refundMapped = mapSaleFromDB(result.refundSale);
+      var originalMapped = mapSaleFromDB(result.originalSale);
+      var originalIndex = workbenchState.sales.findIndex(function(sale) { return sale.id === s.id; });
+      if (originalIndex >= 0) workbenchState.sales[originalIndex] = originalMapped;
+      if (!workbenchState.sales.some(function(sale) { return sale.id === refundMapped.id; })) {
+        workbenchState.sales.unshift(refundMapped);
+      }
+      if (p && typeof result.stock === 'number') {
+        p.stock = result.stock;
+        p.updatedAt = new Date().toISOString();
+      }
+      renderSellList();
+      renderDashboard();
+      renderCreditRecords();
+      if (currentTab === 'sales') renderSales();
+      showSaveStatus('saved', '退货成功', 1500);
+      showToast(
+        '退货成功：' + originalMapped.productName + ' ×' + refundQty
+          + (typeof result.stock === 'number' ? '，库存已退回' : '（商品已删除，未退回库存）'),
+        'success'
+      );
+    }).catch(function(e) {
+      console.error('[confirmRefund:RPC] 退货失败:', e);
+      showSaveStatus('failed', '退货失败', 3000);
+      showToast('退货失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
+    });
+    return;
+  }
   
   var refundId = 'R' + Date.now().toString(36);
   var refundRow = mapSaleToDB({
@@ -7568,6 +7729,59 @@ function checkoutCart() {
   showSaveStatus('saving', '保存中...');
   _lastSaveTime = Date.now();
 
+  if (isRpcWriteMode()) {
+    var rpcLines = [];
+    var rpcTotal = 0;
+    keys.forEach(function(id) {
+      var item = _cartItems[id];
+      rpcLines.push({ product_id: id, quantity: item.qty, unit_price: item.price });
+      rpcTotal += item.qty * item.price;
+    });
+    var batchId = createClientWriteId('B');
+    sbRpc(
+      'wenwen_app_batch_sale_v1',
+      {
+        p_batch_id: batchId,
+        p_lines: rpcLines,
+        p_seller: _cartSeller,
+        p_payment_method: _cartPayment,
+        p_credit_info: _cartPayment === 'credit' ? _cartCreditInfo : null
+      },
+      '/rest/v1/sales?select=*&id=like.' + encodeURIComponent(batchId + '-*')
+        + '&order=id.asc&limit=' + rpcLines.length
+    ).then(function(result) {
+      result = WenwenCloudWrites.validateBatchSaleResult(result, rpcLines.length);
+      result.sales.forEach(function(row) {
+        var mapped = mapSaleFromDB(row);
+        if (!workbenchState.sales.some(function(sale) { return sale.id === mapped.id; })) {
+          workbenchState.sales.unshift(mapped);
+        }
+      });
+      Object.keys(result.stocks).forEach(function(productId) {
+        var product = findProductById(productId);
+        if (product && typeof result.stocks[productId] === 'number') {
+          product.stock = result.stocks[productId];
+          product.updatedAt = new Date().toISOString();
+        }
+      });
+      if (result.orderCounter) workbenchState._orderCounter = result.orderCounter;
+      cartItems = {};
+      cartSeller = null;
+      cartPayment = null;
+      cartCreditInfo = null;
+      updateCartFab();
+      showSaleSuccessPopup(rpcTotal, null, '共 ' + keys.length + ' 件商品');
+      renderSellList(); renderDashboard();
+      if (currentTab === 'sales') renderSales();
+      showSaveStatus('saved', '已保存', 1500);
+    }).catch(function(e) {
+      console.error('[checkoutCart:RPC] 保存失败:', e);
+      showSaveStatus('failed', '保存失败', 3000);
+      showToast('保存失败: ' + (e && e.message ? e.message : '未知错误'), 'error');
+    });
+    return;
+  }
+
   // 先检查库存
   for (var i = 0; i < keys.length; i++) {
     var id = keys[i];
@@ -8694,7 +8908,7 @@ function init() {
     try { if (localStorage.getItem('ww_auth') === '1') { window.__authPassed = true; } } catch(e) {}
     if (!window.__authPassed) { window.__afterAuth = init; showLoginGate(); return; }
   }
-  window.APP_VERSION = 'v8.3';
+  window.APP_VERSION = 'v8.4';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
