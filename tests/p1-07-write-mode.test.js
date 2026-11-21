@@ -9,10 +9,11 @@ var writes = require('../js/cloud-write.js');
 
 var root = path.resolve(__dirname, '..');
 var html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+var deployedVersion = fs.readFileSync(path.join(root, 'version.txt'), 'utf8').trim();
 
-test('write mode defaults to legacy and allows an explicit RPC opt-in', function() {
-  assert.equal(writes.resolveMode({}), 'LEGACY_WRITE');
-  assert.equal(writes.DEFAULT_MODE, 'LEGACY_WRITE');
+test('write mode defaults to RPC and allows an immediate legacy rollback', function() {
+  assert.equal(writes.resolveMode({}), 'RPC_WRITE');
+  assert.equal(writes.DEFAULT_MODE, 'RPC_WRITE');
   assert.equal(writes.resolveMode({ stored: 'rpc_write' }), 'RPC_WRITE');
   assert.equal(writes.resolveMode({ stored: 'legacy_write' }), 'LEGACY_WRITE');
   assert.equal(writes.resolveMode({ search: '?a=1&write_mode=LEGACY_WRITE' }), 'LEGACY_WRITE');
@@ -20,7 +21,13 @@ test('write mode defaults to legacy and allows an explicit RPC opt-in', function
     writes.resolveMode({ explicit: 'LEGACY_WRITE', search: '?write_mode=RPC_WRITE' }),
     'LEGACY_WRITE'
   );
-  assert.equal(writes.resolveMode({ search: '?write_mode=unknown' }), 'LEGACY_WRITE');
+  assert.equal(writes.resolveMode({ search: '?write_mode=unknown' }), 'RPC_WRITE');
+});
+
+test('server version marker matches the page version', function() {
+  var match = html.match(/window\.APP_VERSION\s*=\s*'([^']+)'/);
+  assert.ok(match, 'page APP_VERSION is missing');
+  assert.equal(deployedVersion, match[1]);
 });
 
 test('conflict errors stop automatic retries and require manual review', function() {
@@ -71,7 +78,7 @@ test('strict single-row writes reject zero and multi-row representations', funct
 });
 
 test('page uses RPC for transactional routes and strict representation for single-row writes', function() {
-  assert.match(html, /<script src="\.\/js\/cloud-write\.js\?v=8\.4"><\/script>/);
+  assert.match(html, /<script src="\.\/js\/cloud-write\.js\?v=8\.5"><\/script>/);
   assert.match(html, /sbRpc\(\s*'wenwen_app_sale_v1'/);
   assert.match(html, /sbRpc\(\s*'wenwen_app_batch_sale_v1'/);
   assert.match(html, /sbRpc\(\s*'wenwen_app_refund_v1'/);
