@@ -8,6 +8,8 @@
 <title>雯雯的小店</title>
 <script src="./雯雯的小店.data.js"></script>
 <script src="./js/cloud-write.js?v=8.5"></script>
+<script src="./js/vendor-orb-engine.js?v=8.7"></script>
+<script src="./js/orb-indicator.js?v=8.7"></script>
 <style>
 :root {
   --primary: #007AFF;
@@ -2088,23 +2090,14 @@ body {
   transition: transform 0s;
   pointer-events: none;
 }
-.pull-refresh-indicator .pull-icon {
-  width: 22px; height: 22px;
-  border: 2.5px solid var(--text-light);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  transition: border-color 0.2s;
+.pull-refresh-indicator .pull-orb {
+  width: 32px; height: 32px; display: block;
+  opacity: 0; transition: opacity 0.2s;
 }
-.pull-refresh-indicator.refreshing .pull-icon {
-  animation: pull-spin 0.7s linear infinite;
-  border-color: var(--text-light);
-  border-top-color: var(--primary);
+.pull-refresh-indicator.refreshing .pull-orb,
+.pull-refresh-indicator.ready .pull-orb {
+  opacity: 1;
 }
-.pull-refresh-indicator.ready .pull-icon {
-  border-color: var(--primary);
-  border-top-color: var(--primary);
-}
-@keyframes pull-spin { to { transform: rotate(360deg); } }
 
 .pull-refresh-overlay {
   position: fixed; top: 0; left: 0; right: 0;
@@ -2245,7 +2238,7 @@ body {
 
 
 <div class="pull-refresh-overlay" id="pullRefreshOverlay"></div>
-<div class="pull-refresh-indicator" id="pullRefreshIndicator"><div class="pull-icon"></div></div>
+<div class="pull-refresh-indicator" id="pullRefreshIndicator"><canvas class="pull-orb" width="32" height="32"></canvas></div>
 
 <div class="header">
   <div class="header-inner">
@@ -8832,6 +8825,20 @@ window.addEventListener('resize', function() {
     });
   }
 
+  var _orbInstance = null;
+  function ensureOrb(canvas) {
+    if (!window.createOrb) return null;
+    if (_orbInstance) return _orbInstance;
+    var brand = (getComputedStyle(document.documentElement).getPropertyValue('--primary') || '#1f8fff').trim();
+    _orbInstance = window.createOrb(canvas, {
+      state: 'searching', size: 32, color: brand || '#1f8fff', speed: 1,
+    });
+    return _orbInstance;
+  }
+  function stopOrb() {
+    if (_orbInstance) { _orbInstance.stop(); _orbInstance = null; }
+  }
+
   function doRefreshData() {
     isRefreshing = true;
     var ind = getIndicator(), ov = getOverlay();
@@ -8840,6 +8847,8 @@ window.addEventListener('resize', function() {
       ind.style.transform = 'translateX(-50%) translateY(10px)';
       ind.classList.add('refreshing');
       ind.classList.remove('ready');
+      var orbCanvas = ind.querySelector('.pull-orb');
+      if (orbCanvas) ensureOrb(orbCanvas);
     }
     if (ov) {
       ov.style.transition = 'height 0.3s ease';
@@ -8894,6 +8903,7 @@ window.addEventListener('resize', function() {
 
   function finishRefresh() {
     isRefreshing = false;
+    stopOrb();
     var ind = getIndicator(), ov = getOverlay();
     if (ind) {
       ind.style.transition = 'transform 0.3s ease';
@@ -8987,7 +8997,7 @@ function init() {
     try { if (localStorage.getItem('ww_auth') === '1') { window.__authPassed = true; } } catch(e) {}
     if (!window.__authPassed) { window.__afterAuth = init; showLoginGate(); return; }
   }
-  window.APP_VERSION = 'v8.6';
+  window.APP_VERSION = 'v8.7';
   // Show loading overlay
   var loadingOverlay = document.createElement("div");
   loadingOverlay.id = "cloudLoadingOverlay";
