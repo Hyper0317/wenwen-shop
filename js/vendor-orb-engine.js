@@ -850,26 +850,5 @@ function resolvePreset(state, size) {
   cache.set(key, resolved);
   return resolved;
 }
-export {
-  MODE_FRAMES as M,
-  STATE_TO_MODE as S,
-  scaleRadii as a,
-  MODE_DRAWS as b,
-  angleDelta as c,
-  countDots as d,
-  finalizeFrame as e,
-  fibDir as f,
-  frac as g,
-  hashD as h,
-  radiusScale as i,
-  paint as j,
-  paintLines as k,
-  lerp as l,
-  makeProj as m,
-  paintFrame as p,
-  resolvePreset as r,
-  scaleCounts as s,
-  vnoise as v
-};
 
-window.OrbEngine={resolvePreset:r,MODE_FRAMES:M,finalizeFrame:e,paintFrame:p,STATE_TO_MODE:S};
+window.OrbEngine={resolvePreset:resolvePreset,MODE_FRAMES:MODE_FRAMES,finalizeFrame:finalizeFrame,paintFrame:paintFrame,STATE_TO_MODE:STATE_TO_MODE};
