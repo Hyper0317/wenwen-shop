@@ -16,6 +16,7 @@
   function createOrb(canvas, opts) {
     opts = opts || {};
     var E = window.OrbEngine;
+    if (!E) { console.warn("[Orb] engine not loaded"); return null; }
     var state = opts.state || 'searching';
     var userSpeed = opts.speed == null ? 1 : opts.speed;
     var dark = !!opts.dark;
